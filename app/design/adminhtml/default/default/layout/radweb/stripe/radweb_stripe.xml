@@ -1,0 +1,21 @@
+<layout version="0.1.0">
+    <adminhtml_sales_order_create_index>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/radweb/stripe/radweb_stripe.css</stylesheet>
+            </action>
+
+            <action method="addJs" ifconfig="payment/radweb_stripe/admin_use_jquery"><script>radweb/stripe/jquery-1.10.2.min.js</script></action>
+
+            <action method="addJs"><script>radweb/stripe/stripe.js</script></action>
+            <action method="addJs"><script>radweb/stripe/CcType.js</script></action>
+
+        </reference>
+    </adminhtml_sales_order_create_index>
+
+    <adminhtml_sales_order_create_load_block_data>
+        <reference name="billing_method">
+            <block type="core/template" name="stripejs" template="radweb/stripe/js.phtml" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_data>
+</layout>

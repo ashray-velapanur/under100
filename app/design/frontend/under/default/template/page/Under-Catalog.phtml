@@ -1,0 +1,124 @@
+
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<?php $productsHelper=Mage::helper('productranking'); ?>
+<?php $prices=$productsHelper->applyFilter();?>
+<?php $likeHelper=Mage::helper('GaussDev_Like');?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="content-wrap">
+            <div class="content-container">
+                <div class="main-container col1-layout">
+                    <div class="main">
+                        <?php echo $this->getChildHtml('breadcrumbs') ?>
+                        <div class="page-title-global">
+                            <h1>All Products</h1>
+                        </div>
+
+                        <div class="filter-view-top-container clearfix">
+                            <div class="filters-container">
+                                <div class="filter-selected">Default filter</div>
+                                <div class="filters-list-container">
+                                    <div class="filters-all clearfix">
+                                        <span>BY CATEGORY</span>
+                                        <a href="<?php echo Mage::getUrl("all-products")?>">ALL</a>
+                                    </div>
+
+                                    <ul class="filters-list-cat">
+                                        <?php $_categories = Mage::helper('gaussdev')->getCategories(2); ?>
+                                        <?php foreach ($_categories as $category):?>
+                                            <li>
+                                                <a href="<?php echo $category->getUrl()?>"><?php echo $this->escapeHtml($category->getName())?></a>
+                                                <?php if($category->getData('children')): ?>
+                                                    <ul class="filters-list-subcat">
+                                                        <?php foreach ($category->getData('children') as $c):?>
+                                                            <li><a href="<?php echo $c->getUrl()?>"><?php echo $this->escapeHtml($c->getName())?></a></li>
+                                                        <?php endforeach;?>
+                                                    </ul>
+                                                <?php endif;?>
+                                            </li>
+                                        <?php endforeach;?>
+                                    </ul>
+                                    <div class="filters-price-slide-container">
+						                BY PRICE
+						                <div id="slider-range"></div>
+						                <form action="" method="post">
+						                    <div class="range-input-container" style="display:none;">
+						                        <input type="hidden" id="priceAmountMin" readonly name="priceStart" value="<?php echo $prices['start']?>" />
+						                        <input type="hidden" id="priceAmountMax" readonly name="priceEnd" value="<?php echo $prices['end']?>"/>
+						                    </div>
+						                    <div class="filter-price-btn-container">
+						                        <input type="submit" value="Apply" class="filter-price-btn"/>
+						                    </div>
+						                </form>
+						            </div>
+                                </div>
+                            </div>
+
+                            <div class="deals-display-checker" title="Display only deals">
+                                <?php
+                                $isDeals = (bool)$this->getRequest()->getParam('deals');
+                                $dealsUrl = Mage::getUrl('*/*/*', array('_escape' => true, '_use_rewrite' => true, '_query' => array('deals'=>!$isDeals)));
+                                ?>
+                                <label for="deals">Only Deals</label>
+                                <input id="deals" <?php echo $isDeals?'checked':''?> type="checkbox" onclick="setLocation('<?php echo $dealsUrl ?>');">
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-main">
+                            <?php echo $this->getChildHtml('global_messages') ?>
+                            <?php echo $this->getChildHtml('content') ?>
+                        </div>
+                    </div>
+                </div>
+                <?php echo $this->getChildHtml('footer') ?>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

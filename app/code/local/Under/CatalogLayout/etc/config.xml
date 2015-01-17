@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Under_CatalogLayout>
+            <version>0.1.0</version>
+        </Under_CatalogLayout>
+    </modules>
+    <global>
+        <page>
+            <layouts>
+                <Under_CatalogLayout translate="label">
+                    <label>Catalog page</label>
+                    <template>page/Under-Catalog.phtml</template>
+                    <layout_handle>page_Under_CatalogLayout</layout_handle>
+                </Under_CatalogLayout>
+                <!-- add more layouts here -->
+            </layouts>
+        </page>
+    </global>
+</config>

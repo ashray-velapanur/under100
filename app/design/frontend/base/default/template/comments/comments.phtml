@@ -1,0 +1,108 @@
+<?php
+/**
+ * Product Comments template
+ *
+ * @var GaussDev_Comments_Block_Product_Comments $this
+ */
+$comments = $this->getAllComments();
+
+?>
+<div class="product-comments-list">
+    <ul class="comments-list-load">
+
+    <?php foreach ($comments as $comment): ?>
+        <?php
+        echo $this->getLayout()->createBlock('gaussdev_comments/product_comment')
+                  ->setComment($comment)
+                  ->setTemplate('comments/comment.phtml')
+                  ->toHtml();
+        ?>
+    <?php endforeach; ?>
+
+    </ul>
+    <div class="loadMoreComments-container">
+        <span class="loadMoreComments">
+            Load more comments
+        </span>
+    </div>
+</div>
+
+<script>
+    jQuery(function(){
+        jQuery(".like-button").click(function (e) {
+            var baseUrl = '<?php echo $this->getUrl('comments/comment') ?>';
+            var id = jQuery(this).attr('id');
+            e.preventDefault();
+            var count = jQuery(this).parent().find('.like-count');
+            if (jQuery(this).hasClass('liked')) {
+                jQuery(this).text('Like');
+                count.text(parseInt(count.text()) - 1);
+                jQuery(this).removeClass('liked');
+                jQuery.post(baseUrl + 'unlike', {comment_id: id});
+            } else {
+                jQuery(this).text('Unlike');
+                count.text(parseInt(count.text()) + 1);
+                jQuery(this).addClass('liked');
+                jQuery.post(baseUrl + 'like', {comment_id: id});
+            }
+        });
+
+        jQuery(".rply-comment-container textarea").attr("placeholder","Write a Reply");
+        jQuery(".rply-comment-container .comment-submit").attr("value","Reply");
+        jQuery(".rply-btn-comment").click(function(e){
+            e.preventDefault();
+            jQuery(this).parent().parent().parent().parent().find(".rply-comment-container").slideDown();
+            jQuery(this).parent().hide();
+        });
+        jQuery(".rply-comment-close").click(function(){
+            jQuery(this).parent().parent().find(".rply-comment-container").slideUp();
+            jQuery(this).parent().parent().find(".comment-rply-link").show();
+        });
+
+
+
+        // load more comments
+        csize_li = jQuery(".comments-list-load .comment-single-item").size();
+        y=2;
+        if (csize_li > 2){
+            jQuery('.loadMoreComments-container').show();
+        }
+        jQuery('.comments-list-load li.comment-single-item:lt('+y+')').show();
+        jQuery('.loadMoreComments').click(function () {
+            y= (y+2 <= csize_li) ? y+2 : csize_li;
+            jQuery('.comments-list-load li.comment-single-item:lt('+y+')').show();
+            if (jQuery('.comments-list-load li.comment-single-item:last').is(':visible')) {
+                jQuery('.loadMoreComments-container').hide();
+            }
+        });
+
+
+
+        // load more replys
+        jQuery(".child-comment-list").each(function(){
+            ccsize_li = jQuery(this).find("li").size();
+            z=2;
+            if (ccsize_li > 2){
+                jQuery(this).parent().find('.loadMoreChildComments-container').show();
+            }
+            jQuery(this).find('li:lt('+z+')').show();
+            jQuery(this).parent().find('.loadMoreChildComments').each(function(){
+                jQuery(this).click(function(){
+                    jQuery(this).parent().parent().find('.child-comment-list li').show();
+                    if (jQuery(this).parent().parent().find(".child-comment-list li:last").is(":visible")) {
+                        jQuery(this).parent().parent().find(".loadMoreChildComments-container").hide();
+                    }
+                });
+            });
+        });
+
+        //hide if no comments
+        if (jQuery('#comments .comments-list-load li').length == 0){
+            jQuery("#comments .product-comments-list").addClass("product-comments-list-empty");
+        }
+
+    });
+
+
+
+</script>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <clicks translate="title" module="clicks">
+                <model>clicks/clicks</model>
+                <title>Under100 API</title>
+                <acl>clicks</acl>
+                <methods>
+                    <create translate="title" module="clicks">
+                        <title>Best sellers</title>
+                        <method>create</method>
+                    </create>
+                </methods>
+                <faults module="clicks">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid data provided.</message>
+                    </data_invalid>
+                </faults>
+            </clicks>
+        </resources>
+        <acl>
+            <resources>
+                <clicks translate="title" module="clicks">
+                    <title>Under100 API</title>
+                    <sort_order>1</sort_order>
+                </clicks>
+            </resources>
+        </acl>
+    </api>
+</config>

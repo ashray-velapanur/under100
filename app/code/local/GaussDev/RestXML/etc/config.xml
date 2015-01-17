@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <GaussDev_RestXML>
+      <version>0.1.0</version>
+    </GaussDev_RestXML>
+  </modules>
+  <frontend>
+    <routers>
+      <restxml>
+        <use>standard</use>
+          <args>
+            <module>GaussDev_RestXML</module>
+            <frontName>restxml</frontName>
+          </args>
+      </restxml>
+    </routers>
+		<layout>
+		  <updates>
+			<restxml>
+			  <file>restxml.xml</file>
+			</restxml>
+		  </updates>
+		</layout>
+  </frontend>
+  <global>
+  	<models>
+            <gaussdev_restxml>
+                <class>GaussDev_RestXML_Model</class>
+                
+            </gaussdev_restxml>
+        </models>
+    <helpers>
+      <restxml>
+        <class>GaussDev_RestXML_Helper</class>
+      </restxml>
+    </helpers>
+	<blocks>
+	  <restxml>
+		<class>GaussDev_RestXML_Block</class>
+	  </restxml>
+	</blocks>
+  </global>
+</config> 

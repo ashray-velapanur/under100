@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Under_SearchLayout>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Under_SearchLayout>
+    </modules>
+</config>

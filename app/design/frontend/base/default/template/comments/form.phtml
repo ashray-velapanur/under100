@@ -1,0 +1,25 @@
+<?php /* @var $this GaussDev_Comments_Block_Product_Comments */ ?>
+<?php $userLogInStatus = Mage::getSingleton('customer/session')->isLoggedIn() ?>
+<?php if($userLogInStatus): ?>
+    <div class="form-comment-container">
+        <form method="post" action="<?php echo $this->getUrl('comments/comment/new') ?>">
+            <input type="hidden" name="product_id" value="<?php echo $this->getProductId() ?>"/>
+            <input type="hidden" name="parent_id" value="<?php echo $this->getParentId() ?>" class="comment-parent-id"/>
+            <input type="hidden" name="tags" value=""/>
+            <textarea name="message" placeholder="Write a Comment"></textarea>
+            <div class="clearfix">
+                <div class="buttons-set-comment">
+                    <input type="submit" value="comment" class="comment-submit button"/>
+                </div>
+            </div>
+            <?php echo $this->getBlockHtml('formkey') ?>
+        </form>
+    </div>
+
+    <?php else: ?>
+
+    <p class="comment-nologged">
+        <?php echo $this->__('Only registered users can write comments. Please, <a href="#" class="necessary-login-review">log in</a> or <a href="#" class="necessary-login-review">register</a>', $this->getLoginLink(), Mage::helper('customer')->getRegisterUrl()) ?>
+    </p>
+
+<?php endif; ?>

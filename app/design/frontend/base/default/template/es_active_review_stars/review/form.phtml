@@ -1,0 +1,129 @@
+<div class="form-add">
+  <?php if ($this->getAllowWriteReviewFlag()): ?>
+    <form action="<?php echo $this->getAction() ?>" method="post" id="review-form">
+        <?php echo $this->getBlockHtml('formkey'); ?>
+      <div>
+        <?php echo $this->getChildHtml('form_fields_before') ?>
+
+        <ul class="form-list">
+          <li style="display:none;">
+            <div class="input-box" style="display:none;">
+              <input type="hidden" placeholder="<?php echo $this->__('Nickname') ?>" name="nickname" id="nickname_field" class="input-text required-entry" value="<?php echo $this->htmlEscape($data->getNickname()) ?>" />
+            </div>
+          </li>
+
+          <input readonly type="hidden" name="title" id="summary_field" class="input-text" value="<?php echo $this->escapeHtml($data->getTitle()) ?>" />
+
+          <li>
+            <div class="input-box">
+              <textarea name="detail" id="review_field" class="required-entry" placeholder="<?php echo $this->__('Write a Review') ?>"><?php echo $this->htmlEscape($data->getDetail()) ?></textarea>
+            </div>
+          </li>
+        </ul>
+
+          <div class="clearfix">
+              <div class="rating-stars-container">
+          <?php if ($this->getRatings() && $this->getRatings()->getSize()): ?>
+              <span id="input-message-box"></span>
+          <?php if (Mage::helper('ActiveReviewStars')->getReviewStarMode() == 1) { ?>
+              <table class="data-table" id="product-review-table">
+                  <col width="1" />
+                  <col width="5" />
+                  <thead>
+                  <tr>
+                      <th>&nbsp;</th>
+                      <th><span class="nobr"><?php echo $this->__('Rate') ?></span></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <?php foreach ($this->getRatings() as $_rating): ?>
+                      <tr>
+                          <th><?php echo $this->escapeHtml($_rating->getRatingCode()) ?></th>
+                          <td class="value">
+                              <?php foreach ($_rating->getOptions() as $_option): ?>
+                                  <input type="radio" name="ratings[<?php echo $_rating->getId() ?>]" id="<?php echo $this->escapeHtml($_rating->getRatingCode()) ?>_<?php echo $_option->getValue() ?>" value="<?php echo $_option->getId() ?>" class="radio star" />
+                              <?php endforeach; ?>
+                          </td>
+                      </tr>
+                  <?php endforeach; ?>
+                  </tbody>
+              </table>
+          <?php }else { ?>
+              <table class="data-table" id="product-review-table">
+                  <tbody>
+                  <tr>
+                      <td>
+                          <?php foreach ($this->getRatings() as $_rating): ?>
+                              <span class="star-rating-box">
+                                  <span class="star-rating-label">Rate this product:</span>
+                        <?php if (Mage::helper('ActiveReviewStars')->showRatingLabel()) { ?>
+                            <span class="star-rating-label"><?php echo $this->escapeHtml($_rating->getRatingCode()) ?>gdfg:</span>
+                        <?php } ?>
+
+                                  <?php foreach ($_rating->getOptions() as $_option): ?>
+                                      <input type="radio" name="ratings[<?php echo $_rating->getId() ?>]" id="<?php echo $this->escapeHtml($_rating->getRatingCode()) ?>_<?php echo $_option->getValue() ?>" value="<?php echo $_option->getId() ?>" class="radio star" />
+                                  <?php endforeach; ?>
+                      </span>
+                          <?php endforeach; ?>
+                      </td>
+                  </tr>
+                  </tbody>
+              </table>
+          <?php } ?>
+                  <input type="hidden" name="validate_rating" class="validate-rating" value="" />
+                  <script type="text/javascript">decorateTable('product-review-table')</script>
+              </div>
+              <div class="buttons-set-review">
+                  <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><?php echo $this->__('Submit') ?></button>
+              </div>
+          </div>
+
+          <?php endif; ?>
+
+
+      </div>
+    </form>
+    <script type="text/javascript">
+      //<![CDATA[
+      var dataForm = new VarienForm('review-form');
+      Validation.addAllThese(
+      [
+        ['validate-rating', '<?php echo $this->__('Please select one of the ratings above') ?>', function(v) {
+            var trs = $('product-review-table').select('tr');
+            var inputs;
+            var error = 1;
+
+            for( var j=0; j < trs.length; j++ ) {
+              var tr = trs[j];
+              <?php if (Mage::helper('ActiveReviewStars')->getReviewStarMode() == 2) { ?>
+                if( j >= 0 ) {
+              <?php }else{ ?>
+                  if( j > 0) {
+              <?php } ?>
+                inputs = tr.select('input');
+                for( i in inputs ) {
+                  if( inputs[i].checked == true ) {
+                    error = 0;
+                  }
+                }
+                  
+                if( error == 1 ) {
+                  return false;
+                } else {
+                  error = 1;
+                }
+              }
+            }
+            return true;
+          }]
+      ]
+    );
+      //]]>
+    </script>
+  <?php else: ?>
+    <p class="review-nologged" id="review-form">
+      <?php echo $this->__('Only registered users can write reviews. Please, <a href="#" class="necessary-login-review">log in</a> or <a href="#" class="necessary-login-review">register</a>', $this->getLoginLink(), Mage::helper('customer')->getRegisterUrl()) ?>
+    </p>
+
+  <?php endif ?>
+</div>

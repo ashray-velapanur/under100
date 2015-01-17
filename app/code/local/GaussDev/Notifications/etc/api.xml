@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <notifications translate="title" module="notifications">
+                <model>notifications/api</model>
+                <title>Notifications API</title>
+                <acl>notifications</acl>
+                <methods>
+                    <save translate="title" module="notifications">
+                        <title>Create notification</title>
+                    </save>
+                    <delete translate="title" module="notifications">
+                        <title>Delete a notification</title>
+                    </delete>
+                    <getAll translate="title" module="notifications">
+                        <title>Get notifications</title>
+                    </getAll>
+                    <count translate="title" module="notifications">
+                        <title>Count notifications</title>
+                    </count>
+                    <generate translate="title" module="notifications">
+                        <title>Generate notifications</title>
+                    </generate>
+                    <registerAndroidDevice translate="title" module="notifications">
+                        <title>Register Android Device</title>
+                    </registerAndroidDevice>
+                    <unregisterAndroidDevice translate="title" module="notifications">
+                        <title>Unregister Android Device</title>
+                    </unregisterAndroidDevice>
+                    <registerIosDevice translate="title" module="notifications">
+                        <title>Register Ios Device</title>
+                    </registerIosDevice>
+                    <unregisterIosDevice translate="title" module="notifications">
+                        <title>Unregister Ios Device</title>
+                    </unregisterIosDevice>
+                </methods>
+            </notifications>
+        </resources>
+        <acl>
+            <resources>
+                <notifications translate="title" module="notifications">
+                    <title>Notifications API</title>
+                    <sort_order>1</sort_order>
+                </notifications>
+            </resources>
+        </acl>
+    </api>
+</config>

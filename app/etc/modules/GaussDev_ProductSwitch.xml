@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GaussDev_ProductSwitch>
+            <active>true</active>
+            <codePool>local</codePool>
+        </GaussDev_ProductSwitch>
+    </modules>
+</config>

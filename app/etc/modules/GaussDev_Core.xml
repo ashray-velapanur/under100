@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GaussDev_Core>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends></depends>
+        </GaussDev_Core>
+    </modules>
+</config>

@@ -1,0 +1,15 @@
+Here will be listed our followers...
+
+
+API:
+Demo in php 
+SOAP 
+$client = new SoapClient('http://yourhost/api/soap/?wsdl');
+$session = $client->login('******', '******');
+$date = $client->call($session, 'yourmodulename_api.yourmethod');
+												
+XML-RPC 
+$client = new Zend_XmlRpc_Client('http://yourhost/api/xmlrpc/');
+$session = $client->call('login', array('******', '******'));
+$date=$client->call('call', array($session, 'yourmodulename_api.yourmethod'));
+										

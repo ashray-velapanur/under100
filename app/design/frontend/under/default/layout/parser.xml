@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_products_products_parsefrombook>
+        <reference name="root">
+            <action method="setTemplate"><template>page/popup.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="gaussdev_parser/bookmarklet" name="bookmarklet" template="parser/bookmarklet.phtml"/>
+        </reference>
+    </customer_products_products_parsefrombook>
+</layout>

@@ -1,0 +1,179 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+<div class="content-wrap content-wrap-shop">
+    <div class="breadcrumbs-shop">
+        <?php echo $this->getChildHtml('breadcrumbs') ?>
+    </div>
+    <div class="shop-page-title-container">
+        <?php echo $this->getChildHtml('content') ?>
+    </div>
+    <div class="shop-slider-container">
+        <div class="shop-slider-title">
+            Featured
+        </div>
+        <div class="shop-slider">
+            <a class="arrow-left-shop" href="#"><span class="icon-sprite slide-left-v3-ico"></span></a>
+            <a class="arrow-right-shop" href="#"><span class="icon-sprite slide-right-v3-ico"></span></a>
+            <div class="swiper-container-shop">
+                <div class="swiper-wrapper">
+                    <?php foreach (Mage::helper('gaussdev_deals')->getCollection() as $_deal): ?>
+                    <div class="swiper-slide">
+                        <div class="shop-slide-content">
+                            <div class="shop-slide-content-inner" onclick="window.location='<?php echo $_deal->getUrl(); ?>';">
+                                <img src="<?php echo $_deal->getDealImageUrl(320, 340); ?>" />
+                                <a class="slide-desc-sale" href="<?php echo $_deal->getUrl(); ?>">
+                                    <span class="slide-desc-title">
+                                        <span><?php echo $_deal->getName(); ?></span>
+                                    </span>
+                                    <span class="slide-desc-discount">
+                                        <?php echo $_deal->getDescription(); ?>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <div class="after-shop-slider clearfix">
+            <div class="shop-slider-sale-container">
+                <a class="shop-slider-sale" href="#">
+                    <?php $_product = Mage::getModel('catalog/product')->load(33); ?>
+                   <img src=" <?php echo Mage::helper('adaptiveResize/image')->init($_product, 'image')->constrainOnly(true)->adaptiveResize(128, 94); ?>" />
+                    &nbsp;TIES NOW ON SALE
+                </a>
+            </div>
+            <div class="shop-pagination"></div>
+            <div class="shop-slider-deals">
+                <a href="<?php echo Mage::getUrl('deals')?>">SHOP ALL DEALS</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="content-container">
+        <div class="main-container">
+            <div class="main">
+                <div class="col-main">
+                    <?php echo $this->getChildHtml('global_messages') ?>
+
+
+<div class="shop-cat-title">
+    CATEGORIES
+</div>
+<div class="shop-category-list-container">
+    <?php /** @var Mage_Catalog_Model_Category $_category */
+foreach (Mage::helper('gaussdev')->getCategories(2) as $_category): ?>
+    <a class="shop-cat-item" href="<?php echo $_category->getUrl().'?deals=1';?>">
+        <span><?php echo $this->escapeHtml($_category->getName());?></span>
+    </a>
+<?php endforeach;?>
+</div>
+<div class="highlighted-products clearfix">
+    <div class="highlighted-products-col">
+        <div class="highlighted-product-container">
+            <div class="highlighted-product-title">
+                BEST SELLERS
+            </div>
+            <div class="section group">
+                <div class="col col-1-of-2">
+                    <h3>
+                        Customer Favorites
+                    </h3>
+                    <p>
+                        <?php // echo $_product->getShortDescription(); ?>
+                    </p>
+                    <a href="<?php echo Mage::getUrl('bestsellers');?>" class="all-product-links">
+                        View All
+                    </a>
+                </div>
+                <div class="col col-1-of-2">
+                   <img src=" <?php echo Mage::helper('adaptiveResize/image')->init(Mage::helper('gaussdev')->getBestsellers()->setPageSize(1)->getFirstItem(), 'image')->constrainOnly(true)->adaptiveResize(270, 270); ?>" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="highlighted-products-col">
+        <div class="highlighted-product-container">
+            <div class="highlighted-product-title">
+                NEW ARRIVALS
+            </div>
+            <div class="section group">
+                <div class="col col-1-of-2">
+                    <h3>
+                        New Arrivals
+                    </h3>
+                    <p>
+                        <?php // echo $_product->getShortDescription(); ?>
+                    </p>
+                    <a href="<?php echo Mage::getUrl('newarrivals');?>" class="all-product-links">
+                        View All
+                    </a>
+                </div>
+                <div class="col col-1-of-2">
+                   <img src=" <?php echo Mage::helper('adaptiveResize/image')->init(Mage::helper('gaussdev')->getNewArrivals()->setPageSize(1)->getFirstItem(), 'image')->constrainOnly(true)->adaptiveResize(270, 270); ?>" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                </div>
+            </div>
+        </div>
+    <?php echo $this->getChildHtml('footer') ?>
+
+    </div>
+</div>
+    <?php echo $this->getChildHtml('global_cookie_notice') ?>
+    <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

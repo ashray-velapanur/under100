@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GaussDev_Checkout>
+            <version>1.0.0</version>
+        </GaussDev_Checkout>
+    </modules>
+    <frontend>
+        <routers>
+            <checkout>
+                <args>
+                    <modules>
+                        <GaussDev_Checkout before="Mage_Checkout">GaussDev_Checkout</GaussDev_Checkout>
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+    </frontend>
+    <global>
+        <events>
+            <payment_method_is_active>
+                <observers>
+                    <remove_checkmo_from_checkout>
+                        <type>model</type>
+                        <class>gaussdev_checkout/observer</class>
+                        <method>paymentMethodIsActive</method>
+                    </remove_checkmo_from_checkout>
+                </observers>
+            </payment_method_is_active>
+        </events>
+        <models>
+            <gaussdev_checkout>
+                <class>GaussDev_Checkout_Model</class>
+            </gaussdev_checkout>
+        </models>
+    </global>
+</config>

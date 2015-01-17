@@ -1,0 +1,42 @@
+<?php
+	// Mage::getSingleton('core/session')->getInfiniteScroll()  <-- backup ako marko nenađe riješenje
+	$productsHelper=Mage::helper('productranking');
+	$prices=$productsHelper->applyFilter();
+	$likeHelper=Mage::helper('GaussDev_Like');
+	$page= $this->getRequest()->getParam('page');
+	$collection=$productsHelper->getProducts($page); $i=1;
+	if(!is_numeric($page)) exit();
+	$product_ids = Mage::getModel('checkout/cart')->getProductIds(); // products in cart
+?>
+<div class="section group">
+                  <?php $row=1;
+                    	foreach ($collection as $_product):
+                    		$r=$productsHelper->getRow($i);
+                    		switch ($r){
+								case 1: $className="col-1-of-4"; break;
+								case 2: $className="col-1-of-3"; break;
+								case 3: $className="col-1-of-2"; break;
+							}
+							$id=$_product->getId();
+							$productName= $_product->getName();
+							$inCart= in_array($_product->getId(), $product_ids);
+                 ?>
+                 <?php if($row!=$r):?>
+                 </div>
+<div class="section group">
+<?php endif;?>
+	<div class="col <?php echo $className?>">
+		<?php echo $this->getLayout()->createBlock('gaussdev/under')->productHtml($_product);?>
+	</div>
+
+
+                         <?php if($row!=$r) $row=$r?>
+                 <?php $i++;endforeach;?>
+                    </div>
+
+<?php if($collection->getLastPageNumber() <= $page):?>
+ <script type="text/javascript">
+// 	 console.log('total numbers: <?php echo $collection->getLastPageNumber();  ?> and current page is : <?php echo $page;?>'   );
+ 	var stopFLAG= true;
+ </script>
+ <?php endif; ?>

@@ -1,0 +1,96 @@
+<?php
+/** @var $this GaussDev_Core_Block_Under */
+/** @var $product Mage_Catalog_Model_Product */
+$product = $this->getData('product');
+$id = $product->getId();
+$isLiked = (bool)$this->helper('GaussDev_Like')->checkLiked($id);
+$url = $product->getProductUrl();
+$name = $product->getName();
+$likesCount = $this->helper('GaussDev_Like')->countLikes($id);
+$image = $this->helper('adaptiveResize/image')->init($product, 'small_image')->constrainOnly(true)->adaptiveResize(600, 640);
+$isInCart = in_array($product->getId(), Mage::getModel('checkout/cart')->getProductIds());
+?>
+<div class="product-list-img-holder">
+    <img src="<?php echo $image;?>"
+         alt="<?php echo $this->stripTags($this->getImageLabel($product, 'small_image'), null, true) ?>"/>
+    <div class="product-list-img-overlay">
+        <a class="link-over-block" href="<?php echo $url ?>"></a>
+        <?php if(!$this->getExcludeOverlay()): ?>
+        <div class="product-list-img-overlay-inner">
+                <div class="product-list-img-social clearfix">
+                <div class="product-list-social-item product-list-like-container">
+                    <?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+                        <a onclick="like(<?php echo $id; ?>);" class="tooltipIt" title="<?php echo $isLiked?'Unlike':'Like' ?>" id="product-<?php echo $id ?>">
+                            <span class="likeIcoContainer"><span class="icon-sprite favourite-white-big-ico<?php if ($isLiked) {echo " activ-fav";} ?>"></span></span>
+                            <span class="likeCount">&nbsp;<span id="like-<?php echo $id ?>"><?php echo $likesCount ?></span></span>
+                        </a>
+                    <?php else: ?>
+                        <a class="necessary-login-all tooltipIt" title="Like">
+                            <span class="icon-sprite favourite-white-big-ico"></span>&nbsp;<span class="likeCount">&nbsp;<span id="like-<?php echo $id ?>"><?php echo $likesCount ?></span></span>
+                        </a>
+                    <?php endif; ?>
+                </div>
+                <a class="product-list-social-item product-list-comment-container" title="Comments" href="<?php echo $url ?>#comment">
+                    <span class="icon-sprite comments-ico"></span>&nbsp;&nbsp;<?php echo $this->helper('gaussdev_comments')->commentCount($id) ?>
+                </a>
+                <a href="#" class="img-overlay-share" title="Share">
+                    <span class="icon-sprite share-white-big-ico"></span>
+                </a>
+                <?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+                <a href="#" class="img-overlay-list pl-add-to-list" title="Add to List" onclick="setProductID(<?php echo $product->getId();?>);">
+                    <span class="icon-sprite share-list-ico"></span>
+                </a>
+                <?php else: ?>
+                <a href="#" class="img-overlay-list necessary-login-all" title="Add to List">
+                    <span class="icon-sprite share-list-ico"></span>
+                </a>
+                <?php endif; ?>
+            </div>
+            <div class="product-list-img-cart">
+                <a <?php echo $this->helper('gaussdev')->getVigLink($product); ?> class="<?php echo $this->helper('gaussdev')->getLoginClass(); if ($isInCart) {echo ' green-cart-added '; } ?>"
+                    href="<?php echo $this->helper('checkout/cart')->getAddUrl($product); ?>"
+                    title="<?php echo $isInCart ? $this->__('Added to Cart') : $this->__('Add to cart'); ?>">
+                    <span class="icon-sprite btn-cart-ico"></span>
+                </a>
+            </div>
+        </div>
+        <div class="product-list-img-share-overlay">
+            <div class="pliso-bottom">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url); ?>"
+                   title="<?php echo $this->__('Share on Facebook') ?>" target="_blank">
+                    <span class="icon-sprite facebook-icon-large"></span>
+                </a>
+                <a href="http://twitter.com/share?text=<?php echo urlencode($name) ?>&url=<?php echo urlencode($url) ?>&hashtags=under$100" target="_blank">
+                    <span class="icon-sprite twitter-icon-large"></span>
+                </a>
+                <a href="javascript:popWin('https://plus.google.com/share?url=<?php echo urlencode($url); ?>', 'google', 'width=640,height=480,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes');" title="<?php echo $this->__('Share on Google Plus') ?>">
+                    <span class="icon-sprite google-icon-large"></span>
+                </a>
+                <a href="javascript:popWin('https://pinterest.com/pin/create/button/?url=<?php echo urlencode($url); ?>&media=<?php echo urlencode($image); ?>&description=<?php echo urlencode($name); ?>', 'pinterest', 'width=640,height=480,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes');" title="<?php echo $this->__('Pin it') ?>">
+                    <img src="<?php echo $image ?>" style="display: none;"/>
+                    <span class="icon-sprite pinterest-icon-large"></span>
+                </a>
+                <a href="#">
+                    <span class="icon-sprite instagram-icon-large"></span>
+                </a>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<div class="product-list-info-holder">
+    <div class="product-list-name">
+        <a href="<?php echo $url ?>">
+            <?php echo $this->helper('catalog/output')->productAttribute($product, $name, 'name') ?>
+        </a>
+    </div>
+    <div class="product-list-info-bottom clearfix">
+        <div class="product-list-info">
+            <span class="product-list-price">
+                <?php echo $this->helper('core')->formatPrice($product->getPrice()) ?>
+            </span>
+            <?php echo $this->helper('gaussdev_parser')->getOwnerHtml($product->getProductOwnerId(), 'product-list-user') ?>
+        </div>
+    </div>
+</div>

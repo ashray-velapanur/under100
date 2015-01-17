@@ -1,0 +1,150 @@
+<div id="quicklogin">
+  <div class="quickbg clearfix" >
+  	<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+	    <div class="col2-set login-page">
+            <div class="col-2 registered-users">
+                <form action="#" method="post" id="login-form" class="frm-login">
+                    <h3><?php echo $this->__('LOGIN TO YOUR ACCOUNT') ?></h3>
+                    <div class="content-login-inputs content-login-social clearfix">
+                        <div class="content-login-left">
+                            <?php echo $this->__('with a social network:') ?>
+                        </div>
+                        <div class="content-login-right">
+                            <a onclick="this.href = this.href + '?burl=' + encodeURIComponent(top.location.href);" href="<?php echo $this->getUrl('sociallogin/desktop/facebook')?>">
+                                <span class="icon-sprite facebook-icon-large"></span>
+                            </a>
+                            <a onclick="this.href = this.href + '?burl=' + encodeURIComponent(top.location.href);" href="<?php echo $this->getUrl('sociallogin/desktop/twitter')?>">
+                                <span class="icon-sprite twitter-icon-large"></span>
+                            </a>
+                            <a onclick="this.href = this.href + '?burl=' + encodeURIComponent(top.location.href);" href="<?php echo $this->getUrl('sociallogin/desktop/google')?>">
+                                <span class="icon-sprite google-icon-large"></span>
+                            </a>
+                            <a onclick="this.href = this.href + '?burl=' + encodeURIComponent(top.location.href);" href="<?php echo $this->getUrl('sociallogin/desktop/instagram')?>">
+                                <span class="icon-sprite instagram-icon-large"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="content-login-inputs clearfix">
+                        <div class="content-login-left log-pad-1">
+                            <?php echo $this->__('with your email & password:') ?>
+                        </div>
+                        <div class="content-login-right">
+                            <ul class="form-list">
+                                <li>
+                                    <input name="login[username]" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" id="email" type="text" class="input-text required-entry" title="<?php echo $this->__('yourmail@domain.com') ?>" placeholder="yourmail@domain.com" />
+                                </li>
+                                <li>
+                                    <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('enter your password') ?>" placeholder="enter your password"/>
+                                </li>
+                            </ul>
+                            <div class="buttons-set">
+                                <div class="fpasscheck">
+                                  <span><?php echo $this->__('Forgot Your Password?') ?></span>
+                                </div>
+                                <div class="remember-me-checkbox">
+                                    <label class="checkbox">
+                                        <input type="checkbox" value="remember-me" id="remember_me"> Remember me
+                                    </label>
+                                </div>
+                                <button class="action-btn" type="button" name="send" id="send2" onclick="loginAjax();"><?php echo $this->__('Login') ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div style="display:none;" id="fpass">
+                    <form class="for-pass" id="forgot-form" method="post" action="<?php echo $this->getUrl('customer/account/ajaxForgotPassword/') ?>">
+                        <div class="content-login-inputs clearfix">
+                            <div class="content-login-left log-pad-2">
+                                <?php echo $this->__('Please enter your email address to receive your password') ?>
+                            </div>
+                            <div class="content-login-right">
+                                <ul class="form-list">
+                                    <li>
+                                        <div class="input-box">
+                                            <input type="text" title="<?php echo $this->__('yourmail@domain.com') ?>" class="input-text required-entry validate-email" id="forgot_email" value="" name="forgotemail" placeholder="<?php echo $this->__('yourmail@domain.com') ?>">
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div style="border:0px;" class="col-2 registered-users">
+                                    <div class="buttons-set">
+                                        <button type="button" id="send3" name="send3" class="action-btn" onclick="return forgetpass();"><span><?php echo $this->__('Submit') ?></span></button>
+                                        <p style="display:none;" id="loading"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-1 new-users">
+                <form action="#" method="post" id="regis-form" class="frm-regis">
+                        <h3><?php echo $this->__('REGISTER A NEW ACCOUNT') ?></h3>
+                        <div class="content-login-inputs content-login-social clearfix" style="display:none;">
+                            <div class="content-login-left">
+                                <?php echo $this->__('with a social network:') ?>
+                            </div>
+                            <div class="content-login-right">
+                                <a href="#">
+                                    <span class="icon-sprite facebook-icon-large"></span>
+                                </a>
+                                <a href="#">
+                                    <span class="icon-sprite twitter-icon-large"></span>
+                                </a>
+                                <a href="#">
+                                    <span class="icon-sprite google-icon-large"></span>
+                                </a>
+                                <a href="#">
+                                    <span class="icon-sprite instagram-icon-large"></span>
+                                </a>
+                                <a href="#">
+                                    <span class="icon-sprite pinterest-icon-large"></span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="content-login-inputs clearfix">
+                            <div class="content-login-left log-pad-3">
+                                <?php echo $this->__('with your email & password:') ?>
+                             </div>
+                            <div class="content-login-right">
+                                <ul class="form-list">
+                                    <li>
+                                        <input id="firstname" class="input-text required-entry" type="text" title="first Name" value="" name="firstname" placeholder="first name"/>
+                                    </li>
+                                     <li>
+                                        <input id="lastname" class="input-text required-entry" type="text" title="last Name" value="" name="lastname" placeholder="last name"/>
+                                    </li>
+                                     <li>
+                                        <input id="email_address" class="input-text validate-email required-entry" type="text" title="yourmail@domain.com" value="" name="email" placeholder="yourmail@domain.com"/>
+                                    </li>
+                                     <li>
+                                        <input id="password" class="input-text required-entry validate-password" type="password" title="Password" name="password" placeholder="enter your password"/>
+                                    </li>
+                                     <li>
+                                        <input id="confirmation" class="input-text required-entry validate-password" type="password" title="Password" name="confirmation" placeholder="confirm your password"/>
+                                    </li>
+                                </ul>
+                                <div class="buttons-set">
+                                    <button type="button" class="action-btn" onclick="return registerAjax();"><span><?php echo $this->__('Register A New Account') ?></span></button>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <p class="login-note">NOTE: You will receive our notification email with account activation link shortly.</p>
+                        </div>
+
+                </form>
+            </div>
+	    </div>
+
+	<script type="text/javascript">
+	//<![CDATA[
+	     // var dataForm = new VarienForm('login-form', true);
+	      //var dataForm1 = new VarienForm('regis-form', true);
+	//]]>
+	</script>
+	</div>
+
+
+</div>
+
+
+

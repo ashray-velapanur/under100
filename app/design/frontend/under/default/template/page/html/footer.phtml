@@ -1,0 +1,93 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php //echo $this->getChildHtml() ?>
+
+
+</div>
+    <div class="footer-container">
+
+        <?php 
+				 $current=Mage::getSingleton('cms/page')->getIdentifier();
+				 $routeName=Mage::app()->getFrontController()->getRequest()->getRouteName() ;
+		
+		if($current == 'home' && $routeName == 'cms'): ?>
+        <?php else: ?>
+            <div class='large-footer'>
+                <?php echo $this->getChildHtml('footer_large'); ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="small-footer">
+            <div class="small-footer-inner clearfix">
+                <div class="small-footer-left">
+                    <?php echo $this->getCopyright() ?>
+                </div>
+                <div class="small-footer-center">
+                    <a href="#" class="return-top" title="Back to top">
+                        <span class="icon-sprite back-top-ico"></span>
+                    </a>
+                </div>
+                <div class="small-footer-right">
+                    <a href="https://www.facebook.com/theunder100" target="_blank">
+                        <span class="icon-sprite facebook-icon-small"></span>
+                    </a>
+                    <a href="https://twitter.com/underahundred" target="_blank">
+                        <span class="icon-sprite twitter-icon-small"></span>
+                    </a>
+<!--                    <a href="#">-->
+<!--                        <span class="icon-sprite google-icon-small"></span>-->
+<!--                    </a>-->
+                    <a href="http://instagram.com/theunder100" target="_blank">
+                        <span class="icon-sprite instagram-icon-small"></span>
+                    </a>
+                    <a href="http://www.pinterest.com/theunder100/" target="_blank">
+                        <span class="icon-sprite pinterest-icon-small"></span>
+                    </a>
+                    <a href="/rss" target="_blank">
+                        <span class="icon-sprite rss-icon-small"></span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<div class="noApp-overlay" style="display:none;">
+    <div class="noApp-content">
+        <p>iOS App and Android App are COOMING SOON!</p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var vglnk = { key: '1507a657fb951e5ad5dfb7be2cc13adf' };
+
+    (function(d, t) {
+        var s = d.createElement(t); s.type = 'text/javascript'; s.async = true;
+        s.src = '//cdn.viglink.com/api/vglnk.js';
+        var r = d.getElementsByTagName(t)[0]; r.parentNode.insertBefore(s, r);
+    }(document, 'script'));
+</script>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <catalog_product_view translate="label">
+        <reference name="product.info">
+            <block type="gaussdev_comments/product_comments" name="product.comments.form"
+                   template="comments/form.phtml"/>
+        </reference>
+    </catalog_product_view>
+</layout>

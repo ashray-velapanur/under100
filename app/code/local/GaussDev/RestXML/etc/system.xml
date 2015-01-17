@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+	  <sections>
+		<restxmlsection  translate="label" module="restxml">                    
+		<label>Rest Connector options</label>
+		<tab>advanced</tab>
+		<frontend_type>text</frontend_type>
+		<sort_order>0</sort_order>
+		<show_in_default>1</show_in_default>
+		<show_in_website>1</show_in_website>
+		<show_in_store>1</show_in_store>            
+					<groups>
+				      <restxmlgroup translate="label"> 
+					  <label>Rest XML</label>
+					  <frontend_type>text</frontend_type>
+					  <sort_order>0</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				       <fields>
+                          <customer_key translate="label">
+                            <label>Key</label>
+							<frontend_type>text</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment>Defined customer key</comment>
+                          </customer_key>
+                          <customer_secret translate="label">
+                            <label>Secret</label>
+							<frontend_type>text</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment>Defined secret key</comment>
+                          </customer_secret>
+					   </fields>
+					   </restxmlgroup>
+					</groups>
+		</restxmlsection>
+	  </sections>
+</config>

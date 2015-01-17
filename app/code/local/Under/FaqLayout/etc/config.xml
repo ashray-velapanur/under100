@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Under_FaqLayout>
+            <version>0.1.0</version>
+        </Under_FaqLayout>
+    </modules>
+    <global>
+        <page>
+            <layouts>
+                <Under_FaqLayout translate="label">
+                    <label>Faq page</label>
+                    <template>page/Under-Faq.phtml</template>
+                    <layout_handle>page_Under_FaqLayout</layout_handle>
+                </Under_FaqLayout>
+                <!-- add more layouts here -->
+            </layouts>
+        </page>
+    </global>
+</config>

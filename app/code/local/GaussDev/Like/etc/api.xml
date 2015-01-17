@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <like_api translate="title" module="GaussDev_Like">
+                <title>Myapi</title>
+                <acl>like/api</acl>
+                <model>GaussDev_Like/api</model>
+                <methods>                    
+						<getlikes translate="title" module="GaussDev_Like">
+							<title>getlikes</title>
+							<acl>like/getlikes</acl>
+						</getlikes>                    
+						<info translate="title" module="GaussDev_Like">
+							<title>like</title>
+							<acl>like/like</acl>
+						</info>
+						<getliked translate="title" module="GaussDev_Like">
+							<title>getlikes</title>
+							<acl>like/getlikes</acl>
+						</getliked>
+						<likeproduct translate="title" module="GaussDev_Like">
+							<title>getlikes</title>
+							<acl>like/getlikes</acl>
+						</likeproduct>        
+                </methods>
+            </like_api>
+        </resources>
+        <acl>
+            <resources>
+                <like translate="title" module="GaussDev_Like">
+                    <title>Like</title>
+                    <sort_order>2000</sort_order>                    
+					<getlikes translate="title" module="GaussDev_Like">
+                        <title>getlikes</title>
+                    </getlikes>                    
+					<info translate="title" module="GaussDev_Like">
+                        <title>like</title>
+                    </info>
+                </like>
+            </resources>
+        </acl>
+    </api>
+</config>

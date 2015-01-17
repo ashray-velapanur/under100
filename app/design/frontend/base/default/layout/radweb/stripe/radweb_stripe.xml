@@ -1,0 +1,44 @@
+
+
+
+<layout version="0.1.0">	
+	<default>
+		 <reference name="head">
+			<action method="addCss">
+                <stylesheet>css/radweb/stripe/radweb_stripe.css</stylesheet>
+            </action>
+
+            <action method="addJs" ifconfig="payment/radweb_stripe/use_jquery"><script>radweb/stripe/jquery-1.10.2.min.js</script></action>
+
+            <action method="addJs"><script>radweb/stripe/stripe.js</script></action>
+
+        </reference>
+
+        <reference name="before_body_end">
+ 			<block type="core/template" name="stripejs" template="/radweb/stripe/js.phtml" />
+		</reference>
+
+	</default>
+
+    <customer_account>
+        <!-- Mage_Wishlist -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="radweb_stripe" ifconfig="payment/radweb_stripe/active"><name>stripe</name><path>stripe/</path><label>My Credit Cards</label></action>
+        </reference>
+    </customer_account>
+
+    <stripe_index_index translate="label">
+        <label>Customer My Account My Credit Cards</label>
+        <!-- Mage_Wishlist -->
+        <update handle="customer_account" />
+        <reference name="my.account.wrapper">
+            <block type="radweb_stripe/stripe" name="stripe.cards" template="radweb/stripe/view.phtml">
+                <action method="setTitle" translate="title">
+                    <title>My Credit Cards</title>
+                </action>
+            </block>
+        </reference>
+    </stripe_index_index>
+
+
+</layout>

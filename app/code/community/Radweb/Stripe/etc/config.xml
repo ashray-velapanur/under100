@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Stripe payment
+ *
+ * @category	Radweb
+ * @package		Radweb_Stripe
+ * @author		Artur Salagean <info@radweb.co.uk>
+ * @copyright	Radweb (http://radweb.co.uk)
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Radweb_Stripe>
+            <version>1.0.0</version>
+        </Radweb_Stripe>
+    </modules>
+    <global>
+        <models>
+            <radweb_stripe>
+                <class>Radweb_Stripe_Model</class>
+                <resourceModel>users_resource</resourceModel>
+            </radweb_stripe>
+
+            <users_resource>
+                <class>Radweb_Stripe_Model_Resource</class>
+                <entities>
+                    <users>
+                        <table>stripe_users</table>
+                    </users>
+                </entities>
+            </users_resource>
+
+        </models>
+         <resources>
+            <radweb_stripe_setup>
+                <setup>
+                    <module>Radweb_Stripe</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </radweb_stripe_setup>
+        </resources>
+
+        <blocks>
+            <radweb_stripe>
+                <class>Radweb_Stripe_Block</class>
+            </radweb_stripe>
+        </blocks>
+        <helpers>
+            <radweb_stripe>
+                <class>Radweb_Stripe_Helper</class>
+            </radweb_stripe>
+        </helpers>
+        <template>
+            <email>
+                <payment_radweb_stripe_email_template_sent_to_admin translate="label" module="radweb_stripe">
+                    <label>Stripe failed orders send to Admin</label>
+                    <file>radweb/stripe/email-to-admin.html</file>
+                    <type>html</type>
+                </payment_radweb_stripe_email_template_sent_to_admin>
+            </email>
+        </template>
+        <payment>
+            <cc>
+                <types>
+                    <DIN>
+                        <code>DIN</code>
+                        <name>Diners Club</name>
+                        <order>55</order>
+                    </DIN>
+                </types>
+            </cc>
+        </payment>
+    </global>
+
+    <default>
+        <payment>
+            <radweb_stripe>
+            	<model>radweb_stripe/payment</model>
+            	<api_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <api_pub_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <use_jquery>1</use_jquery>
+                <admin_use_jquery>1</admin_use_jquery>
+            	<payment_action>authorize_capture</payment_action>
+            	<title>Stripe</title>
+            	<cctypes>AE,VI,MC,DI,JCB,DIN</cctypes>
+            	<useccv>1</useccv>
+                <savecc>1</savecc>
+                <min_order_total>0.50</min_order_total>
+                <email_failed>1</email_failed>
+                <email_sender></email_sender>
+                <email_receive_contact_form><![CDATA[hello@example.com]]></email_receive_contact_form>
+                <email_template_sent_to_admin>payment_radweb_stripe_email_template_sent_to_admin</email_template_sent_to_admin>
+                <payment_type>1</payment_type>
+            </radweb_stripe>
+        </payment>
+    </default>
+
+  <frontend>
+        <layout>
+            <updates>
+                <radweb_stripe>
+                    <file>radweb/stripe/radweb_stripe.xml</file>
+                </radweb_stripe>
+            </updates>
+        </layout>
+
+        <routers>
+            <stripe>
+                <use>standard</use>
+                <args>
+                    <module>Radweb_Stripe</module>
+                    <frontName>manage-cards</frontName>
+                </args>
+            </stripe>
+        </routers>
+    </frontend>
+
+
+
+    <adminhtml>
+        <events>
+            <core_block_abstract_to_html_before>
+                <observers>
+                    <sales_order_grid_transaction_state>
+                        <type>model</type>
+                        <class>Radweb_Stripe_Model_Observer</class>
+                        <method>addColumnToSalesOrderGrid</method>
+                    </sales_order_grid_transaction_state>
+                </observers>
+            </core_block_abstract_to_html_before>
+       </events>
+
+        <layout>
+            <updates>
+                <radweb_stripe>
+                    <file>radweb/stripe/radweb_stripe.xml</file>
+                </radweb_stripe>
+            </updates>
+        </layout>
+    </adminhtml>
+
+</config>

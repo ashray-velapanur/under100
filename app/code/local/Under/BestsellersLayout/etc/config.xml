@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Under_BestsellersLayout>
+            <version>0.1.0</version>
+        </Under_BestsellersLayout>
+    </modules>
+    <global>
+        <page>
+            <layouts>
+                <Under_BestsellersLayout translate="label">
+                    <label>Bestsellers page</label>
+                    <template>page/Under-Bestsellers.phtml</template>
+                    <layout_handle>page_Under_BestsellersLayout</layout_handle>
+                </Under_BestsellersLayout>
+                <!-- add more layouts here -->
+            </layouts>
+        </page>
+    </global>
+</config>

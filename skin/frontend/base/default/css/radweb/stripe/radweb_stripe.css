@@ -1,0 +1,96 @@
+#payment_form_radweb_stripe .cards{
+    font-size:0;
+    text-align:center;
+}
+.payment-methods dd ul.cards{
+    padding:0;
+    margin:-6px 0;
+}
+.payment-methods .v-fix {
+    display: inline-block;
+    vertical-align: middle;
+    font-size:12px;
+    margin:0 6px 0 0;
+}
+
+.payment-methods #radweb_stripe_cc_type_exp_div .v-fix{
+    display: inline-block;
+    vertical-align: middle;
+    font-size:12px;
+    width:60%;
+    margin:0 4% 0 0;
+}
+
+.payment-methods #radweb_stripe_cc_type_exp_div .v-fix.stripe-year-c{
+    margin: 0;
+    width:36%;
+}
+.payment-methods #radweb_stripe_cc_type_exp_div .v-fix div.selector {
+    padding: 0 0 0 3% !important;
+    width: 97% !important;
+}
+.payment-methods #radweb_stripe_cc_type_exp_div .v-fix div.selector span {
+    padding: 0 14% 0 6% !important;
+    width: 80% !important;
+}
+
+
+
+#payment_form_radweb_stripe .cards li {
+    background-image: url(../../../images/radweb/stripe/card_logos.png);
+    width: 51px;
+    height: 32px;
+    margin: 3px !important;
+    text-indent: -9999px;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    display:inline-block;
+    padding:0!important;
+}
+
+#payment_form_radweb_stripe .cards li.VI.off {
+    background-position: 0 32px;
+}
+
+
+#payment_form_radweb_stripe .cards li.AE.on {
+    background-position: 204px 0px;
+}
+
+#payment_form_radweb_stripe .cards li.AE.off {
+    background-position: 204px 32px;
+}
+
+#payment_form_radweb_stripe .cards li.MC.on {
+    background-position: 255px 0px;
+}
+
+#payment_form_radweb_stripe .cards li.MC.off {
+    background-position: 255px 32px;
+}
+
+#payment_form_radweb_stripe .cards li.DI.on {
+    background-position: 153px 0px;
+}
+
+#payment_form_radweb_stripe .cards li.DI.off {
+    background-position: 153px 32px;
+}
+
+#payment_form_radweb_stripe .cards li.DIN.on {
+    background-position: 51px 0px;
+}
+
+#payment_form_radweb_stripe .cards li.DIN.off {
+    background-position: 51px 32px;
+}
+
+#payment_form_radweb_stripe .cards li.JCB.on {
+    background-position: 102px 0px;
+}
+
+#payment_form_radweb_stripe .cards li.JCB.off {
+    background-position: 102px 32px;
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <customer_images translate="title" module="gaussdev_customerimages">
+                <model>gaussdev_customerimages/api</model>
+                <title>Customer Images API</title>
+                <acl>gaussdev_customerimages</acl>
+                <methods>
+                    <get translate="title" module="gaussdev_customerimages">
+                        <title>Get Customer Image</title>
+                    </get>
+                    <upload translate="title" module="gaussdev_customerimages">
+                        <title>Upload Customer Image</title>
+                    </upload>
+                </methods>
+                <faults module="gaussdev_customerimages">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid data provided.</message>
+                    </data_invalid>
+                    <not_created>
+                        <code>100</code>
+                        <message>Not created.</message>
+                    </not_created>
+                </faults>
+            </customer_images>
+        </resources>
+        <acl>
+            <resources>
+                <gaussdev_customerimages translate="title" module="gaussdev_customerimages">
+                    <title>Customer Images API</title>
+                    <sort_order>1</sort_order>
+                </gaussdev_customerimages>
+            </resources>
+        </acl>
+    </api>
+</config>

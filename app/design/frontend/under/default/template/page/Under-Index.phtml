@@ -1,0 +1,322 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+if(Mage::getSingleton('customer/session')->getData('redirected_from_login', true) && !Mage::getSingleton('customer/session')->isLoggedIn())
+{Mage::getSingleton('customer/session')->unsetData('redirected_from_login');$this->setBodyClass($this->getBodyClass(). ' body-login-required');}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+<div class="content-wrap">
+
+
+
+<!-- ADD TO LIST DIALOG START -->
+	<?php
+		$listHelper= Mage::helper("GaussDev_Multilist");
+		$lists=array();
+		foreach ($listHelper->getItemLists('',isset($productID) ? $productID : null) as $l) $lists[]=$l['list_fk']
+
+
+	?>
+    <div class="add-list-overlay"></div>
+    <div class="add-list-dialog">
+        <div class="list-dialog-close"></div>
+        <div class="add-list-title">Add to list</div>
+        <div class="add-list-content">
+            <p>
+                <!-- ime proizvoda -->
+                Add this item to an existing list or create a <span class="create-new-focus">New list</span>.
+            </p>
+            <ul id="lists">
+               	<?php foreach ($listHelper->getListInfo() as $list):?>
+				<li>
+                   	<input type="checkbox" <?php if(in_array($list['id'], $lists)):?> checked="checked" <?php endif;?>  class="listCheckbox" value="<?php echo $list['id']?>" name="list[<?php echo $list['id']?>]" id="<?php echo $list['id']?>">
+                   	<label for="<?php echo $list['id']?>"><?php echo $this->escapeHtml($list['name'])?></label>
+               	</li>
+				<?php endforeach;?>
+                <li class="add-list-text-input">
+                	<input type="text" name="listName" value="" id="listName" title="Create new list" placeholder="Create new list">
+    	 		</li>
+    	 		<input type="hidden" name="pID" id="pID" value="" />
+            </ul>
+            <div class="add-list-btns">
+                <a  onclick="saveLists();" title="Add to list">Add to list</a>
+            </div>
+        </div>
+    </div>
+
+<!-- ADD TO LIST DIALOG END -->
+
+
+
+
+
+    <div class="content-container">
+        <div class="main-container col1-layout">
+            <div class="main">
+
+
+                <?php
+                $is_homepage = Mage::getBlockSingleton('page/html_header')->getIsHomePage();
+                if($is_homepage){
+                    echo "<div class='breadcrumbs brd-home clearfix'><ul><li class='home-breadcrumb'>";
+                    echo "Home";
+                    echo "</ul></li></div>";
+                }
+                ?>
+
+
+
+                <?php echo $this->getChildHtml('breadcrumbs') ?>
+                <?php echo $this->getChildHtml('global_messages') ?>
+                <div class="col-main index-col-main" id="productList">
+
+
+
+<?php $productsHelper=Mage::helper('productranking'); ?>
+<?php $prices=$productsHelper->applyFilter();?>
+<?php $likeHelper=Mage::helper('GaussDev_Like');?>
+<?php $collection=$productsHelper->getProducts(); $i=1;//client wants to add ranking system later...?>
+<div class="filter-view-top-container clearfix">
+    <div class="filters-container">
+        <div class="filter-selected">Default filter</div>
+        <div class="filters-list-container">
+            <div class="filters-all clearfix">
+                <span>BY CATEGORY</span>
+                <a href="<?php echo Mage::getUrl("all-products")?>">ALL</a>
+            </div>
+
+            <ul class="filters-list-cat">
+            	<?php $_categories = Mage::helper('gaussdev')->getCategories(2); ?>
+            	<?php foreach ($_categories as $category):?>
+                <li>
+                    <a href="<?php echo $category->getUrl()?>"><?php echo $this->escapeHtml($category->getName())?></a>
+                    <?php if($category->getData('children')): ?>
+                    <ul class="filters-list-subcat">
+                    	<?php foreach ($category->getData('children') as $c):?>
+                        <li><a href="<?php echo $c->getUrl()?>"><?php echo $this->escapeHtml($c->getName())?></a></li>
+                        <?php endforeach;?>
+                    </ul>
+                    <?php endif;?>
+                </li>
+                <?php endforeach;?>
+            </ul>
+            <div class="filters-price-slide-container">
+                BY PRICE
+                <div id="slider-range"></div>
+                <form action="" method="post">
+                    <div class="range-input-container" style="display:none;">
+                        <input type="hidden" id="priceAmountMin" readonly name="priceStart" value="<?php echo $prices['start']?>" />
+                        <input type="hidden" id="priceAmountMax" readonly name="priceEnd" value="<?php echo $prices['end']?>"/>
+                    </div>
+                    <div class="filter-price-btn-container">
+                        <input type="submit" value="Apply" class="filter-price-btn"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <p class="view-mode index-view-mode">
+        <label>VIEW AS:</label>
+        <span class="view-control-container clearfix">
+            <strong class="grid" title="Grid"><span class="icon-sprite view-grid-ico hover"></span></strong>
+            <a class="list" title="Single Line" href="#"><span class="icon-sprite view-single-ico"></span></a>
+        </span>
+    </p>
+
+    <div class="homepage-moto">
+        <?php echo $this->getChildHtml('content') ?>
+    </div>
+</div>
+<script type="text/javascript">
+    var pageNum = 2;
+    function like(productID) {
+
+
+	jQuery.get("<?php echo mage::getBaseUrl()?>like/index/add/product/"+productID,function(data,status){
+	    jQuery("#like-"+productID).html(data);
+        jQuery.get("<?php echo mage::getBaseUrl()?>like/index/checkLiked/product/"+productID,function(data,status){
+            var loadData = '<span class="icon-sprite favourite-white-big-ico';
+            if(data==1) loadData = loadData + " activ-fav ";
+            loadData= loadData +'"></span>';
+            jQuery("#product-"+productID).find(".likeIcoContainer").html(loadData);
+            if(data==1) ProductTooltip="Unlike"; else ProductTooltip="Like";
+            jQuery("#product-"+productID).prop('title', ProductTooltip);
+        });
+	  });
+
+
+}
+</script>
+<div class="section group">
+                  <?php $row=1;
+                    	foreach ($collection as $_product):
+                    		$r=$productsHelper->getRow($i);
+                    		switch ($r){
+								case 1: $className="col-1-of-4"; break;
+								case 2: $className="col-1-of-3"; break;
+								case 3: $className="col-1-of-2"; break;
+							}
+							$id=$_product->getId();
+							$productName= $_product->getName();
+                 ?>
+                 <?php if($row!=$r):?>
+                 </div>
+                 	 <div class="section group">
+                 <?php endif;?>
+                        <div class="col <?php echo $className?>">
+                            <?php echo $this->getLayout()->createBlock('gaussdev/under')->productHtml($_product);?>
+                        </div>
+                         <?php if($row!=$r) $row=$r?>
+                 <?php $i++;endforeach;?>
+                    </div>
+                </div>
+
+
+                <div class='loading-more-infinite'>Loading</div>
+
+<script type="text/javascript">
+	stopFLAG = false;
+	var pauseAjax = false;
+    jQuery(function(){
+        var $win = jQuery(window);
+        $win.scroll(function () {
+            if (!pauseAjax && ($win.height() + $win.scrollTop() == jQuery(document).height())) {
+				pauseAjax = true;
+                jQuery(".loading-more-infinite").show();
+                if(!stopFLAG){
+	            	jQuery.get("<?php echo mage::getBaseUrl()?>productranking/index/getmore/page/"+pageNum ,function(data,status){
+	            		pageNum++;
+	                	jQuery("#productList").append("<div class='more-items-loaded'>"+data+"</div>");
+	                	pauseAjax = false;
+
+                        //mailto temporary fix
+                        jQuery(".product-list-img-share-overlay .pliso-bottom a span.instagram-icon-large").each(function() {
+                            var _href = jQuery(this).closest('.product-list-img-holder').find('.link-over-block').attr("href");
+                            var str = jQuery(this).closest('.col').find('.product-list-name a').text().trim();
+                            var _passURL = encodeURIComponent(str);
+                            jQuery(this).parent().attr("href", 'mailto:?body=' + _href + '&subject='+ _passURL);
+                        });
+
+                        if(jQuery(".index-view-mode .list span").hasClass("hover")) {
+                            jQuery(".index-col-main .more-items-loaded:last .section.group").addClass("single-line-display-section");
+                            jQuery(".index-col-main .more-items-loaded:last .section.group .col-1-of-2").parent().addClass("original-1-of-2");
+                            jQuery(".index-col-main .more-items-loaded:last .section.group .col-1-of-4").addClass("col-1-of-2").removeClass("col-1-of-4");
+                            jQuery(".index-col-main .more-items-loaded:last .section.group .col-1-of-3").addClass("col-2-of-2").removeClass("col-1-of-3");
+                        }
+
+	            	});
+                }else{
+                	jQuery(".loading-more-infinite").remove();
+                }
+            }
+        });
+    });
+
+
+    function add2cart(productID){
+    	 jQuery('#ajax-loader').show();
+	    try {
+	    	jQuery.post( "<?php echo (Mage::getUrl('productranking/index/add2cart/'));?>", { data: productID })
+	    		.done(function( data ) {
+	    		if(data==1) location.reload();
+	    	});
+	        jQuery('#ajax-loader').hide();
+	    } catch (e) {
+	    	 throw e;
+	    }
+	    return true;
+    }
+
+
+
+    function getLists(productID){
+    	jQuery.get( "<?php echo Mage::getBaseUrl()?>multilist/index/getLists/itemID/"+productID, function( data ) {
+    		jQuery( "#lists" ).html( data );
+    	});
+    }
+
+    function saveLists(){
+		var list=[];
+		jQuery("input[class='listCheckbox']").each(function() {
+		    if(this.checked) list.push( this.value );
+		});
+
+		var data = "";
+		var productID= jQuery("#pID").val();
+		var listName=jQuery("#listName").val();
+        data={'listName':listName, 'list':list, 'itemID': productID};
+        //console.log(data);
+		request = jQuery.ajax({
+			type: "POST",
+			url: "<?php echo Mage::getUrl("multilist/index/createList/")?>",
+			data: data
+		});
+
+		request.done(function (response){
+			if(response == 500){
+				alert('Error saving list!');
+			} else {
+				jQuery("#lists").html(response);
+			}
+		});
+	} 
+	
+    function setProductID(id){
+		jQuery("#pID").val(id);
+		getLists(id);
+	}
+</script>
+
+
+
+
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+    </div>
+</div>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

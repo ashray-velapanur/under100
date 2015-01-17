@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GaussDev_CustomerImages>
+            <version>0.1.3</version>
+        </GaussDev_CustomerImages>
+    </modules>
+    <frontend>
+        <routers>
+            <gaussdev_customers>
+                <use>standard</use>
+                <args>
+                    <module>GaussDev_CustomerImages</module>
+                    <frontName>customers</frontName>
+                </args>
+            </gaussdev_customers>
+        </routers>
+    </frontend>
+    <global>
+        <models>
+            <gaussdev_customerimages>
+                <class>GaussDev_CustomerImages_Model</class>
+            </gaussdev_customerimages>
+        </models>
+        <helpers>
+            <gaussdev_customerimages>
+                <class>GaussDev_CustomerImages_Helper</class>
+            </gaussdev_customerimages>
+        </helpers>
+        <resources>
+            <gaussdev_customerimages_setup>
+                <setup>
+                    <module>GaussDev_CustomerImages</module>
+                </setup>
+            </gaussdev_customerimages_setup>
+        </resources>
+        <cache>
+            <types>
+                <customerImage translate="label,description" module="gaussdev_customerimages">
+                    <label>Customer Image Cache</label>
+                    <description>Delete Customer Images cache</description>
+                    <tags>customerImage</tags>
+                </customerImage>
+            </types>
+        </cache>
+    </global>
+    <adminhtml>
+        <events>
+            <adminhtml_cache_refresh_type>
+                <observers>
+                    <customer_image_clean_cache>
+                        <class>gaussdev_customerimages/observer</class>
+                        <method>cleanCache</method>
+                    </customer_image_clean_cache>
+                </observers>
+            </adminhtml_cache_refresh_type>
+        </events>
+    </adminhtml>
+</config>

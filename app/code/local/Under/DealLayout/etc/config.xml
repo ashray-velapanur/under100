@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Under_DealLayout>
+            <version>0.1.0</version>
+        </Under_DealLayout>
+    </modules>
+    <global>
+        <page>
+            <layouts>
+                <Under_DealLayout translate="label">
+                    <label>Deal page</label>
+                    <template>page/Under-Deal.phtml</template>
+                    <layout_handle>page_Under_DealLayout</layout_handle>
+                </Under_DealLayout>
+                <!-- add more layouts here -->
+            </layouts>
+        </page>
+    </global>
+</config>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <product_comments translate="title" module="gaussdev_comments">
+                <model>gaussdev_comments/api</model>
+                <title>Product Comments API</title>
+                <acl>gaussdev_comments</acl>
+                <methods>
+                    <create translate="title" module="gaussdev_comments">
+                        <title>Create product comment</title>
+                    </create>
+                    <like translate="title" module="gaussdev_comments">
+                        <title>Like a comment</title>
+                    </like>
+                    <unlike translate="title" module="gaussdev_comments">
+                        <title>Unlike a comment</title>
+                    </unlike>
+                    <report translate="title" module="gaussdev_comments">
+                        <title>Report a comment</title>
+                    </report>
+                    <getAll translate="title" module="gaussdev_comments">
+                        <title>Get all comments for a product</title>
+                    </getAll>
+                </methods>
+            </product_comments>
+        </resources>
+        <acl>
+            <resources>
+                <gaussdev_comments translate="title" module="gaussdev_comments">
+                    <title>Product Comments API</title>
+                    <sort_order>1</sort_order>
+                </gaussdev_comments>
+            </resources>
+        </acl>
+    </api>
+</config>

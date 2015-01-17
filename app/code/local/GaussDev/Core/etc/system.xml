@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <gaussdev translate="label" module="gaussdev">
+            <label><![CDATA[<div>GaussDev Extensions</div>]]></label>
+            <sort_order>120</sort_order>
+        </gaussdev>
+    </tabs>
+    <sections>
+        <under100_deals translate="label">
+            <label>Deals</label>
+            <tab>gaussdev</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>777</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <items translate="label">
+                    <label>Items</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <items_per_row translate="label">
+                            <label>Items Per Row</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Example: '1,3,2'<br/>
+                            Row #1 = 1 item, Row #2 = 3 items, Row #3 = 2 items.]]></comment>
+                        </items_per_row>
+                    </fields>
+                </items>
+            </groups>
+        </under100_deals>
+    </sections>
+</config>

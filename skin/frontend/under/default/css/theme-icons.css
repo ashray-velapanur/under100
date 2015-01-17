@@ -1,0 +1,707 @@
+/************************************************************************************
+BG PRELOAD
+*************************************************************************************/
+.bg-load{
+    display:none!important;
+    position:absolute;
+    left:-9999px;
+    top:-9999px;
+    background: url("../images/sprite.png") 0 0 no-repeat,
+                url("../images/ajax-loader-min.gif") 0 0 no-repeat,
+                url("../images/preload.gif") 0 0 no-repeat;
+}
+
+/************************************************************************************
+ICONS
+*************************************************************************************/
+span.icon-sprite{
+    display:inline-block;
+    vertical-align:middle;
+}
+/*Navigation arrow*/
+span.nav-arrow-ico{
+    background:url(../images/sprite.png) no-repeat -15px -18px transparent;
+    width:11px;
+    height:7px;
+}
+span.nav-arrow-ico.hover{
+    background-position:-15px -58px!important;
+}
+span.nav-arrowup-ico{
+    background:url(../images/sprite.png) no-repeat -571px -18px transparent;
+    width:11px;
+    height:7px;
+}
+/*Cart empty*/
+span.cart-empty-ico{
+    background:url(../images/sprite.png) no-repeat -50px -12px transparent;
+    width:18px;
+    height:17px;
+}
+span.cart-empty-ico.hover{
+    background-position:-50px -51px!important;
+}
+/*Cart full*/
+span.cart-full-ico{
+    background:url(../images/sprite.png) no-repeat -90px -12px transparent;
+    width:18px;
+    height:17px;
+}
+span.cart-full-ico.hover{
+    background-position:-90px -51px!important;
+}
+/*Cart add to*/
+span.btn-cart-ico{
+    background:url(../images/sprite.png) no-repeat -1012px -12px transparent;
+    width:31px;
+    height:18px;
+}
+/*Grid view*/
+span.view-grid-ico{
+    background:url(../images/sprite.png) no-repeat -135px -15px transparent;
+    width:11px;
+    height:11px;
+}
+span.view-grid-ico.hover{
+    background-position:-135px -54px!important;
+}
+/*Single column view*/
+span.view-single-ico{
+    background:url(../images/sprite.png) no-repeat -178px -15px transparent;
+    width:5px;
+    height:10px;
+}
+span.view-single-ico.hover{
+    background-position:-178px -54px!important;
+}
+/*Category navigation - plus*/
+span.cat-nav-plus-ico{
+    background:url(../images/sprite.png) no-repeat -217px -17px transparent;
+    width:8px;
+    height:8px;
+}
+span.cat-nav-plus-ico.hover{
+    background-position:-217px -56px!important;
+}
+/*Category navigation - minus*/
+span.cat-nav-minus-ico{
+    background:url(../images/sprite.png) no-repeat -217px -60px transparent;
+    width:8px;
+    height:2px;
+}
+/*Add item*/
+span.add-item-ico{
+    background:url(../images/sprite.png) no-repeat -252px -13px transparent;
+    width:18px;
+    height:18px;
+}
+span.add-item-ico.hover{
+    background-position:-252px -52px!important;
+}
+/*FAQ question icon*/
+span.faq-question-ico{
+    background:url(../images/sprite.png) no-repeat -286px -6px transparent;
+    width:30px;
+    height:30px;
+}
+span.faq-question-ico.hover{
+    background-position:-286px -45px!important;
+}
+/*FAQ arrow icon*/
+span.faq-arrow-ico{
+    background:url(../images/sprite.png) no-repeat -335px -19px transparent;
+    width:11px;
+    height:7px;
+}
+span.faq-arrow-ico.hover{
+    background-position:-335px -58px!important;
+}
+/*Category navigation arrow*/
+span.cat-nav-arrow-ico{
+    background:url(../images/sprite.png) no-repeat -458px -16px transparent;
+    width:7px;
+    height:11px;
+}
+span.cat-nav-arrow-ico.hover{
+    background-position:-458px -55px!important;
+}
+/*Close/Remove small*/
+span.close-small-ico{
+    background:url(../images/sprite.png) no-repeat -495px -16px transparent;
+    width:11px;
+    height:11px;
+}
+span.close-small-ico.hover{
+    background-position:-495px -56px!important;
+}
+/*Address icon*/
+span.address-ico{
+    background:url(../images/sprite.png) no-repeat -686px -6px transparent;
+    width:30px;
+    height:27px;
+}
+/*Email icon*/
+span.email-ico{
+    background:url(../images/sprite.png) no-repeat -728px -13px transparent;
+    width:25px;
+    height:16px;
+}
+/*Phone icon*/
+span.phone-ico{
+    background:url(../images/sprite.png) no-repeat -769px -9px transparent;
+    width:25px;
+    height:25px;
+}
+/*Cart v2 icon*/
+span.cart-v2-ico{
+    background:url(../images/sprite.png) no-repeat -808px -10px transparent;
+    width:23px;
+    height:22px;
+}
+/*User profile small icon*/
+span.profile-small-ico{
+    background:url(../images/sprite.png) no-repeat -848px -12px transparent;
+    width:23px;
+    height:19px;
+}
+/*Price drag*/
+span.price-drag-ico{
+    background:url(../images/sprite.png) no-repeat -892px -12px transparent;
+    width:18px;
+    height:18px;
+}
+/*Favourite small icon*/
+span.favourite-small-ico{
+    background:url(../images/sprite.png) no-repeat -932px -13px transparent;
+    width:18px;
+    height:16px;
+}
+/*Favourite extra small icon*/
+span.favourite-xsmall-ico{
+    background:url(../images/sprite.png) no-repeat -536px -17px transparent;
+    width:11px;
+    height:9px;
+}
+/*Comments icon*/
+span.comments-ico{
+    background:url(../images/sprite.png) no-repeat -973px -12px transparent;
+    width:19px;
+    height:17px;
+    margin:1px 0 0 0;
+}
+.product-list-comment-container:hover span.comments-ico{
+    background:url(../images/sprite.png) no-repeat -1101px -38px transparent;
+    width:19px;
+    height:17px;
+    margin:1px 0 0 0;
+}
+/*Under 100 small icon*/
+span.under-100-small-ico{
+    background:url(../images/sprite.png) no-repeat -967px -47px transparent;
+    width:27px;
+    height:27px;
+}
+/*Cart minus icon*/
+span.cart-minus-ico{
+    background:url(../images/sprite.png) no-repeat -935px -99px transparent;
+    width:9px;
+    height:2px;
+}
+/*Cart plus icon*/
+span.cart-plus-ico{
+    background:url(../images/sprite.png) no-repeat -975px -96px transparent;
+    width:9px;
+    height:9px;
+}
+/*Favourite white big icon*/
+span.likeIcoContainer {
+    display: inline-block;
+    vertical-align: middle;
+}
+span.favourite-white-big-ico{
+    background:url(../images/sprite.png) no-repeat -51px -131px transparent;
+    height: 17px;
+    width: 20px;
+}
+.product-list-like-container a:hover span.favourite-white-big-ico{
+    background:url("../images/sprite.png") no-repeat -51px -155px transparent;
+    height: 17px;
+    width: 20px;
+}
+.product-list-img-social span.favourite-white-big-ico.activ-fav{
+    background: url("../images/sprite.png") no-repeat -51px -155px transparent;
+    height: 17px;
+    width: 20px;
+}
+/*Favourite red big icon*/
+span.favourite-white-big-ico.activ-fav{
+    background:url(../images/sprite.png) no-repeat -682px -128px transparent;
+    width:29px;
+    height:24px;
+}
+/*Share list icon*/
+span.share-list-ico{
+    background:url(../images/sprite.png) no-repeat -1066px -12px transparent;
+    width:18px;
+    height:18px;
+}
+.img-overlay-list:hover span.share-list-ico{
+    background:url(../images/sprite.png) no-repeat -1102px -12px transparent;
+    width:18px;
+    height:18px;
+}
+/*Share white big icon*/
+span.share-white-big-ico{
+    background:url(../images/sprite.png) no-repeat -133px -131px transparent;
+    width:18px;
+    height:14px;
+}
+.product-social-container .product-share-open span.share-white-big-ico{
+    background:url(../images/sprite.png) no-repeat -292px -156px transparent;
+    width:25px;
+    height:18px;
+}
+
+
+.img-overlay-share:hover span.share-white-big-ico,
+span.share-white-big-ico.activeShare{
+    background:url(../images/sprite.png) no-repeat -133px -156px transparent;
+    width:18px;
+    height:14px;
+}
+/*Favourite grey big icon*/
+span.favourite-grey-big-ico{
+    background:url(../images/sprite.png) no-repeat -208px -130px transparent;
+    width:25px;
+    height:22px;
+}
+/*Favourite red big icon*/
+span.favourite-grey-big-ico.activ-fav{
+    background:url(../images/sprite.png) no-repeat -682px -128px transparent;
+    width:29px;
+    height:24px;
+}
+/*Share grey big icon*/
+span.share-grey-big-ico{
+    background:url(../images/sprite.png) no-repeat -292px -127px transparent;
+    width:25px;
+    height:18px;
+}
+/*Back to top icon*/
+span.back-top-ico{
+    background:url(../images/sprite.png) no-repeat -366px -131px transparent;
+    width:29px;
+    height:18px;
+}
+/*Gift icon*/
+span.gift-ico{
+    background:url(../images/sprite.png) no-repeat -445px -125px transparent;
+    width:32px;
+    height:30px;
+}
+span.search-add-ico{
+    background:url(../images/sprite.png) no-repeat -528px -126px transparent;
+    width:29px;
+    height:25px;
+}
+span.chat-white-big-ico{
+    background:url(../images/sprite.png) no-repeat -607px -127px transparent;
+    width:25px;
+    height:25px;
+}
+/*search alt black*/
+span.search-open-ico{
+    background:url(../images/sprite.png) no-repeat -642px -13px transparent;
+    width:25px;
+    height:20px;
+}
+/*search arrow*/
+span.search-drop-ico{
+    background:url(../images/sprite.png) no-repeat -536px -58px transparent;
+    width:11px;
+    height:7px;
+    vertical-align:top;
+    margin:9px 0 0 0;
+}
+span.search-drop-ico.active{
+    background:url(../images/sprite.png) no-repeat -572px -58px transparent;
+}
+
+
+/*SLIDER ICONS*/
+/*Slider arrow direction left version 1*/
+span.slide-left-v1-ico{
+    background:url(../images/sprite.png) no-repeat -376px -16px transparent;
+    width:7px;
+    height:11px;
+}
+span.slide-left-v1-ico.hover{
+    background-position:-376px -55px!important;
+}
+/*Slider arrow direction right version 1*/
+span.slide-right-v1-ico{
+    background:url(../images/sprite.png) no-repeat -417px -16px transparent;
+    width:7px;
+    height:11px;
+}
+span.slide-right-v1-ico.hover{
+    background-position:-417px -55px!important;
+}
+/*Slider arrow direction left version 2*/
+span.slide-left-v2-ico{
+    background:url(../images/sprite.png) no-repeat -19px -203px transparent;
+    width:41px;
+    height:72px;
+}
+/*Slider arrow direction right version 2*/
+span.slide-right-v2-ico{
+    background:url(../images/sprite.png) no-repeat -100px -203px transparent;
+    width:41px;
+    height:72px;
+}
+/*Slider arrow direction left version 3*/
+span.slide-left-v3-ico{
+    background:url(../images/sprite.png) no-repeat -253px -214px transparent;
+    width:53px;
+    height:53px;
+}
+/*Slider arrow direction right version 3*/
+span.slide-right-v3-ico{
+    background:url(../images/sprite.png) no-repeat -335px -214px transparent;
+    width:53px;
+    height:53px;
+}
+/*Slider close*/
+span.slide-close-ico{
+    background:url(../images/sprite.png) no-repeat -176px -216px transparent;
+    width:49px;
+    height:49px;
+}
+/*PROFILE ICONS*/
+/*Profile icon*/
+span.acc-profile-icon{
+    background:url(../images/sprite.png) no-repeat -9px -328px transparent;
+    width:32px;
+    height:32px;
+}
+span.acc-profile-icon.current{
+    background-position:-9px -378px!important;
+}
+/*Comments icon*/
+span.acc-comments-icon{
+    background:url(../images/sprite.png) no-repeat -61px -330px transparent;
+    width:32px;
+    height:30px;
+}
+span.acc-comments-icon.current{
+    background-position:-61px -380px!important;
+}
+/*Liked icon*/
+span.acc-liked-icon{
+    background:url(../images/sprite.png) no-repeat -110px -331px transparent;
+    width:32px;
+    height:29px;
+}
+span.acc-liked-icon.current{
+    background-position:-110px -381px!important;
+}
+/*Add icon*/
+span.acc-add-icon{
+    background:url(../images/sprite.png) no-repeat -160px -328px transparent;
+    width:32px;
+    height:32px;
+}
+span.acc-add-icon.current{
+    background-position:-160px -378px!important;
+}
+/*Following icon*/
+span.acc-following-icon{
+    background:url(../images/sprite.png) no-repeat -211px -328px transparent;
+    width:32px;
+    height:32px;
+}
+span.acc-following-icon.current{
+    background-position:-211px -378px!important;
+}
+/*Followers icon*/
+span.acc-followers-icon{
+    background:url(../images/sprite.png) no-repeat -260px -328px transparent;
+    width:32px;
+    height:32px;
+}
+span.acc-followers-icon.current{
+    background-position:-260px -378px!important;
+}
+/*Wish list icon*/
+span.acc-wishlist-icon{
+    background:url(../images/sprite.png) no-repeat -310px -330px transparent;
+    width:32px;
+    height:30px;
+}
+span.acc-wishlist-icon.current{
+    background-position:-310px -380px!important;
+}
+/*Previous purchase icon*/
+span.acc-prev-purchase-icon{
+    background:url(../images/sprite.png) no-repeat -363px -328px transparent;
+    width:26px;
+    height:32px;
+}
+span.acc-prev-purchase-icon.current{
+    background-position:-363px -378px!important;
+}
+/*Rewards icon*/
+span.acc-rewards-icon{
+    background:url(../images/sprite.png) no-repeat -410px -330px transparent;
+    width:32px;
+    height:30px;
+}
+span.acc-rewards-icon.current{
+    background-position:-410px -380px!important;
+}
+/*Notifications icon*/
+span.acc-notifications-icon{
+    background:url(../images/sprite.png) no-repeat -460px -338px transparent;
+    width:32px;
+    height:22px;
+}
+span.acc-notifications-icon.current{
+    background-position:-460px -388px!important;
+}
+span.acc-bell-icon{
+    background:url(../images/sprite.png) no-repeat -1098px -65px transparent;
+    width:22px;
+    height:23px;
+    position:relative;
+}
+/*Settings icon*/
+span.acc-settings-icon{
+    background:url(../images/sprite.png) no-repeat -510px -328px transparent;
+    width:32px;
+    height:32px;
+}
+span.acc-settings-icon.current{
+    background-position:-510px -378px!important;
+}
+/*Logout icon*/
+span.acc-logout-icon{
+    background:url(../images/sprite.png) no-repeat -558px -328px transparent;
+    width:32px;
+    height:32px;
+}
+span.acc-logout-icon.current{
+    background-position:-558px -378px!important;
+}
+/*People icon*/
+span.acc-people-icon{
+    background:url(../images/sprite.png) no-repeat -610px -328px transparent;
+    width:32px;
+    height:32px;
+}
+span.acc-people-icon.current{
+    background-position:-610px -378px!important;
+}
+
+
+/*Social icons SMALL*/
+span.rss-icon-small{
+    background:url(../images/sprite.png) no-repeat -813px -132px transparent;
+    width:17px;
+    height:18px;
+}
+span.twitter-icon-small{
+    background:url(../images/sprite.png) no-repeat -852px -134px transparent;
+    width:19px;
+    height:16px;
+}
+span.facebook-icon-small{
+    background:url(../images/sprite.png) no-repeat -895px -130px transparent;
+    width:9px;
+    height:20px;
+}
+span.google-icon-small{
+    background:url(../images/sprite.png) no-repeat -933px -133px transparent;
+    width:16px;
+    height:16px;
+}
+span.pinterest-icon-small{
+    background:url(../images/sprite.png) no-repeat -972px -131px transparent;
+    width:18px;
+    height:18px;
+}
+span.instagram-icon-small{
+    background:url(../images/sprite.png) no-repeat -772px -131px transparent;
+    width:18px;
+    height:18px;
+}
+/*Social icons LARGE*/
+span.instagram-icon-large{
+    background:url(../images/sprite.png) no-repeat -862px -202px transparent;
+    width:37px;
+    height:36px;
+}
+.pliso-bottom span.instagram-icon-large{
+    background:url(../images/sprite.png) no-repeat -1012px -203px transparent;
+    width:37px;
+    height:37px;
+}
+.pliso-bottom span.instagram-icon-large:hover{
+    background:url(../images/sprite.png) no-repeat -1051px -203px transparent;
+    width:37px;
+    height:37px;
+}
+.content-login-right span.instagram-icon-large{
+    background:url(../images/sprite.png) no-repeat -862px -272px transparent;
+    width:37px;
+    height:36px;
+}
+span.twitter-icon-large{
+    background:url(../images/sprite.png) no-repeat -697px -202px transparent;
+    width:45px;
+    height:36px;
+}
+.pliso-bottom span.twitter-icon-large{
+    background:url(../images/sprite.png) no-repeat -1012px -86px transparent;
+    width:37px;
+    height:37px;
+}
+.pliso-bottom span.twitter-icon-large:hover{
+    background:url(../images/sprite.png) no-repeat -1051px -86px transparent;
+    width:37px;
+    height:37px;
+}
+span.facebook-icon-large{
+    background:url(../images/sprite.png) no-repeat -634px -203px transparent;
+    width:16px;
+    height:36px;
+}
+.pliso-bottom span.facebook-icon-large{
+    background:url(../images/sprite.png) no-repeat -1012px -47px transparent;
+    width:37px;
+    height:37px;
+}
+.pliso-bottom span.facebook-icon-large:hover{
+    background:url(../images/sprite.png) no-repeat -1051px -47px transparent;
+    width:37px;
+    height:37px;
+}
+span.google-icon-large{
+    background:url(../images/sprite.png) no-repeat -779px -203px transparent;
+    width:42px;
+    height:36px;
+}
+.pliso-bottom span.google-icon-large{
+    background:url(../images/sprite.png) no-repeat -1012px -125px transparent;
+    width:37px;
+    height:37px;
+}
+.pliso-bottom span.google-icon-large:hover{
+    background:url(../images/sprite.png) no-repeat -1051px -125px transparent;
+    width:37px;
+    height:37px;
+}
+span.pinterest-icon-large{
+    background:url(../images/sprite.png) no-repeat -942px -202px transparent;
+    width:37px;
+    height:36px;
+}
+.pliso-bottom span.pinterest-icon-large{
+    background:url(../images/sprite.png) no-repeat -1012px -164px transparent;
+    width:37px;
+    height:37px;
+}
+.pliso-bottom span.pinterest-icon-large:hover{
+    background:url(../images/sprite.png) no-repeat -1051px -164px transparent;
+    width:37px;
+    height:37px;
+}
+
+/*PROFILE LIST ICONS*/
+/*Save icon*/
+span.list-save-icon{
+    background:url(../images/sprite.png) no-repeat -491px -230px transparent;
+    width:27px;
+    height:20px;
+}
+/*Delete icon*/
+span.list-delete-icon{
+    background:url(../images/sprite.png) no-repeat -422px -230px transparent;
+    width:24px;
+    height:23px;
+}
+
+/*PROFILE NOTIFICATION ICONS*/
+span.list-notification-save-icon{
+     background:url(../images/sprite.png) no-repeat -968px -286px transparent;
+     width:32px;
+     height:23px;
+ }
+span.list-notification-delete-icon{
+    background:url(../images/sprite.png) no-repeat -977px -332px transparent;
+    width:23px;
+    height:23px;
+}
+
+/*PAYMENT ICONS*/
+
+span.visa-card{
+    background:url(../images/sprite-payment.png) no-repeat 0px 0px transparent;
+    width:48px;
+    height:30px;
+}
+span.mastercard-card{
+    background:url(../images/sprite-payment.png) no-repeat 0px -40px transparent;
+    width:48px;
+    height:30px;
+}
+span.americanexpress-card{
+    background:url(../images/sprite-payment.png) no-repeat 0px -80px transparent;
+    width:48px;
+    height:30px;
+}
+span.paypal-card{
+    background:url(../images/sprite-payment.png) no-repeat 0px -120px transparent;
+    width:48px;
+    height:30px;
+}
+span.card-nums{
+    background:url(../images/sprite.png) no-repeat -873px -389px transparent;
+    width:127px;
+    height:31px;
+}
+
+
+/*ACCOUNT PAGE ICONS*/
+
+span.AccountDashboard{
+    background:url(../images/sprite.png) no-repeat -9px -328px transparent;
+    width:32px;
+    height:32px;
+}
+span.AccountDashboard.current{
+    background-position:-9px -378px!important;
+}
+span.AccountInformation{
+    background:url(../images/sprite.png) no-repeat -510px -328px transparent;
+    width:32px;
+    height:32px;
+}
+.current span.AccountInformation{
+    background-position:-510px -378px!important;
+}
+span.MyOrders{
+    background:url(../images/sprite.png) no-repeat -363px -328px transparent;
+    width:26px;
+    height:32px;
+}
+.current span.MyOrders{
+    background-position:-363px -378px!important;
+}
+span.MyProductReviews{
+    background:url(../images/sprite.png) no-repeat -410px -330px transparent;
+    width:32px;
+    height:30px;
+}
+.current span.MyProductReviews{
+    background-position:-410px -380px!important;
+}

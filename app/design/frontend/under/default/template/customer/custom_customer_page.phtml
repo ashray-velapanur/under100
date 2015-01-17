@@ -1,0 +1,70 @@
+<?php
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('Public Profile') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<div class="profile-settings-content-inner clearfix">
+    <form action="<?php echo $this->getUrl('customers/customer/editPost') ?>" enctype="multipart/form-data" method="post" id="form-validate" autocomplete="off">
+        <div class="profile-settings-col">
+            <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+            <div class="settings-section">
+                <div class="profile-image-container input-control">
+                    <label for="profile_image">Profile Image</label>
+                    <div class="input-box clearfix">
+                        <div class="input-box-prof-image-left">
+                            <img src="<?php echo Mage::helper('gaussdev_customerimages/image')->init($customer)->resize(128) ?>" />
+                        </div>
+                        <div class="input-box-prof-image-right">
+                            <div class="fileUploadProfContainer">
+                                <span class="profImgBtn">Change Photo</span>
+                                <input id="profileImage" class="input-file" type="file" name="profile_image">
+                            </div>
+                            <input id="uploadFileShow" placeholder="" disabled="disabled" />
+                                                           <span class="del-img-container">
+                                                                <input id="profile_image_delete" class="checkbox" type="checkbox" value="1" name="profile_image[delete]">
+                                                                <label for="profile_image_delete">Delete Image</label>
+                                                           </span>
+                        </div>
+                    </div>
+                    <script>
+                        //<![CDATA[
+                        jQuery(function(){
+                            document.getElementById("profileImage").onchange = function () {
+                                document.getElementById("uploadFileShow").value = this.value;
+                                jQuery("#uploadFileShow").show();
+                            };
+                        });
+                        //]]>
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="profile-settings-col">
+            <div class="settings-section">
+                <div class="input-control">
+                    <label>Preferred Username:</label>
+                    <input name="username" value="<?php echo $this->escapeHtml($customer->getUsername()) ?>" class="input-text" type="text">
+                </div>
+                <div class="input-control">
+                    <label>Public Profile Bio:</label>
+                    <textarea name="bio" class="textarea"><?php echo $this->escapeHtml($customer->getBio()) ?></textarea>
+                </div>
+                <div class="button-sets button-sets-alt clearfix">
+                    <button type="submit" class="white-btn-profile">Save</button>
+                    <p>
+                        Your <span><a href="/profile">Public Profile Preview</a></span> will be shown on the top of the page next to your picture.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+</div>
+
+<script type="text/javascript">
+</script>

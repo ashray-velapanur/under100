@@ -1,0 +1,395 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<div class="ajax-loader"></div>
+<div class="site-wrap">
+<div class="bg-load" style="display:none;"></div>
+<div class="header-container">
+<div class="header-container-inner">
+<div class="header-inner clearfix">
+<div class="header-inner-logo">
+
+
+    <?php if ($this->getIsHomePage()):?>
+        <h1 class="logo-container">
+            <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>">
+                <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+            </a>
+        </h1>
+    <?php else:?>
+        <h1 class="logo-container">
+            <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>">
+                <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+            </a>
+        </h1>
+    <?php endif?>
+
+</div>
+<div class="header-inner-menu">
+    <ul class="header-main-menu">
+        <li>
+            <a href="<?php echo $this->getUrl('') ?>">Home</a>
+        </li>
+        <li>
+            <a href="<?php echo $this->getUrl('shop') ?>">Shop <span class="icon-sprite nav-arrow-ico"></span></a>
+            <ul class="header-sub-menu">
+                <li>
+                    <a href="<?php echo $this->getUrl('shop') ?>">
+                        All
+<!--                        (--><?php //echo $products_count = Mage::getModel('catalog/category')->load(37)->getProductCount();?><!--)-->
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->getUrl('deals') ?>">
+                        Deals
+<!--                        (--><?php //echo $products_count = Mage::getModel('catalog/category')->load(37)->getProductCount();?><!--)-->
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->getUrl('bestsellers') ?>">Best Sellers</a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->getUrl('newarrivals') ?>">New Arrivals</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="no-target">Help <span class="icon-sprite nav-arrow-ico"></span></a>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('help-menu-header')->toHtml(); ?>
+        </li>
+    </ul>
+
+<!-- responsive menu -->
+
+    <div class="responsive-main-menu clearfix">
+        <div id="dl-menu" class="dl-menuwrapper">
+            <button class="dl-trigger">Main Menu</button>
+            <ul class="dl-menu">
+                <li>
+                    <a href="<?php echo $this->getUrl('') ?>">Home</a>
+                </li>
+                <li>
+                    <a href="#">Shop</a>
+                    <ul class="dl-submenu">
+                        <li><a href="<?php echo $this->getUrl('shop') ?>">All</a></li>
+                        <li><a href="<?php echo $this->getUrl('deals') ?>">Deals</a></li>
+                        <li><a href="<?php echo $this->getUrl('bestsellers') ?>">Best Sellers</a></li>
+                        <li><a href="<?php echo $this->getUrl('newarrivals') ?>">New Arrivals</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Help</a>
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('help-menu-header')->toHtml(); ?>
+                </li>
+            </ul>
+        </div>
+
+<!-- responsive menu END-->
+
+
+    </div>
+</div>
+<?php if(Mage::getSingleton('customer/session')->isLoggedIn()):?>
+<div class="header-inner-cart">
+    <div class="header-cart-action">
+        Cart <span class="icon-sprite cart-empty-ico"></span>
+		<?php
+			$count = $this->helper('checkout/cart')->getSummaryCount();
+			$total = $this->helper('checkout/cart')->getQuote()->getSubtotal();
+			$itemsVisible = Mage::getSingleton('checkout/session')->getQuote()->getAllVisibleItems();
+		?>
+        <span class="header-cart-quantity"><?php echo $count?:'0'?> item(s) - <?php echo $this->helper('core')->formatPrice($total, false);?></span>
+        <div class="header-cart-list-container">
+            <div class="header-cart-list">
+                <ul>
+				<?php foreach ($itemsVisible as $item):  $product = Mage::getModel('catalog/product')->load($item->getProductId()); ?>
+                    <li class="clearfix">
+                        <a href="<?php echo $product->getProductUrl();?>">
+                            <div class="header-cart-list-col1">
+                                <img src="<?php echo  $this->helper('catalog/image')->init($product, 'small_image')->resize(36, 36)?>" />
+                            </div>
+                            <div class="header-cart-list-col2">
+                                <?php echo $this->escapeHtml(substr($product->getName(), 0,26))?>
+                            </div>
+                            <div class="header-cart-list-col3">
+                                <?php echo $this->helper('core')->formatPrice($item->getPrice(), false);?>
+                                <span>(<?php echo $item->getQty() ?>)</span>
+                            </div>
+                        </a>
+                    </li>
+				<?php endforeach;?>
+                </ul>
+                <a class="header-checkout-btn" href="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?><?php //echo str_replace("onepage", "onestep", Mage::helper('checkout/url')->getCheckoutUrl()); ?>">CHECKOUT</a>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>
+
+<div class="header-inner-account <?php if(!Mage::getSingleton('customer/session')->isLoggedIn()):?><?php else: ?>header-inner-account-loggedin<?php endif;?>">
+    <div class="header-account-action">
+        <ul class="header-main-menu">
+            <li>
+                <a href="#" class="no-target">
+                    <?php if(!Mage::getSingleton('customer/session')->isLoggedIn()):?>
+
+                    <?php else: ?>
+                        <div class="header-account-avatar" onclick="location.href='/profile';">
+                            <img src="<?php echo Mage::helper('gaussdev_customerimages/image')->init(Mage::getSingleton('customer/session')->getCustomer())->resize(25) ?>" />
+                        </div>
+                    <?php endif;?>
+                    My account <span class="icon-sprite nav-arrow-ico"></span>
+                </a>
+                <?php echo $this->getChildHtml('topLinks') ?>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="header-inner-user-actions">
+
+<?php if(!Mage::getSingleton('customer/session')->isLoggedIn()):?>
+<div class="header-loged-out-user">
+	<span class="icon-sprite profile-small-ico"></span> Welcome Guest!
+</div>
+<?php else: ?>
+<div class="header-loged-in-user">
+    <a href="#" class="open-user-upload">ADD ITEM <span class="icon-sprite add-item-ico"></span></a>
+<!-- UPLOAD PRODUCT IMAGE-->
+
+<div class="header-upload-container">
+    <div class="header-upload-tabs-container">
+        <div class="header-upload-tabs clearfix">
+            <div class="upload-tab active" name="#utab1">FROM WEBSITE</div>
+            <div class="upload-tab" name="#utab2">UPLOAD</div>
+        </div>
+    <div class="header-upload-tab-content">
+    <div class="upload-tab-content" id="utab1">
+
+    <!-- prije uploada -->
+    <!-- forma za url -->
+    <div class="upload-before">
+        <p>Enter or copy/paste item URL:</p>
+        <form id="parserform" action="<?php echo $this->getUrl('customer_products/products/parse')?>" >
+            <div class="web-upload-container clearfix">
+                <div class="web-upload-input">
+                    <input required name="url" type="text" value=""/>
+                </div>
+                <div class="web-upload-submit">
+                    <input type="submit" value="ADD ITEM" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        jQuery(function () {
+            jQuery("#parserform").submit(function (e) {
+                var postData = jQuery(this).serializeArray();
+                var formURL = jQuery(this).attr("action");
+                jQuery.ajax(
+                    {
+                        url: formURL,
+                        type: "GET",
+                        data: postData,
+                        success: function (data, textStatus, jqXHR) {
+                            var redirect = jqXHR.getResponseHeader('Product-Url-Redirect');
+                            if (redirect !== null) {
+                                window.location.href = redirect;
+                            }
+                            jQuery('#parse-after').html(data).show();
+                            jQuery(".upload-pars-loading").remove();
+                            jQuery("#resetparserform").show();
+                            jQuery(".upload-bookmarklet-container").hide();
+                            jQuery('#utab1').find('.upload-before').hide();
+                            jQuery('#utab1').find('.upload-success-msg').show();
+                            jQuery("#utab1 :checkbox, #utab1 select").uniform();
+                            jQuery.uniform.update();
+                            if (jQuery('.item-image-scroll ul li').length > 12) {
+                                jQuery('.item-image-scroll').slimScroll({
+                                    height: '136px'
+                                });
+                            }
+                        }
+                    });
+                e.preventDefault();
+            });
+            jQuery('#resetparserform').click(function (e) {
+                jQuery(this).hide();
+                jQuery('#parse-after').hide();
+                jQuery('#utab1').find('.upload-before').show();
+                jQuery('#utab1').find('.upload-bookmarklet-container').show();
+                jQuery('#utab1').find('.upload-success-msg').hide();
+                e.preventDefault();
+            });
+        });
+
+    </script>
+
+    <a href="#" id="resetparserform" style="display:none;!important;">Back</a>
+    <!-- prije uploada END -->
+    <!-- nakon uploada/hvatanja slika, mices gornji dio a prikazujes ovaj dolje -->
+    <!-- nakon uploada -->
+
+    <div class="upload-after">
+    <p class="upload-success-msg">PHOTOS SUCCESSFULLY UPLOADED, <span class="red-txt">NOW CHOOSE THE PHOTOS YOU WANT AND ADD SOME DETAILS!</span></p>
+
+        <div id="parse-after"></div>
+
+    <!-- Product details uploaded from user computer END -->
+
+    </div>
+
+    <!-- nakon uploada END -->
+
+    <div class="upload-bookmarklet-container clearfix">
+        <a style="text-transform: uppercase;" title="Add Item To Under100" href="<?php echo Mage::helper('gaussdev_parser')->generateBookmarklet()?>" class="bookmarklet-link">Add Item To <span class="icon-sprite under-100-small-ico"><span style="display: none!important;">Under100</span></span></a>
+        <p class="bookmarklet-txt">
+            For fast adding of items from other websites use this bookmarklet. To install it, drag it to your browser's <span class="bold-txt">Bookmarks</span> bar
+        </p>
+    </div>
+
+    </div>
+    <div class="upload-tab-content" id="utab2">
+
+        <a href="#" id="resetuploadform" style="display:none;!important;">Back</a>
+        <!-- prije uploada -->
+
+        <div class="upload-before">
+            <div class="local-upload-container clearfix">
+                <form method="post" action="<?php echo $this->getUrl('customer_products/products/uploadImage'); ?>" id="local-files-upload-form" class="clearfix">
+                    <div class="local-upload-input">
+                        <input type="text" class="local-file-up-display" placeholder="Upload item photo from your hard drive*" readonly>
+                    </div>
+                    <div class="local-upload-submit">
+                        <div class="local-files-upload-overlay">
+                            <div class="local-file-up">
+                                    <span>
+                                        Browse&hellip; <input type="file" id="local-user-upload-file" name="images[]" multiple accept="image/*" />
+                                    </span>
+                            </div>
+                            <input type="submit" value="Upload" class="upload-btn-submit"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <p class="notice-txt">
+                <span class="notice-asterisk">*</span>You can upload multiple photos of your item by holding <span class="bold-txt">SHIFT key</span> while selecting photos for upload
+            </p>
+        </div>
+
+        <!-- prije uploada END -->
+        <!-- kada se obavi upload sakrivas gornji dio i prikazujes ovaj donji -->
+        <!-- nakon uploada -->
+
+        <div class="upload-after">
+            <p class="upload-success-msg">PHOTOS SUCCESSFULLY UPLOADED, <span class="red-txt">NOW ADD SOME DETAILS!</span></p>
+                <div id="upload-after"></div>
+        </div>
+        <script>
+            jQuery(function () {
+                jQuery("#local-files-upload-form").submit(function (e) {
+                    var formURL = jQuery(this).attr("action");
+                    jQuery.ajax(
+                        {
+                            url: formURL,
+                            type: "POST",
+                            data: new FormData(this),
+                            processData: false,
+                            contentType: false,
+                            success: function (data, textStatus, jqXHR) {
+                                jQuery('#upload-after').html(data).show();
+                                jQuery("#resetuploadform").show();
+                                jQuery(".upload-pars-loading").remove();
+                                jQuery('#utab2').find('.upload-before').hide();
+                                jQuery('#utab2').find('.upload-success-msg').show();
+                                jQuery("#utab2 :checkbox, #utab2 select").uniform();
+                                jQuery.uniform.update();
+                                if (jQuery('.item-image-scroll-local ul li').length > 12) {
+                                    jQuery('.item-image-scroll-local').slimScroll({
+                                        height: '136px'
+                                    });
+                                }
+
+                            }
+                        });
+                    e.preventDefault();
+                });
+                jQuery('#resetuploadform').click(function (e) {
+                    jQuery(this).hide();
+                    jQuery('#upload-after').hide();
+                    jQuery('#utab2').find('.upload-before').show();
+                    jQuery('#utab2').find('.upload-success-msg').hide();
+                    e.preventDefault();
+                });
+            });
+        </script>
+
+        <!-- nakon uploada END -->
+
+    </div>
+    </div>
+</div>
+</div>
+
+<!-- UPLOAD PRODUCT IMAGE END-->
+</div>
+<?php endif;?>
+</div>
+<div class="header-inner-search clearfix">
+    <?php echo $this->getChildHtml('topSearch') ?>
+</div>
+
+
+<?php if(Mage::getSingleton('core/session')->getProductAddedToCartFlag(true)):   ?>
+<div class="added-popup" id="popupMessage">
+    <span><?php echo $this->escapeHtml(Mage::getSingleton('core/session')->getProductAddedToCartName(true))?></span> was added to your shopping cart.
+</div>
+
+<script>
+   jQuery(function(){
+       jQuery(".added-popup").slideDown(1000);
+       setTimeout(function(){
+           jQuery(".added-popup").slideUp(1000);
+       },6000);
+   });
+</script>
+<?php endif;?>
+
+</div>
+</div>
+</div>
+
+
+
+
+<?php //echo $this->getChildHtml('welcome') ?> <?php echo $this->getAdditionalHtml() ?>
+
+<?php //echo $this->getChildHtml('store_language') ?>
+
+<?php //cho $this->getChildHtml('topMenu') ?>

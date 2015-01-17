@@ -1,0 +1,61 @@
+<?php
+/**
+ * Solvingmagento_OneStepCheckout order submit button template
+ *
+ * PHP version 5.3
+ *
+ * @category  Solvingmagento
+ * @package   Solvingmagento_OneStepCheckout
+ * @author    Magento Core Team <core@magentocommerce.com>
+ * @author    Oleg Ishenko <oleg.ishenko@solvingmagento.com>
+ * @copyright Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com), 2014 Oleg Ishenko
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @version   GIT: <0.1.0>
+ * @link      http://www.solvingmagento.com/
+ *
+ */
+?>
+
+<div class="btn-cart-update-container" style="display:inline-block;">
+    <div style="display: none">
+        <div id="review-submit-please-wait" style="display: none">
+            <span>
+                <img
+                    src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>"
+                    alt="<?php echo $this->__('Saving data, please wait...') ?>"
+                    title="<?php echo $this->__('Saving data, please wait...') ?>" class="v-middle" />
+            </span>
+        </div>
+    </div>
+    <button
+        type="button"
+        class="cart-btn-update"
+        id="order_submit_button">
+
+        <span><span><span class="cart-btn-update"><?php echo $this->__('Update order before placing') ?></span></span></span>
+    </button>
+
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var buttonUpdateText = '<?php echo $this->__('Update order before placing') ?>',
+        buttonSaveText = '<?php echo $this->__('Place order') ?>',
+        buttonWaitText = '<?php echo $this->__('Please wait...') ?>';
+        //]]>
+</script>
+
+<?php
+$baseURL = Mage::getBaseUrl();
+?>
+
+
+<script>
+    jQuery(function(){
+        $(document).on("click",".checkout-finish-btn",function() {
+            if(jQuery('#p_method_paypal_express').is(':checked')) {
+                location.href="<?php echo $baseURL; ?>paypal/express/start/";
+            }
+        });
+    });
+</script>

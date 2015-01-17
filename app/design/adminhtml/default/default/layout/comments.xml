@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_comments_grid_index>
+        <reference name="content">
+            <block type="gaussdev_comments/adminhtml_catalog_grid" name="comments_grid" template="widget/grid.phtml"/>
+        </reference>
+    </adminhtml_comments_grid_index>
+</layout>

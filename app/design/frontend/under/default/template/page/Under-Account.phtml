@@ -1,0 +1,181 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+//$response = Mage::app()->getFrontController()->getResponse();
+//$response->setRedirect(Mage::getUrl(null, array('_direct' => 'profile')));
+//$response->sendHeadersAndExit();
+$likeHelper=Mage::helper('GaussDev_Like');
+$followHelper=Mage::helper('GaussDev_Follow');
+
+// Collection of liked products:
+$productIds=array();
+foreach ($likeHelper->getLiked() as $liked) $productIds[]=$liked;
+$attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+$collection = Mage::getModel('catalog/product')
+    ->getCollection()
+    ->addAttributeToFilter('entity_id', array('in' => $productIds))
+    ->addAttributeToSelect('*');
+
+
+//Followers
+$followers=$followHelper->getFollowers();
+$followersIDs=array();
+foreach ($followers as $follower) {
+    $followersIDs[]= $follower;
+}
+$followersCollection = Mage::getModel('customer/customer')->getCollection()
+    ->addAttributeToFilter('entity_id', array('in' => $followersIDs))
+    ->addAttributeToSelect('*');
+
+$following=$followHelper->getFollowing();
+
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="content-wrap">
+            <div class="content-container">
+                <div class="main-container col2-left-layout profile-layout">
+                    <div class="main">
+                        <?php echo $this->getChildHtml('breadcrumbs') ?>
+                        <div class="page-title-global">
+                            <h1><?php echo $this->__('My Account') ?></h1>
+                        </div>
+                        <?php echo $this->getChildHtml('global_messages') ?>
+
+                        <div class="container-account clearfix">
+
+                            <div class="col-left-account clearfix">
+                                <div class="col-left-account-inner">
+                                    <div class="acc-page-title">
+                                        Settings
+                                    </div>
+
+                                    <?php echo $this->getChildHtml('left') ?>
+
+                                    <div class="account-feedback-control">
+                                        <span class="acc-feed-open" title="We appreciate any feedback">
+                                            Feedback
+                                        </span>
+                                        <div class="acc-feedback-form-container">
+                                            <p>
+                                                Please add any comments you have for improving the website. We welcome suggestions on specific areas for improvements, features you would like to see added to the site, and examples of what you consider good websites.
+                                            </p>
+                                            <form class="" id="" action="" method="">
+                                                <textarea placeholder="Your feedback"></textarea>
+                                                <button type="submit">Send</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="acc-contact-menu acc-contact clearfix">
+                                        <div class="acc-contact-title">
+                                            Need Help?
+                                        </div>
+<!--                                        <div class="acc-adress-phone acc-info clearfix">-->
+<!--                                            <div class="acc-mini-left">-->
+<!--                                                <span class="icon-sprite phone-ico"></span>-->
+<!--                                            </div>-->
+<!--                                            <div class="acc-mini-right">-->
+<!--                                                --><?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('tos_phone')->toHtml(); ?>
+<!--                                            </div>-->
+<!--                                        </div>-->
+                                        <div class="acc-adress-email acc-info clearfix">
+                                            <div class="acc-mini-left">
+                                                <span class="icon-sprite email-ico"></span>
+                                            </div>
+                                            <div class="acc-mini-right">
+                                                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('tos_email')->toHtml(); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-main-account">
+                                <div class="col-main-account-inner">
+                                    <?php echo $this->getChildHtml('content') ?>
+                                </div>
+                            </div>
+
+                            <div class="col-help-account">
+                                <div class="acc-contact-menu acc-contact clearfix">
+                                    <div class="acc-contact-title">
+                                        Need Help?
+                                    </div>
+<!--                                    <div class="acc-adress-phone acc-info clearfix">-->
+<!--                                        <div class="acc-mini-left">-->
+<!--                                            <span class="icon-sprite phone-ico"></span>-->
+<!--                                        </div>-->
+<!--                                        <div class="acc-mini-right">-->
+<!--                                            --><?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('tos_phone')->toHtml(); ?>
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                    <div class="acc-adress-email acc-info clearfix">
+                                        <div class="acc-mini-left">
+                                            <span class="icon-sprite email-ico"></span>
+                                        </div>
+                                        <div class="acc-mini-right">
+                                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('tos_email')->toHtml(); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php echo $this->getChildHtml('footer') ?>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<script>
+    jQuery(function(){
+        jQuery(".account-feedback-control .acc-feed-open").click(function(){
+            jQuery(".account-feedback-control .acc-feedback-form-container").slideToggle();
+            jQuery(this).toggleClass("feedOpen");
+        })
+    });
+</script>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

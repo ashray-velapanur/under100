@@ -1,0 +1,96 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<form action="<?php echo $this->getFormAction(); ?>" id="contactForm" method="post">
+    <div class="contact-form-container fieldset clearfix">
+        <div class="contact-form-left">
+            <ul class="form-list">
+                <li>
+                    <div class="field">
+                        <div class="input-box">
+                            <input name="name" id="name" title="<?php echo Mage::helper('contacts')->__('Name') ?>" value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserName()) ?>" class="input-text required-entry" type="text" placeholder="<?php echo Mage::helper('contacts')->__('Name') ?>" required/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="field">
+                        <div class="input-box">
+                            <input name="telephone" id="telephone" title="<?php echo Mage::helper('contacts')->__('Phone') ?>" value="" class="input-text required-entry" type="text" placeholder="<?php echo Mage::helper('contacts')->__('Phone') ?>" required/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="field">
+                        <div class="input-box">
+                            <input name="email" id="email" title="<?php echo Mage::helper('contacts')->__('E-mail') ?>" value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserEmail()) ?>" class="input-text required-entry validate-email" type="text" placeholder="<?php echo Mage::helper('contacts')->__('E-mail') ?>" required/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="field">
+                        <div class="input-box">
+                            <select id="subject" class="required-entry" name="subject" required>
+                                <option value="" disabled selected>Select subject</option>
+                                <option value="User Account">User Account</option>
+                                <option value="Forgot my password">Forgot my password</option>
+                                <option value="Order Inquiry">Order Inquiry</option>
+                                <option value="Payment Issues">Payment Issues</option>
+                                <option value="Returns and Refunds">Returns and Refunds</option>
+                                <option value="Under100 Site Features">Under100 Site Features</option>
+                                <option value="Under100 Mobile Features">Under100 Mobile Features</option>
+                                <option value="Partnership Opportunities">Partnership Opportunities</option>
+                                <option value="Copyright Issue">Copyright Issue</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="contact-form-right">
+            <ul class="form-list">
+                <li>
+                    <div class="field">
+                        <div class="input-box">
+                            <textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>" class="required-entry input-text" cols="5" rows="3" required></textarea>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="contact-buttons-set clearfix">
+                <input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+                <button type="submit" title="<?php echo Mage::helper('contacts')->__('Send E-mail') ?>" class="button"><?php echo Mage::helper('contacts')->__('Send Email') ?></button>
+                <p class="required"><?php echo Mage::helper('contacts')->__('* All fields are mandatory') ?></p>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var contactForm = new VarienForm('contactForm', true);
+//]]>
+</script>

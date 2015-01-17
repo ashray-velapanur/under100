@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <stripe translate="title" module="radweb_stripe">
+                <model>radweb_stripe/api</model>
+                <title>Radweb Stripe</title>
+                <acl>radweb_stripe</acl>
+                <methods>
+                    <get_cards translate="title" module="radweb_stripe">
+                        <title>Get Cards</title>
+                    </get_cards>
+                </methods>
+            </stripe>
+        </resources>
+        <acl>
+            <resources>
+                <radweb_stripe translate="title" module="radweb_stripe">
+                    <title>Radweb Stripe</title>
+                    <sort_order>1</sort_order>
+                </radweb_stripe>
+            </resources>
+        </acl>
+    </api>
+</config>

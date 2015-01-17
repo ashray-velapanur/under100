@@ -1,0 +1,62 @@
+<?php
+/**
+ * Solvingmagento_OneStepCheckout review step template
+ *
+ * PHP version 5.3
+ *
+ * @category  Solvingmagento
+ * @package   Solvingmagento_OneStepCheckout
+ * @author    Magento Core Team <core@magentocommerce.com>
+ * @author    Oleg Ishenko <oleg.ishenko@solvingmagento.com>
+ * @copyright Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com), 2014 Oleg Ishenko
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @version   GIT: <0.1.0>
+ * @link      http://www.solvingmagento.com/
+ *
+ */
+?>
+<div id="review-please-wait" class="step-please-wait" style="display: none">
+        <span class="please-wait">
+            <img
+                src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>"
+                alt="<?php echo $this->__('Saving data, please wait...') ?>"
+                title="<?php echo $this->__('Saving data, please wait...') ?>" class="v-middle" />
+        </span>
+</div>
+<form method="post" action="#" id="co-review-form">
+    <div class="order-review" id="checkout-load-review">
+        <?php echo $this->getChildHtml('info') ?>
+    </div>
+</form>
+
+<div class="gift-message-container clearfix">
+    <form action="#" id="gift-message-form">
+        <div class="gift-label-container">
+            <input type="checkbox" name="gift_check"/>
+            <div class="gift-label">
+                <span class="icon-sprite gift-ico"></span>
+                <span class="gift-label-title">
+                    Gift order
+                </span>
+                <p>Order this item as Gift and add a gift message:</p>
+            </div>
+        </div>
+        <div class="gift-label-textarea">
+            <textarea name="gift_message"></textarea>
+        </div>
+    </form>
+</div>
+
+
+<div class="checkout-review-update-container checkout-clear-both" style="display:none!important;">
+    <a href="#" id="checkout-review-update"><?php echo Mage::helper('checkout')->__('Update order review');?></a>
+</div>
+<div id="checkout-review-submit">
+    <?php echo $this->getChildHtml('agreements') ?>
+    <div class="buttons-set" id="review-buttons-container">
+        <div class="cart-btns clearfix">
+            <a href="/" class="cart-btn-continue"><?php echo $this->__('Continue Shopping') ?></a>
+            <?php echo $this->getChildHtml('button') ?>
+        </div>
+    </div>
+</div>

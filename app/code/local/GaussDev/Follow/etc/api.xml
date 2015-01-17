@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <follow_api translate="title" module="GaussDev_Follow">
+                <title>Myapi</title>
+                <acl>follow/api</acl>
+                <model>follow/api</model>
+                <methods>                    
+						<getfollowers translate="title" module="GaussDev_Follow">
+							<title>followers</title>
+							<acl>follow/getfollowers</acl>
+						</getfollowers>
+						<getfollowing translate="title" module="GaussDev_Follow">
+							<title>followers</title>
+							<acl>follow/getfollowing</acl>
+						</getfollowing>
+						<addfollower translate="title" module="GaussDev_Follow">
+							<title>followers</title>
+							<acl>follow/addfollower</acl>
+						</addfollower>
+						<list translate="title" module="GaussDev_Follow">
+                        	<title>get info...</title>
+                       		<method>info</method>
+                    	</list>
+                </methods>
+            </follow_api>
+        </resources>
+        <acl>
+            <resources>
+                <follow translate="title" module="GaussDev_Follow">
+                    <title>Follow</title>
+                    <sort_order>2000</sort_order>                    
+					<getfollowers translate="title" module="GaussDev_Follow">
+                        <title>followers</title>
+                    </getfollowers>
+                </follow>
+            </resources>
+        </acl>
+    </api>
+</config>

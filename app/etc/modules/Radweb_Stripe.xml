@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Radweb_Stripe>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Radweb_Stripe>
+    </modules>
+</config>

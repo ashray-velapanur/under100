@@ -1,0 +1,465 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $likeHelper= $this->helper('GaussDev_Like'); ?>
+<?php $productID= $_product->getId(); //avoid multiple calls for productID?>
+<?php $userLogInStatus = Mage::getSingleton('customer/session')->isLoggedIn(); //avoid checking thru template  ?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+
+<div class="product-page-title-container clearfix">
+    <div class="product-page-title">
+        <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+    </div>
+</div>
+
+<!--<a class="necessary-login" href="http://moze bilo sta" >--><?php //echo $this->__('Login / Register') ?><!--</a>-->
+
+
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+    <div class="product-essential">
+    <form <?php echo $this->helper('gaussdev')->getVigLink($_product); ?> action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <?php echo $this->getBlockHtml('formkey') ?>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $productID ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
+        <div class="product-main-container clearfix">
+
+
+            <div class="product-shop">
+                <div class="product-shop-inner">
+                    <div class="brand-name">
+                        <?php echo $this->escapeHtml($_product->getBrand()) ?>
+                    </div>
+                    <div class="product-name">
+                        <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+                    </div>
+
+
+                    <?php //echo $this->getReviewsSummaryHtml($_product, false, true)?>
+                    <?php echo $this->getChildHtml('alert_urls') ?>
+
+                    <div class="product-price-seller clearfix">
+                        <?php echo $this->getChildHtml('product_type_data') ?>
+                        <div class="product-seller">
+                            <?php echo Mage::helper('gaussdev_parser')->getOwnerHtml($_product->getProductOwnerId()) ?>
+                        </div>
+                    </div>
+                    <?php echo $this->getTierPriceHtml() ?>
+                    <?php echo $this->getChildHtml('extrahint') ?>
+
+
+                    <?php echo $this->getChildHtml('other');?>
+
+                    <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                        <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                    <?php endif;?>
+
+
+                    <div class="product-description">
+                        <?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
+                            <div class="box-collateral <?php echo "box-{$alias}"?>">
+                                <?php echo $html; ?>
+                            </div>
+                        <?php endforeach;?>
+                        <?php echo $this->getChildHtml('upsell_products') ?>
+                        <?php //echo $this->getChildHtml('product_additional_data') ?>
+                    </div>
+
+                    <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                        <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+                    <?php endif;?>
+
+
+                    <div class="product-single-rating">
+                        <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+                    </div>
+
+
+                    <?php if (!$this->hasOptions()):?>
+                        <div class="add-to-box">
+                            <?php if($_product->isSaleable()): ?>
+
+                                <?php //echo $this->getChildHtml('addtocart') ?>
+                                <!--                                --><?php //if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                <!--                                --><?php //endif; ?>
+
+                            <?php endif; ?>
+                            <?php //echo $this->getChildHtml('addto') ?>
+                        </div>
+                        <?php echo $this->getChildHtml('extra_buttons') ?>
+
+                    <?php elseif (!$_product->isSaleable()): ?>
+                        <div class="add-to-box">
+                            <?php echo $this->getChildHtml('addto') ?>
+                        </div>
+                    <?php endif; ?>
+
+
+
+
+                    <div class="product-shop-action-container">
+                        <div class="product-social-container clearfix">
+                        <?php $liked=$likeHelper->checkLiked($productID);?>
+                         <?php
+                            $productName= $_product->getName();
+                            $productImage=Mage::helper('adaptiveResize/image')->init($_product, 'image')->constrainOnly(true)->adaptiveResize(600, 640);
+                            $productUrl=$_product->getProductUrl();
+
+
+                            ?>
+                            <button type="button" class="product-like<?php if(!$userLogInStatus):?> necessary-login-all<?php endif;?>" <?php if($userLogInStatus):?>onclick="like(<?php echo $productID?>);" <?php endif;?> id="likeButton">
+                                <span class="icon-sprite favourite-grey-big-ico<?php if($liked) echo ' activ-fav'?>"></span> <?php if($liked) echo "Un"; ?>Like
+                            </button>
+                            <div class="product-share-open">
+                                <span class="icon-sprite share-grey-big-ico"></span> Share
+                            </div>
+                            <div class="clr"></div>
+                            <div class="product-social-share-buttons-container">
+                            	<script type="text/javascript">
+									var desc=encodeURIComponent("<?php echo urlencode($productName)?>");
+                            	</script>
+                            	<a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($productUrl); ?>" title="<?php echo $this->__('Share on Facebook') ?>" target="_blank">
+                                                <span class="icon-sprite facebook-icon-large"></span>
+                                            </a>
+                                            <a href="http://twitter.com/share?text=<?php echo urlencode($productName)?>&url=<?php echo urlencode($productUrl)?>&hashtags=under$100"  target="_blank">
+                                                <span class="icon-sprite twitter-icon-large"></span>
+                                            </a>
+                                            <a href="javascript:popWin('https://plus.google.com/share?url=<?php echo urlencode($productUrl); ?>', 'google', 'width=640,height=480,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes');" title="<?php echo $this->__('Share on Google Plus') ?>">
+                                                <span class="icon-sprite google-icon-large"></span>
+                                            </a>
+
+                                            <a href="mailto:?body=<?php echo urlencode($productUrl)?>?subject=<?php echo urlencode($productName)?>" title="Share by Email">
+                                                <span class="icon-sprite instagram-icon-large "></span>
+                                            </a>
+                                            <a href="javascript:popWin('https://pinterest.com/pin/create/button/?url=<?php echo urlencode($productUrl); ?>&media=<?php echo urlencode($productImage); ?>&description='+desc, 'pinterest', 'width=640,height=480,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes');" title="<?php echo $this->__('Pin it') ?>">
+                                            	<img src="<?php echo $productImage?>" style="display: none;" />
+                                                <span class="icon-sprite pinterest-icon-large"></span>
+                                            </a>
+
+
+
+                                <?php //echo $this->getLayout()->createBlock('sharingtool/share')->setBlockId('addthis_sharetool')->toHtml(); ?>
+                            </div>
+                        </div>
+						<?php
+							$product_ids = Mage::getModel('checkout/cart')->getProductIds();
+							$inCart= in_array($_product->getId(), $product_ids);
+						?>
+                        <button type="button" id="product-addtocart-button" class="button btn-cart <?php if ($inCart) echo ' green-cart-added'?><?php echo $this->helper('gaussdev')->getLoginClass() ?>" onclick="productAddToCartForm.submit(this)">
+                            <?php if(!$inCart) echo $this->__('Add to Cart'); else echo $this->__('Added to cart'); ?>
+                        </button>
+
+                        <div class="add-to-list-container">
+
+<?php if($userLogInStatus): ?>
+
+                            <div class="open-add-list">Add to list</div>
+                            <div class="add-list-overlay"></div>
+                            <div class="add-list-dialog">
+                                <div class="list-dialog-close"></div>
+                                <div class="add-list-title">Add to list</div>
+                                <div class="add-list-content">
+                                    <p>
+                                        Add <span><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></span>
+                                        to an existing list or create a <span class="create-new-focus">New list</span>.
+                                    </p>
+
+
+
+<?php $listHelper= Mage::helper("GaussDev_Multilist");   ?>
+<?php $lists=array();    foreach ($listHelper->getItemLists('',$productID) as $l) $lists[]=$l['list_fk']  ?>
+                                        <ul id="lists">
+                                        	<?php foreach ($listHelper->getListInfo() as $list):?>
+                                            <li>
+                                                <input type="checkbox" <?php if(in_array($list['id'], $lists)):?> checked="checked" <?php endif;?>  class="listCheckbox" value="<?php echo $list['id']?>" name="list[<?php echo $list['id']?>]" id="<?php echo $list['id']?>">
+                                                <label for="<?php echo $list['id']?>"><?php echo $this->escapeHtml($list['name'])?></label>
+                                            </li>
+											<?php endforeach;?>
+                                            <li class="add-list-text-input">
+                                                <input type="text" name="listName" value="" id="listName" title="Create new list" placeholder="Create new list">
+                                            </li>
+                                        </ul>
+                                        <div class="add-list-btns">
+                                            <a  onclick="saveLists();" title="Add to list">Add to list</a>
+                                        </div>
+
+                                </div>
+                            </div>
+<?php else: ?>
+
+    <div class="open-add-list-nologin necessary-login-all">Add to list</div>
+
+<?php endif ?>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="claim-product-options">
+                    <div class="claim-btn">
+                        Claim product
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-img-box">
+                <?php echo $this->getChildHtml('media') ?>
+            </div>
+        </div>
+
+    </form>
+    <div class="claim-product-options">
+        <div class="claim-lightbox-overlay"></div>
+        <div class="claim-lightbox-dialog">
+            <div class="close-claim"></div>
+            <div class="claim-title">
+                Claim product
+            </div>
+            <p>
+                Enter the brand name, your email and message for claiming this product.
+                After submission we will contact you to discuss how you would like to proceed regarding the product.
+            </p>
+            <form>
+                <div class="claim-input-container">
+                    <input type="text" value="" placeholder="Brand Name">
+                </div>
+                <div class="claim-input-container">
+                    <input type="text" value="" placeholder="Contact Email">
+                </div>
+                <div class="claim-input-container">
+                    <textarea value="" placeholder="Claim Message"></textarea>
+                </div>
+                <div class="claim-input-container">
+                    <input type="submit" value="Submit"/>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function(button, url) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    this.form.submit();
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                // Remove custom datetime validators
+                for (var methodName in Validation.methods) {
+                    if (methodName.match(/^validate-datetime-.*/i)) {
+                        delete Validation.methods[methodName];
+                    }
+                }
+
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+    </script>
+
+        <div class="product-additiona-container clearfix">
+
+            <div class="product-additional-left">
+
+                <div class="product-rev-com-tabs clearfix">
+                    <div name="#revcomtab1" class="revcom-tab active">COMMENTS</div>
+                    <div name="#revcomtab2" class="revcom-tab">REVIEWS</div>
+                </div>
+                <div class="product-rev-com-tab-content">
+                    <div id="revcomtab1" class="revcom-tab-content">
+                        <div id="comments"></div>
+                        <?php echo $this->getChild('product.comments.form')->setProductId($this->getProduct()->getId())->toHtml() ?>
+                        <script>
+                            var loadComments = '<?php echo $this->getUrl('comments/comment/get',array('id'=>$productID))?>';
+                            var tags;
+                            //tags = [{position: 0, customer_id: 1, content: '@asd'}];
+                            jQuery('#comments').load('<?php echo $this->getUrl('comments/comment/get',array('id'=>$productID))?>');
+                            /*jQuery("[name='message']").keypress(function (e) {
+                                var position, textbox;
+                                textbox = jQuery(this);
+                                if (e.key == '@') {
+                                    position = textbox.prop('selectionStart');
+                                }
+                            });
+                            jQuery('.form-comment-container > form').submit(function (e) {
+                                e.preventDefault();
+                                var url, data;
+                                var message = jQuery(this).find('[name="message"]');
+                                if (message.val().trim() == '') return;
+                                url = jQuery(this).attr('action');
+                                jQuery(this).find('[name="tags"]').val(JSON.stringify(tags));
+                                data = jQuery(this).serialize();
+                                message.val('');
+                                jQuery.post(url, data, function () {
+                                    jQuery('#comments').load(loadComments);
+                                });
+                             });*/
+                        </script>
+                    </div>
+
+                    <div id="revcomtab2" class="revcom-tab-content">
+
+                        <?php echo $this->getChildHtml('product_review') ?>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="product-additional-right">
+                <div class="related-items-title">
+                    <span>Related Products</span>
+                </div>
+                <div class="related-items-list-container clearfix">
+                    <ul>
+                        <?php foreach ($_product->getRelatedProductCollection()->addAttributeToSelect('*')->setCurPage(1)->setPageSize(6) as $_related): $hasRelated=true; ?>
+                        <li>
+                            <a href="<?php echo $_related->getProductUrl() ?>">
+                                <img src="<?php echo Mage::helper('adaptiveResize/image')->init($_related, 'image')->constrainOnly(true)->adaptiveResize(160, 160) ?>" />
+                                <span><?php echo  $this->escapeHtml($_related->getName()) ?></span>
+                            </a>
+                        </li>
+                        <?php endforeach ?>
+                        <?php if(!isset($hasRelated)):?>
+                        <?php $products = Mage::getResourceModel('catalog/product_collection')
+                                            ->addAttributeToFilter('entity_id', array('neq' => $_product->getId()))
+                                            ->groupByAttribute('entity_id')
+                                            ->addAttributeToSelect('*')
+                                            ->addAttributeToFilter('status', 1)
+                                            ->addAttributeToFilter('visibility', 4)
+                                            ->joinField('category_id', 'catalog/category_product', 'category_id',
+                                    'product_id = entity_id', null, 'left')
+                                            ->addAttributeToFilter('category_id', array('in' => $_product->getCategoryIds()))
+                                            ->setCurPage(1)
+                                            ->setPageSize(6);
+                            $products->getSelect()->order(new Zend_Db_Expr('RAND()'));
+                            ?>
+                        <?php foreach ($products as $_related):?>
+                        <li>
+                            <a href="<?php echo $_related->getProductUrl() ?>">
+                                <img src="<?php echo Mage::helper('adaptiveResize/image')->init($_related, 'image')->constrainOnly(true)->adaptiveResize(160, 160) ?>" />
+                                <span><?php echo  $this->escapeHtml($_related->getName()) ?></span>
+                            </a>
+                        </li>
+                        <?php endforeach;?>
+                        <?php endif;?>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+ </div>
+<script type="text/javascript">
+	function saveLists(){
+		var list=[];
+		jQuery("input[class='listCheckbox']").each(function() {
+		    if(this.checked) list.push( this.value );
+		});
+
+		var data = "";
+		var listName=jQuery("#listName").val();
+        data={'listName':listName, 'list':list, 'itemID': <?php echo $productID;?>};
+
+		request = jQuery.ajax({
+			type: "POST",
+			url: "<?php echo Mage::getUrl("multilist/index/createList/")?>",
+			data: data
+		});
+
+		request.done(function (response){
+			if(response == 500){
+				alert('Error saving list!');
+			} else {
+				jQuery("#lists").html(response);
+			}
+		});
+
+
+	}
+	function like(productID) {
+		jQuery.get("<?php echo mage::getBaseUrl()?>like/index/add/product/"+productID,function(data,status){
+		    jQuery.get("<?php echo mage::getBaseUrl()?>like/index/checkLiked/product/"+productID,function(data,status){
+	        var loadData = '<span class="icon-sprite favourite-grey-big-ico';
+		   		if(data==1) loadData = loadData + " activ-fav ";
+		   		loadData= loadData +'"></span>';
+
+			   	if(data==1) ProductTooltip="Unlike"; else ProductTooltip="Like";
+				loadData = loadData + ProductTooltip;
+			 	jQuery("#likeButton").html(loadData);
+		  });
+	  });
+	}
+</script>

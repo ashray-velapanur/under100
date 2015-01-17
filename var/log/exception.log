@@ -1,0 +1,228 @@
+2015-01-16T13:46:34+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 299, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(299): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 299, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('6b5ea559979fecb...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-16T13:47:25+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 299, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(299): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 299, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('6b5ea559979fecb...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-16T13:47:55+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 300, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(300): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 300, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('6b5ea559979fecb...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-16T13:48:43+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 301, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(301): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 301, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('6b5ea559979fecb...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-16T13:50:03+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 302, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(302): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 302, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('6b5ea559979fecb...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-16T13:54:29+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 302, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(302): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 302, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('6b5ea559979fecb...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-16T13:56:03+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 302, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(302): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 302, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('6b5ea559979fecb...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-17T05:39:30+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 302, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(302): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 302, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('39d630529112314...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-17T05:40:41+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 302, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(302): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 302, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('39d630529112314...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-17T05:42:06+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 302, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(302): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 302, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('39d630529112314...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-17T05:42:46+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 302, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(302): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 302, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('39d630529112314...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}
+2015-01-17T05:45:34+00:00 ERR (3): 
+SoapFault exception: [1] Internal Error. Please see log for details. in /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php:172
+Stack trace:
+#0 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(140): Mage_Api_Model_Server_Adapter_Soap->fault('1', 'Internal Error....')
+#1 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(48): Mage_Api_Model_Server_Handler_Abstract->_fault('internal')
+#2 [internal function]: Mage_Api_Model_Server_Handler_Abstract->handlePhpError(4096, 'Object of class...', '/Library/WebSer...', 302, Array)
+#3 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Handler/Abstract.php(302): sprintf('model: %s, meth...', Object(Beagles_Clicks_Model_Clicks), 'create', 302, '/Library/WebSer...')
+#4 [internal function]: Mage_Api_Model_Server_Handler_Abstract->call('39d630529112314...', 'clicks.create', NULL)
+#5 /Library/WebServer/Documents/html/lib/Zend/Soap/Server.php(889): SoapServer->handle('<?xml version="...')
+#6 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server/Adapter/Soap.php(150): Zend_Soap_Server->handle()
+#7 /Library/WebServer/Documents/html/app/code/core/Mage/Api/Model/Server.php(138): Mage_Api_Model_Server_Adapter_Soap->run()
+#8 /Library/WebServer/Documents/html/app/code/core/Mage/Api/controllers/SoapController.php(40): Mage_Api_Model_Server->run()
+#9 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Api_SoapController->indexAction()
+#10 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(250): Mage_Core_Controller_Varien_Action->dispatch('index')
+#11 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#12 /Library/WebServer/Documents/html/app/code/core/Mage/Core/Model/App.php(354): Mage_Core_Controller_Varien_Front->dispatch()
+#13 /Library/WebServer/Documents/html/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#14 /Library/WebServer/Documents/html/index.php(87): Mage::run('', 'store')
+#15 {main}

@@ -1,0 +1,380 @@
+<script type="text/javascript">
+
+//configure stripe tokenization
+    
+    pubKey = "<?php echo Mage::getStoreConfig('payment/radweb_stripe/api_pub_key', Mage::getSingleton('adminhtml/session_quote')->getStore()->getCode()) ?>";
+
+    Stripe.setPublishableKey(pubKey);
+
+    var saveUrl = '';
+    var onSave = '';
+    var onComplete = '';
+
+    var stripeResponseHandler = function(status, response) {
+    var pform = jQuery('#edit_form');
+
+     if (response.error) {
+       // Show the errors on the form
+        //alert(1);  
+        msg = response.error.message;
+       //pform.find('.payment-errors').text(response.error.message);
+       //pform.find('button').prop('disabled', false);
+
+
+        var stripeError = true;
+
+        Validation.add('validate-cc-number', msg, function(v, elm){
+            if(stripeError)
+                return false;
+                else
+                return true;
+        });
+
+        //checkout.gotoSection('payment');
+        //checkout.reloadProgressBlock();
+        Validation.validate('radweb_stripe_cc_number');
+        //checkout.setLoadWaiting(false);
+
+        stripeError = false;
+
+            //alert(2);
+
+
+     
+     } else {
+        //alert(1);
+       // token contains id, last4, and card type
+       var token = response.id;
+       // Insert the token into the form so it gets submitted to the server
+       if(jQuery('#stripeToken'))
+            {
+                jQuery('#stripeToken').remove();
+            }
+       pform.append(jQuery('<input type="hidden" name="stripeToken" id="stripeToken" />').val(token));
+       // and re-submit
+       //pform.get(0).submit();
+            
+            if (pform.submit()) {
+                disableElements('save');
+            }
+            
+        //alert(saveUrl);
+
+     }
+   };
+
+/*
+        Payment.prototype.radweb_stripeSave = function() {
+
+            Stripe.card.createToken({
+                address_line1: $('billing:street1').value,
+                address_zip: $('billing:postcode').value,
+                name: $('radweb_stripe_cc_owner').value,
+                number: $('radweb_stripe_cc_number').value,
+                cvc: $('radweb_stripe_cc_cid').value,
+                exp_month: $('radweb_stripe_expiration').value,
+                exp_year: $('radweb_stripe_expiration_yr').value
+            }, stripeResponseHandler);
+
+        }
+
+       Payment.prototype.save = function() {
+
+            if (checkout.loadWaiting != false) { return; }
+                    var validator = new Validation(this.form);
+                    if (this.validate() && validator.validate()) {
+                        checkout.setLoadWaiting('payment');
+                        //alert(this.currentMethod);
+                        if (this.currentMethod+'Save' in this) {
+            
+                            saveUrl = this.saveUrl;
+                            onSave = this.onSave;
+                            onComplete = this.onComplete;
+
+                            this[this.currentMethod+'Save']();
+                        
+                        } else {
+                            new Ajax.Request(this.saveUrl, {
+                                method:'post',
+                                onComplete: this.onComplete,
+                                onSuccess: this.onSave,
+                                onFailure: checkout.ajaxFailure.bind(checkout),
+                                parameters: Form.serialize(this.form)
+                            });
+                        }
+                    }
+       
+        }
+
+        Review.prototype.radweb_stripeSave = function() {
+
+            var pform = jQuery('#co-payment-form');
+            stripeForm = pform.clone();
+            stripeForm.find("#radweb_stripe_cc_number").remove();
+            stripeForm.find("#radweb_stripe_cc_type").remove();
+            stripeForm.find("#radweb_stripe_expiration").remove();
+            stripeForm.find("#radweb_stripe_expiration_yr").remove();
+            stripeForm.find("#radweb_stripe_cc_cid").remove();
+            stripeForm.find("#radweb_stripe_cc_owner").remove();
+            
+            token = stripeForm.serialize();
+
+            return token;
+        }
+
+
+        Review.prototype.save = function() {
+
+                if (checkout.loadWaiting!=false) return;
+                        checkout.setLoadWaiting('review');
+
+                        //alert(payment.currentMethod);
+                        if (payment.currentMethod+'Save' in this) {
+
+                            var params = this[payment.currentMethod+'Save']();
+
+                        }
+                        else
+                        {
+                        var params = Form.serialize(payment.form);
+                        }
+
+
+
+                        if (this.agreementsForm) {
+                            params += '&'+Form.serialize(this.agreementsForm);
+                        }
+                        params.save = true;
+                        var request = new Ajax.Request(
+                            this.saveUrl,
+                            {
+                                method:'post',
+                                parameters:params,
+                                onComplete: this.onComplete,
+                                onSuccess: this.onSave,
+                                onFailure: checkout.ajaxFailure.bind(checkout)
+                            }
+                        );
+           
+
+        }
+      
+
+//end tokenization
+*/
+
+//rewriting the next step method from opcheckout.js
+
+AdminOrder.prototype.radweb_stripeSubmit = function()
+{
+
+        //alert(2);
+
+            Stripe.card.createToken({
+                address_line1: $('order-billing_address_street0').value,
+                address_zip: $('order-billing_address_postcode').value,
+                name: $('radweb_stripe_cc_owner').value,
+                number: jQuery.trim($('radweb_stripe_cc_number').value),
+                cvc: $('radweb_stripe_cc_cid').value,
+                exp_month: $('radweb_stripe_expiration').value,
+                exp_year: $('radweb_stripe_expiration_yr').value
+            }, stripeResponseHandler);
+
+        
+
+
+
+}
+
+AdminOrder.prototype.submit = function()
+    {
+        if (this.orderItemChanged) {
+            if (confirm('You have item changes')) {
+                if (editForm.submit()) {
+                    disableElements('save');
+                }
+            } else {
+                this.itemsUpdate();
+            }
+        } else {
+
+            //alert(this.paymentMethod);
+            pMethod = this.paymentMethod;
+            //return;
+            
+            if (pMethod+'Submit' in this) {
+
+                this[pMethod+'Submit']();
+
+            }
+            else
+            {
+                if (editForm.submit()) {
+                disableElements('save');
+                }
+            }
+            //return;
+            
+        }
+    }
+
+
+
+/*
+Review.prototype.nextStep = function(transport) {
+   
+    if (transport && transport.responseText) {
+            try{
+                response = eval('(' + transport.responseText + ')');
+            }
+            catch (e) {
+                response = {};
+            }
+            if (response.redirect) {
+                this.isSuccess = true;
+                location.href = response.redirect;
+                return;
+            }
+            if (response.success) {
+                this.isSuccess = true;
+                window.location=this.successUrl;
+            }
+            else{
+                var msg = response.error_messages;
+                if (typeof(msg)=='object') {
+                    msg = msg.join("\n");
+                }
+                if (msg) {
+
+                    if(msg == "Your card's security code is incorrect.")
+                    {
+                        var stripeError = true;
+
+                        Validation.add('validate-cc-cvn', msg, function(v, elm){
+                            if(stripeError)
+                                return false;
+                                else
+                                return true;
+                        });
+
+                        checkout.gotoSection('payment');
+                        checkout.reloadProgressBlock();
+                        Validation.validate('radweb_stripe_cc_cid');
+
+                        stripeError = false;
+
+                        return;
+
+                    }
+                    else
+                    if(msg == "Your card was declined.")
+                    {
+                        var stripeError = true;
+
+                        Validation.add('validate-cc-number', msg, function(v, elm){
+                            if(stripeError)
+                                return false;
+                                else
+                                return true;
+                        });
+
+                        checkout.gotoSection('payment');
+                        checkout.reloadProgressBlock();
+                        Validation.validate('radweb_stripe_cc_number');
+
+                        stripeError = false;
+
+                        return;
+
+                    }
+                    else
+                    if(msg == "The zip code you supplied failed validation.")
+                    {
+                        var stripeError = true;
+
+                        Validation.add('validate-zip-international', msg, function(v, elm){
+                            if(stripeError)
+                                return false;
+                                else
+                                return true;
+                        });
+
+                        checkout.gotoSection('billing');
+                        billing.newAddress(!this.value);
+                        checkout.reloadProgressBlock();
+                        Validation.validate('billing:postcode');
+
+                        stripeError = false;
+
+                        return;
+
+                    }
+                    else
+                    if(msg == "Your card's expiration date is incorrect.")
+                    {
+                        var stripeError = true;
+
+                        Validation.add('validate-cc-exp', msg, function(v, elm){
+                            if(stripeError)
+                                return false;
+                                else
+                                return true;
+                        });
+
+                        Validation.add('year', msg, function(v, elm){
+                            if(stripeError)
+                                return false;
+                                else
+                                return true;
+                        });
+
+                        checkout.gotoSection('payment');
+                        checkout.reloadProgressBlock();
+                        Validation.validate('radweb_stripe_expiration');
+                        Validation.validate('radweb_stripe_expiration_yr');
+
+                        stripeError = false;
+
+                        return;
+
+                    }
+                    else
+                    alert(msg);
+                }
+            }
+
+            if (response.update_section) {
+                $('checkout-'+response.update_section.name+'-load').update(response.update_section.html);
+            }
+
+            if (response.goto_section) {
+                checkout.gotoSection(response.goto_section);
+            }
+        }
+
+}
+*/
+
+jQuery(function() {
+
+    //add diners club validation
+    Validation.creditCartTypes.set('DIN', [new RegExp('^(3(?:0[0-5]|[68][0-9])[0-9]{11})$'),new RegExp('^[0-9]{3}$'),true]);
+
+jQuery(document).on('keyup', '#radweb_stripe_cc_number', function() {
+                var type = window.ccType(this.value);
+                var cards = jQuery(this).parents('ul:first').find('.cards');
+                if (cards.length) {
+                        jQuery('li', cards).removeClass('on').addClass('off');
+                        var ccType = jQuery(this).parents('ul:first').find('#radweb_stripe_cc_type');
+                        jQuery(ccType).val('');
+                        if (type) {
+                                var mType = magentoCcType(type);
+                                jQuery('li.' + mType, cards).removeClass('off').addClass('on');
+                                jQuery(ccType).val(mType);
+                        }
+                }
+        });
+
+});
+
+        </script>

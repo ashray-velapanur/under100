@@ -1,0 +1,9 @@
+{
+    "require": {
+        "opauth/opauth": "dev-master",
+        "opauth/facebook": "dev-master",
+        "opauth/google": "dev-master",
+        "opauth/twitter": "dev-master",
+        "opauth/instagram": "dev-master"
+    }
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout>
+    <gaussdev_switch>
+        <remove name="product_tabs"/>
+        <reference name="left">
+            <block type="gaussdev_productswitch/adminhtml_catalog_product_edit_tabs_switch"
+                   name="switch_product_tabs"/>
+        </reference>
+    </gaussdev_switch>
+</layout>

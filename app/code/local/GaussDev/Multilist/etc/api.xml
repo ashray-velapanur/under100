@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <multilist_api translate="title" module="GaussDev_Multilist">
+                <title>Myapi</title>
+                <acl>multilist/api</acl>
+                <model>GaussDev_Multilist/api</model>
+                <methods>
+						<!--<getallitems translate="title" module="GaussDev_Multilist">
+							<title>getallitems</title>
+						</getallitems>-->
+						<getlistinfo translate="title" module="GaussDev_Multilist">
+							<title>getlikes</title>
+							<!--<acl>multilist/getlistinfo</acl>-->
+						</getlistinfo>
+						<createlist translate="title" module="GaussDev_Multilist">
+							<title>createlist</title>
+							<!--<acl>multilist/getlistinfo</acl>-->
+						</createlist>
+						<additem translate="title" module="GaussDev_Multilist">
+							<title>additem</title>
+							<!--<acl>multilist/getlistinfo</acl>-->
+						</additem>
+						<getitems translate="title" module="GaussDev_Multilist">
+							<title>getlikes</title>
+							<!--<acl>multilist/getitems</acl>-->
+						</getitems>
+						<deleteitem translate="title" module="GaussDev_Multilist">
+							<title>getlikes</title>
+							<!--<acl>multilist/deleteitem</acl>-->
+						</deleteitem>
+						<deletelist translate="title" module="GaussDev_Multilist">
+							<title>deletelist</title>
+							<!--<acl>multilist/deleteitem</acl>-->
+						</deletelist>
+						<editlist translate="title" module="GaussDev_Multilist">
+							<title>editlist</title>
+						</editlist>
+						<uploadimage translate="title" module="GaussDev_Multilist">
+							<title>uploadimage</title>
+						</uploadimage>
+                </methods>
+            </multilist_api>
+        </resources>
+        <acl>
+            <resources>
+                <like translate="title" module="GaussDev_Multilist">
+                    <title>Like</title>
+                    <sort_order>2000</sort_order>
+					<getlikes translate="title" module="GaussDev_Multilist">
+                        <title>getlikes</title>
+                    </getlikes>
+					<info translate="title" module="GaussDev_Multilist">
+                        <title>like</title>
+                    </info>
+                </like>
+            </resources>
+        </acl>
+    </api>
+</config>

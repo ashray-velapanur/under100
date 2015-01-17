@@ -1,0 +1,749 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php if(!Mage::getSingleton('customer/session')->isLoggedIn()) {Mage::getSingleton('customer/session')->setData('redirected_from_login', true);Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl()); return;}?>
+<?php
+$loggedInId = Mage::getSingleton('customer/session')->getCustomerId();
+$idParam = $this->getRequest()->getParam('id');
+$isCurrentProfile = $loggedInId === $idParam || !$idParam;
+$customer = $idParam
+    ? Mage::getModel('customer/customer')->load($idParam)
+    : Mage::getSingleton('customer/session')
+          ->getCustomer();
+$customerId = $customer->getId();
+if(!$customerId) {Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl(null, array('_direct' => 'profile'))); return;}
+$likeHelper=Mage::helper('GaussDev_Like');
+$followHelper=Mage::helper('GaussDev_Follow');
+
+// Collection of liked products:
+$productIds=array();
+foreach ($likeHelper->getLiked($customerId) as $liked) {
+    if (!array_key_exists('error', $liked)) {
+        $productIds[] = $liked;
+    }
+}
+$attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+$collection = Mage::getModel('catalog/product')
+                  ->getCollection()
+                  ->addAttributeToFilter('entity_id', array('in' => $productIds))
+                  ->addAttributeToSelect('*');
+
+$postsCollection = $this->helper('gaussdev_parser')
+                        ->getCollection($customerId)
+                        ->setPageSize(18)
+                        ->setCurPage(1);
+
+//Followers
+$followers=$followHelper->getFollowers($customerId);
+$followersIDs=array();
+foreach ($followers as $follower) {
+	$followersIDs[]= isset($follower['uid']) ? $follower['uid'] : null;
+}
+$followersCollection = Mage::getModel('customer/customer')->getCollection()
+ 			->addAttributeToFilter('entity_id', array('in' => $followersIDs))
+			->addAttributeToSelect('*');
+
+$following=$followHelper->getFollowing($customerId);
+$followingIDs=array();
+foreach ($following as $follower) {
+	$followingIDs[]= isset($follower['follow_uid']) ? $follower['follow_uid'] : null;
+}
+
+$followingCollection = Mage::getModel('customer/customer')->getCollection()
+->addAttributeToFilter('entity_id', array('in' => $followingIDs))
+->addAttributeToSelect('*');
+//End Followers
+
+//Logged in Following
+
+$loggedInFollowing = Mage::getModel('customer/customer')
+                         ->getCollection()
+                         ->addAttributeToFilter('entity_id', array('in' => $followHelper->getFollowing($loggedInId)))
+                         ->getAllIds();
+//End Followers
+
+//List Helper
+$listHelper=Mage::helper("GaussDev_Multilist");
+$lists = $listHelper->getListInfo($customerId);
+//end list helper
+
+$dob = $customer->getDob();
+$day = $dob?(int)date('d',strtotime($dob)):null;
+$month = $dob?(int)date('m',strtotime($dob)):null;
+$year = $dob?(int)date('Y',strtotime($dob)):null;
+
+$title = $isCurrentProfile ? $this->__('My Profile') : $this->__("%s's Profile", $customer->getUsername() ?: ($customer->getFirstname() ?: $customer->getLastname()));
+
+$address = $customer->getDefaultBillingAddress() ?: Mage::getModel('customer/address');
+
+$notificationCollection = Mage::getResourceModel('notifications/notification_collection')->setOrder('created_at')->addFieldToFilter('notify_id', $customerId)->addFieldToFilter('is_saved', 0);
+$savedNotificationCollection = Mage::getResourceModel('notifications/notification_collection')->setOrder('created_at')->addFieldToFilter('notify_id', $customerId)->addFieldToFilter('is_saved', 1);
+
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+    <?php echo $this->getChild('head')->setTitle($title)->toHtml(); ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="content-wrap">
+            <div class="content-container">
+                <div class="main-container col2-left-layout profile-layout">
+                    <div class="main">
+                        <?php echo $this->getChildHtml('breadcrumbs') ?>
+                        <div class="page-title-global">
+                            <h1><?php echo $this->escapeHtml($title); ?></h1>
+                        </div>
+                        <?php echo $this->getChildHtml('global_messages') ?>
+                        <div class="container-profile clearfix">
+                            <div class="col-info-profile clearfix">
+                                <div class="profile-avatar-container">
+                                    <div class="profile-avatar">
+                                        <img src="<?php echo Mage::helper('gaussdev_customerimages/image')->init($customer, true)->resize(228) ?>" />
+                                    </div>
+                                </div>
+                                <div class="profile-desc-container">
+                                    <div class="profile-desc-container-inner">
+                                        <div class="profile-desc-2col clearfix">
+                                            <div class="profile-desc-col-left">
+                                                <div class="profile-desc-col-left-name-location">
+                                                    <span class="pdcl-name"><?php echo $this->escapeHtml($customer->getFirstname()) . ' ' . $this->escapeHtml($customer->getLastname()) ?></span>
+                                                    <?php if($address->getId()): ?>
+                                                    <span class="pdcl-location"><?php echo $this->escapeHtml($address->getCity()).', '.$this->escapeHtml($address->getCountry()) ?></span>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <div class="profile-desc-col-left-text">
+                                                    <?php echo $this->escapeHtml($customer->getBio()) ?>
+                                                </div>
+                                                <?php if($isCurrentProfile): ?>
+                                                <div class="profile-desc-col-left-notifications">
+                                                    Notifications <span class="icon-sprite acc-bell-icon"><span class="notification-count"><?php echo $notificationCollection->getSize() ?></span></span>
+                                                </div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <?php if(!$isCurrentProfile): ?>
+                                            <div class="profile-desc-col-right">
+                                                <?php if(in_array($customerId, $loggedInFollowing)): ?>
+                                                <a id="follow_<?php echo $customer->getId() ?>" href="#" class="follow-profile following-profile green-follow">Following</a>
+                                                <?php else: ?>
+                                                <a id="follow_<?php echo $customer->getId() ?>" href="#" class="follow-profile following-profile red-follow">Follow</a>
+                                                <?php endif; ?>
+                                            </div>
+                                            <?php else: ?>
+                                            <div class="profile-desc-col-right">
+                                                <a href="<?php echo Mage::getUrl('customer/account'); ?>" class="acc-settings-btn">Settings</a>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="profile-list-info clearfix">
+                                            <ul>
+                                                <li name="#profilemenu1" class="first-token active">
+                                                    <div class="list-info-token">
+                                                        Likes
+                                                        <span><?php echo $collection->getSize();?></span>
+                                                    </div>
+                                                </li>
+                                                <li name="#profilemenu2" class="second-token">
+                                                    <div class="list-info-token">
+                                                        Posts
+                                                        <span><?php echo $postsCount = $this->helper('gaussdev_parser')->productsCount($customerId) ?></span>
+                                                    </div>
+                                                </li>
+                                                <li name="#profilemenu5" class="third-token">
+                                                    <div class="list-info-token">
+                                                        Lists
+                                                        <span><?php echo $listHelper->countLists($customerId);?></span>
+                                                    </div>
+                                                </li>
+                                                <li name="#profilemenu3" class="fourth-token">
+                                                    <div class="list-info-token">
+                                                        Following
+                                                        <span><?php echo $followingCollection->getSize();?></span>
+                                                    </div>
+                                                </li>
+                                                <li name="#profilemenu4" class="fifth-token">
+                                                    <div class="list-info-token">
+                                                        Followers
+                                                        <span><?php echo $followersCollection->getSize();?></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+<!--                           <div class="col-left-profile clearfix">-->
+<!--                                <ul>-->
+<!--                                    <li name="#profilemenu1" class="active">-->
+<!--                                        <span class="icon-sprite acc-liked-icon current"></span>-->
+<!--                                        <span class="profile-menu-link">Liked</span>-->
+<!--                                    </li>-->
+<!--                                    <li name="#profilemenu2">-->
+<!--                                        <span class="icon-sprite acc-add-icon"></span>-->
+<!--                                        <span class="profile-menu-link">Posts</span>-->
+<!--                                    </li>-->
+<!--                                    <li name="#profilemenu3">-->
+<!--                                        <span class="icon-sprite acc-following-icon"></span>-->
+<!--                                        <span class="profile-menu-link">Following</span>-->
+<!--                                    </li>-->
+<!--                                    <li name="#profilemenu4">-->
+<!--                                        <span class="icon-sprite acc-followers-icon"></span>-->
+<!--                                        <span class="profile-menu-link">Followers</span>-->
+<!--                                    </li>-->
+<!--                                    <li name="#profilemenu5">-->
+<!--                                        <span class="icon-sprite acc-wishlist-icon"></span>-->
+<!--                                        <span class="profile-menu-link">Lists</span>-->
+<!--                                    </li>-->
+                                        <?php //if($isCurrentProfile): ?>
+<!--                                    <li name="#profilemenu6">-->
+<!--                                        <span class="icon-sprite icon-sprite acc-prev-purchase-icon"></span>-->
+<!--                                        <span class="profile-menu-link">Order History</span>-->
+<!--                                    </li>-->
+<!--                                    <li name="#profilemenu7">-->
+<!--                                        <span class="icon-sprite icon-sprite acc-notifications-icon"></span>-->
+<!--                                        <span class="profile-menu-link">Notifications</span>-->
+<!--                                    </li>-->
+<!--                                    <li name="#profilemenu0">-->
+<!--                                        <span class="icon-sprite acc-settings-icon"></span>-->
+<!--                                        <span class="profile-menu-link">Settings</span>-->
+<!--                                    </li>-->
+                                        <?php //endif; ?>
+<!--                              </ul>-->
+<!--                           </div>-->
+                           <div class="col-main-profile">
+                           <?php if($isCurrentProfile): ?>
+                               <div class="profile-part-content profile-settings-content" id="profilemenu0">
+
+                                   <div class="profile-recent-view clearfix">
+                                       <div class="recent-label">Recently viewed</div>
+                                       <ul>
+                                           <?php $viewedCollection = $this->getLayout()
+                                                                          ->getBlockSingleton('reports/product_viewed')
+                                                                          ->setPageSize(7)
+                                                                          ->getItemsCollection()
+                                                                          ->addAttributeToSelect('*')
+                                                                          ->setCustomerId($customerId);
+                                           foreach($viewedCollection as $_viewed): ?>
+                                           <li>
+                                                <a href="<?php echo $_viewed->getUrlPath() ?>" title="<?php echo $this->escapeHtml($_viewed->getName()) ?>">
+                                                    <img src="<?php echo Mage::helper('adaptiveResize/image')->init($_viewed, 'image')->constrainOnly(true)->adaptiveResize(103, 103); ?>" />
+                                                </a>
+                                            </li>
+                                           <?php endforeach; ?>
+                                        </ul>
+                                   </div>
+                               </div>
+                                <?php endif; ?>
+                                <div class="profile-part-content profile-liked-content" id="profilemenu1">
+                                    <?php if(count($productIds) >= 1): ?>
+                                        <div class="section group">
+                                        <?php $i=0;foreach ($collection as $_product):?>
+                                            <?php if($i % 3 ==0 ):?></div><div class="section group"><?php endif;?>
+                                                <div class="pcol pcol-1-of-3">
+                                                    <div class="inner-pcol">
+                                                        <?php echo $this->getLayout()->createBlock('gaussdev/under')->productHtml($_product, true);?>
+                                                    </div>
+                                                </div>
+                                        <?php $i++;endforeach;?>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="proflie-empty-container">
+                                            <?php if($isCurrentProfile): ?>
+                                                You haven't liked any items yet
+                                            <?php else: ?>
+                                                There are no liked items by this user
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+<!-- USER POSTS start -->
+                                <div class="profile-part-content profile-posts-content" id="profilemenu2">
+                                    <?php if($postsCount >= 1): ?>
+                                        <div class="section group">
+                                        <?php $i=0;foreach($postsCollection as $_post): ?>
+                                        <?php if($i % 3 ==0 ):?></div><div class="section group"><?php endif;?>
+                                            <div class="pcol pcol-1-of-3">
+                                                <div class="inner-pcol">
+                                                    <?php echo $this->getLayout()->createBlock('gaussdev/under')->productHtml($_post, true);?>
+                                                </div>
+                                            </div>
+                                        <?php $i++; endforeach; ?>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="proflie-empty-container">
+                                            <?php if($isCurrentProfile): ?>
+                                                You have no posts
+                                            <?php else: ?>
+                                                There are no posts by this user
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+<!-- USER POSTS end -->
+
+<!-- FOLLOWING start -->
+                                <div class="profile-part-content profile-following-content" id="profilemenu3">
+                                    <?php if($followingCollection->getSize() >= 1): ?>
+                                        <ul class="profile-following-list">
+                                        <?php foreach ($followingCollection as $follower):?>
+
+                                            <li class="profile-following-list-item">
+                                                <div class="profile-following-item clearfix">
+                                                    <div class="profile-following-left clearfix">
+                                                        <div class="follow-img-container">
+                                                            <!-- link na usera -->
+                                                            <a href="<?php echo Mage::getUrl(null, array('_direct' => 'profile','_query'=>array('id'=>$follower->getId()))); ?>">
+                                                                <img src="<?php echo Mage::helper('gaussdev_customerimages/image')->init($follower)->resize(62) ?>" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="follow-name-container">
+                                                            <a href="<?php echo Mage::getUrl(null, array('_direct' => 'profile','_query'=>array('id'=>$follower->getId()))); ?>">
+
+                                                                <span class="follow-nickname">
+                                                                    <?php echo $this->escapeHtml($follower->getUsername() ?: ($follower->getFirstname() ?: $follower->getLastname())) ?>
+                                                                </span>
+
+                                                                <span class="follow-fullname">
+                                                                    <?php echo $this->escapeHtml($follower->getName());?>
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                        <?php if($follower->getId() != $loggedInId): ?>
+                                                        <div class="follow-btn-container">
+                                                            <?php if(in_array($follower->getId(), $loggedInFollowing)): ?>
+                                                                <a id="follow_<?php echo $follower->getId() ?>" href="#" class="follow-profile following-profile green-follow">Following</a>
+                                                            <?php else: ?>
+                                                                <a id="follow_<?php echo $follower->getId() ?>" href="#" class="follow-profile following-profile red-follow">Follow</a>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="profile-following-right">
+                                                        <ul>
+                                                            <?php $folProdCol=Mage::getResourceModel('catalog/product_collection')->addAttributeToSelect('*')->addAttributeToFilter('product_owner_id', $follower->getId())->setPageSize(4);$folProdCol->getSelect()->order(new Zend_Db_Expr('RAND()'));foreach($folProdCol as $folProduct): ?>
+                                                            <li>
+                                                                <a href="<?php echo $folProduct->getUrlPath() ?>" title="<?php echo $this->escapeHtml($folProduct->getName()) ?>">
+                                                                    <img src="<?php echo Mage::helper('adaptiveResize/image')->init($folProduct, 'image')->constrainOnly(true)->adaptiveResize(64, 64); ?>">
+                                                                </a>
+                                                            </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <?php endforeach;?>
+
+                                        </ul>
+                                    <?php else: ?>
+                                        <div class="proflie-empty-container">
+                                            <?php if($isCurrentProfile): ?>
+                                                You are not following anyone
+                                            <?php else: ?>
+                                                This user is not following anyone
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                </div>
+<!-- FOLLOWING end -->
+<!-- FOLLOWERS start -->
+                                <div class="profile-part-content profile-followers-content" id="profilemenu4">
+                                    <?php if($followersCollection->getSize() >= 1): ?>
+                                        <ul class="profile-following-list">
+                                            <?php foreach ($followersCollection as $follower): $fid= $follower->getId();?>
+                                            <li class="profile-following-list-item">
+                                                <div class="profile-following-item clearfix">
+                                                    <div class="profile-following-left clearfix">
+                                                        <div class="follow-img-container">
+                                                            <!-- link na usera -->
+                                                            <a href="<?php echo Mage::getUrl("profile?id=$fid")?>">
+                                                                <img src="<?php echo Mage::helper('gaussdev_customerimages/image')->init($follower)->resize(62) ?>" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="follow-name-container">
+                                                            <!-- link na usera -->
+                                                            <a href="<?php echo Mage::getUrl("profile?id=$fid")?>">
+                                                                <span class="follow-nickname">
+                                                                    <?php echo $this->escapeHtml($follower->getUsername() ?: ($follower->getFirstname() ?: $follower->getLastname()))?>
+                                                                </span>
+                                                                <span class="follow-fullname">
+                                                                    <?php echo $this->escapeHtml($follower->getName());?>
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                        <?php if($follower->getId() != $loggedInId):  ?>
+                                                        <div class="follow-btn-container">
+                                                            <?php if(in_array($fid, $loggedInFollowing)): ?>
+                                                                <a id="follow_<?php echo $fid ?>" href="#" class="follow-profile following-profile green-follow">Following</a>
+                                                            <?php else: ?>
+                                                                <a id="follow_<?php echo $fid ?>" href="#" class="follow-profile following-profile red-follow">Follow</a>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="profile-following-right">
+                                                        <ul>
+                                                            <?php $folProdCol=Mage::getResourceModel('catalog/product_collection')->addAttributeToSelect('*')->addAttributeToFilter('product_owner_id', $follower->getId())->setPageSize(4);$folProdCol->getSelect()->order(new Zend_Db_Expr('RAND()'));foreach($folProdCol as $folProduct): ?>
+                                                                <li>
+                                                                    <a href="<?php echo $folProduct->getUrlPath() ?>" title="<?php echo $this->escapeHtml($folProduct->getName()) ?>">
+                                                                        <img src="<?php echo Mage::helper('adaptiveResize/image')->init($folProduct, 'image')->constrainOnly(true)->adaptiveResize(64, 64); ?>">
+                                                                    </a>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <?php endforeach;?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <div class="proflie-empty-container">
+                                            <?php if($isCurrentProfile): ?>
+                                                You have no followers
+                                            <?php else: ?>
+                                                This user has no followers
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+
+
+                                </div>
+
+<!-- FOLLOWERS end -->
+<!-- LIST - start  -->
+
+                                <div class="profile-part-content profile-lists-content" id="profilemenu5">
+
+                                    <div class="section group plsection">
+                                        <?php if($isCurrentProfile): ?>
+                                        <div class="plcol plcol-1-of-4">
+                                            <div class="p-create-list-container">
+                                                <div class="p-list-container-inner">
+                                                    <img src="<?php echo $this->getSkinUrl('images/create-list.png') ?>" />
+                                                </div>
+                                                <div class="p-create-list-dialog">
+                                                    <div class="p-list-dialog-title">
+                                                        Create new list
+                                                    </div>
+                                                    <div class="p-list-dialog-content clearfix">
+                                                        <div class="pcld-left">
+                                                            <img src="<?php echo $this->getSkinUrl('images/placeholders/list-placeholder-183.jpg') ?>" />
+                                                        </div>
+                                                        <div class="pcld-right">
+                                                            <form action="<?php echo Mage::getUrl('multilist/index/create') ?>" method="post" enctype="multipart/form-data">
+                                                                <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+                                                                <input placeholder="Enter List Name" type="text" id="" name="name" value="" required />
+                                                                <div class="create-list-actions-container clearfix">
+                                                                    <div class="clac-left">
+                                                                        <div class="listImgUpload">
+                                                                            <span>Upload picture</span>
+                                                                            <input id="" type="file" name="image">
+                                                                        </div>
+                                                                        <span class="imageNameDisplay"></span>
+                                                                    </div>
+                                                                    <div class="clac-right">
+                                                                        <button type="submit">Create</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+
+                                        <?php foreach ($lists as $_list): $items = $listHelper->getListProductIds($_list['id']); ?>
+                                            <div class="plcol plcol-1-of-4">
+                                            <div class="p-list-container">
+                                                <div class="p-list-container-inner">
+                                                    <img src="<?php echo $listHelper->getImageUrl($_list['image']) ?>" />
+                                                    <div class="p-list-info-container">
+                                                        <div class="p-list-name"><?php echo $this->escapeHtml($_list['name']) ?></div>
+                                                        <div class="p-list-qty">(<?php echo count($items) ?> items)</div>
+                                                    </div>
+                                                </div>
+                                                <div class="p-edit-list-dialog">
+                                                    <div class="p-list-dialog-title">
+                                                        List view: <?php echo $this->escapeHtml($_list['name']) ?>
+                                                    </div>
+                                                    <div class="p-list-dialog-content">
+                                                        <?php if($isCurrentProfile): ?>
+                                                        <form action="<?php echo Mage::getUrl('multilist/index/update') ?>" method="post" enctype="multipart/form-data">
+                                                        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+                                                        <div class="p-list-dialog-edit-info clearfix">
+                                                            <div class="pldei-left">
+                                                                <img src="<?php echo $listHelper->getImageUrl($_list['image']) ?>" />
+                                                            </div>
+                                                            <div class="pldei-right">
+                                                                <input id="" type="text" name="name" value="<?php echo $this->escapeHtml($_list['name']) ?>" required>
+                                                                <input type="hidden" name="id" value="<?php echo $_list['id'] ?>">
+                                                                <div class="listImgUpload">
+                                                                    <span>Change picture</span>
+                                                                    <input id="" type="file" name="image">
+                                                                </div>
+                                                                <span class="imageNameDisplay"></span>
+
+                                                            </div>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <div class="p-list-dialog-item-list">
+                                                            <ul>
+                                                                <?php $itemsCollection = Mage::getResourceModel('catalog/product_collection')->addIdFilter($items)->addAttributeToSelect('*');
+                                                                foreach ($itemsCollection as $_listItem): ?>
+                                                                <li class="clearfix">
+                                                                    <div class="pldil-left">
+                                                                        <a href="<?php echo $_listItem->getUrlPath() ?>">
+                                                                            <img src="<?php echo Mage::helper('adaptiveResize/image')->init($_listItem, 'image')->constrainOnly(true)->adaptiveResize(90, 90); ?>">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="pldil-center">
+                                                                        <a href="<?php echo $_listItem->getUrlPath() ?>"><?php echo $this->escapeHtml($_listItem->getName()) ?></a>
+                                                                        <?php echo Mage::helper('core')->currency($_listItem->getPrice()) ?>
+                                                                    </div>
+                                                                    <?php if($isCurrentProfile): ?>
+                                                                    <div class="pldil-right">
+                                                                        <a href="#" class="no-target delete-list-item" id="delete-<?php echo $_list['id'] ?>-<?php echo $_listItem->getId() ?>">
+                                                                            <span class="icon-sprite list-delete-icon"></span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <?php endif; ?>
+                                                                </li>
+                                                                <?php endforeach; ?>
+                                                            </ul>
+                                                        </div>
+                                                        <?php if($isCurrentProfile): ?>
+                                                        <div class="p-list-dialog-action-list">
+                                                            <button type="submit" value="" id=""><span class="icon-sprite list-save-icon"></span></button>
+                                                        </div>
+                                                        </form>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; ?>
+
+                                        <?php if(count($lists) >= 1): ?>
+
+                                        <?php else: ?>
+                                            <?php if($isCurrentProfile): ?>
+                                            <?php else: ?>
+                                                <div class="proflie-empty-container">
+                                                    This user has no lists
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+<!-- LIST - end  -->
+<!-- ORDER HISTORY start-->
+                           <?php if($isCurrentProfile){ ?>
+
+                               <div class="profile-part-content profile-orders-content" id="profilemenu6">
+
+                               </div>
+<!-- ORDER HISTORY end-->
+<!-- NOTIFICATIONS start-->
+                                <div class="profile-part-content profile-notifications-content" id="profilemenu7">
+                                    <div class="col-notifications-control clearfix">
+                                        <div id="notification-new" class="noti-tab active" name="#notificationtab1">New (<span><?php echo $notificationCollection->getSize() ?></span>)</div>
+                                        <div id="notification-saved" class="noti-tab" name="#notificationtab2">Saved (<span><?php echo $savedNotificationCollection->getSize() ?></span>)</div>
+                                    </div>
+                                    <div class="col-notifications-content">
+
+                                        <!-- new notification start -->
+
+                                        <div class="notification-tab new-notification-tab" id="notificationtab1">
+                                           <ul class="new-notifications-list">
+                                               <?php foreach ($notificationCollection as $_notification): ?>
+                                                <li class="clearfix" data-id="<?php echo $_notification->getId() ?>">
+                                                    <div class="notification-img-container">
+                                                        <img src="<?php echo $_notification->getRenderedImageUrl() ?>" />
+                                                    </div>
+                                                    <div class="notification-text-container">
+                                                        <?php echo $_notification->getRenderedText() ?>
+                                                    </div>
+
+                                                    <div class="notification-btns-container">
+                                                        <button class="save-notif-btn" title="Save">
+                                                            <span class="icon-sprite list-notification-save-icon"></span>
+                                                        </button>
+                                                        <button class="del-notif-btn" title="Delete">
+                                                            <span class="icon-sprite list-notification-delete-icon"></span>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                        <!-- new notification end -->
+                                        <!-- saved notification start -->
+                                        <div class="notification-tab saved-notification-tab" id="notificationtab2">
+                                            <ul class="save-notifications-list">
+                                                <?php foreach ($savedNotificationCollection as $_notification): ?>
+                                                <li class="clearfix" data-id="<?php echo $_notification->getId() ?>">
+                                                    <div class="notification-img-container">
+                                                        <img src="<?php echo $_notification->getRenderedImageUrl() ?>"/>
+                                                    </div>
+                                                    <div class="notification-text-container">
+                                                        <?php echo $_notification->getRenderedText() ?>
+                                                    </div>
+                                                    <div class="notification-btns-container">
+                                                        <button class="del-notif-btn" title="Delete">
+                                                            <span class="icon-sprite list-notification-delete-icon"></span>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                        <!-- saved notification end -->
+
+                                    </div>
+                                   <script type="text/javascript">
+                                       jQuery.noConflict();
+                                       jQuery(function ($) {
+                                           $('.save-notif-btn').click(function () {
+                                               var elem = $(this).closest('li');
+                                               var id = elem.data('id');
+                                               $.get("<?php echo Mage::getUrl('notifications/notification/save')?>id/" + id, function (data) {
+                                                   if (data === true) {
+                                                       elem.detach().prependTo('.save-notifications-list');
+                                                       elem.find('.save-notif-btn').remove();
+                                                       var newval = parseInt($('#notification-new').find('span').text()) - 1;
+                                                       $('#notification-new').find('span').text(newval);
+                                                       $('.notification-count').text(newval);
+                                                       $('#notification-saved').find('span').text(parseInt($('#notification-saved').find('span').text()) + 1);
+                                                   }
+                                               });
+                                           });
+
+                                           $('.del-notif-btn').click(function () {
+                                               var elem = $(this).closest('li');
+                                               var id = elem.data('id');
+                                               $.get("<?php echo Mage::getUrl('notifications/notification/delete')?>id/" + id, function (data) {
+                                                   if (data === true) {
+                                                       elem.fadeOut('fast', function () {
+                                                           $(this).remove();
+                                                       });
+                                                       countElem = $("div[name='#" + elem.closest('.notification-tab').attr('id') + "']");
+                                                       var newval = parseInt(countElem.find('span').text()) - 1;
+                                                       countElem.find('span').text(newval);
+                                                       if (countElem.attr('id') == 'notification-new') {
+                                                           $('.notification-count').text(newval);
+                                                       }
+                                                   }
+                                               });
+                                           });
+                                       });
+                                   </script>
+
+
+
+                                </div>
+<!-- NOTIFICATIONS end-->
+                                <?php } ?>
+<!-- USERS start-->
+
+                                </div>
+
+                                <div class="p-create-list-overlay"></div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php echo $this->getChildHtml('footer') ?>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/themejs/profile-functions.js') ?>"></script>
+
+<script>
+jQuery(function () {
+
+    jQuery('.delete-list-item').click(function (e) {
+        e.preventDefault();
+        var button = jQuery(this);
+        var baseUrl = '<?php echo $this->getUrl('multilist/index/ajaxDeleteItem') ?>';
+        var ids = button.attr('id').match(/(\d+)-(\d+)/);
+        var listId = ids[1];
+        var itemId = ids[2];
+        jQuery.post(baseUrl, {listId: listId, itemId: itemId}, function (data) {
+            if (data == 1) {
+                button.closest('li').remove();
+            }
+        });
+    });
+
+    //follow control
+    jQuery(".following-profile").click(function (e) {
+        e.preventDefault();
+        var button = jQuery(this);
+        var baseUrl = '<?php echo $this->getUrl('follow/index/add') ?>';
+        var id = jQuery(this).attr('id').match(/(\d+)/)[0];
+        jQuery.get(baseUrl, {follow: id});
+        if (button.hasClass('green-follow')) {
+            button.text('Follow');
+            button.removeClass('green-follow');
+            button.addClass('red-follow');
+        } else {
+            button.text('Following');
+            button.removeClass('red-follow');
+            button.addClass('green-follow');
+        }
+    });
+});
+</script>
+</body>
+</html>

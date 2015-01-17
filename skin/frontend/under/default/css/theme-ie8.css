@@ -1,0 +1,204 @@
+.site-wrap{
+    min-width:1200px;
+    padding: 0;
+}
+
+.header-container{
+    position:static!important;
+    background:url(../images/backgrounds/header-shadow.png) repeat-x left bottom transparent;
+}
+.content-container{
+    padding: 0!important;
+}
+
+.header-main-menu li a{
+    font-weight:600;
+}
+.filters-container .filter-selected{
+    font-weight: 600;
+}
+p.view-mode label,
+.limiter label,
+.sort-by label,
+.pages label{
+    font-weight:600;
+}
+.product-list-img-holder .product-list-img-overlay .product-list-img-overlay-inner .product-list-img-cart a{
+    font-weight:600;
+}
+.product-list-img-share-overlay .pliso-top{
+    font-weight:600;
+}
+.header-main-menu li ul li a{
+    font-weight:600;
+}
+.header-main-menu li ul li a:hover{
+    font-weight:600;
+}
+.container-tos .tos-page-title{
+    font-weight:600;
+}
+.faq-contact-title{
+    font-weight: 600;
+}
+.contact-section .contact-section-title{
+    font-weight: 600;
+}
+.container-contact .contact-section-persons .contact-section-inner img{
+    height:auto;
+    width:inherit;
+}
+.contact-form-container .contact-buttons-set button{
+    font-weight: 600;
+}
+.footer-links-container .footer-links-inner .footer-links-block .footer-links-title{
+    font-weight:600;
+}
+.download-text{
+    font-weight:600;
+}
+.footer-newsletter-left{
+    font-weight: 600;
+}
+.footer-newsletter-block button{
+    font-weight:600;
+}
+#quicklogin .registered-users h3, #quicklogin .new-users h3 {
+    font-weight: 600;
+}
+.action-btn {
+    font-weight: 600;
+}
+.breadcrumbs ul li a{
+    font-weight:600;
+}
+.product-page-title-container .product-page-title{
+    font-weight:600;
+}
+.product-page-title-container .claim-product-options .claim-btn{
+    font-weight:600;
+}
+.product-page-title-container .claim-product-options .claim-title{
+    font-weight:600;
+}
+.product-page-title-container .claim-product-options .claim-input-container input[type=submit]{
+    font-weight: 600;
+}
+.product-main-container .product-shop .product-shop-inner .brand-name{
+    font-weight: 600;
+}
+.product-main-container .product-shop .product-shop-inner .product-name{
+    font-weight: 600;
+}
+.product-main-container .product-shop .product-shop-inner .product-price-seller .price-box{
+    font-weight: 600;
+}
+
+.product-shop-action-container button.btn-cart{
+    font-weight: 600;
+}
+.product-social-container .product-like{
+    font-weight: 600;
+}
+.product-social-container .product-share-open{
+    font-weight: 600;
+}
+.add-to-list-container .open-add-list,
+.add-to-list-container .open-add-list-nologin{
+    font-weight: 600;
+}
+.add-list-dialog .add-list-title{
+    font-weight: 600;
+}
+.add-list-dialog input[type="submit"] {
+    font-weight: 600;
+}
+.related-items-title{
+    font-weight: 600;
+}
+.product-rev-com-tabs .revcom-tab{
+    font-weight: 600;
+}
+.toolbar div.selector span,
+.itemPrice-select-container div.selector span{
+    font-weight: 600;
+}
+.header-upload-tabs .upload-tab {
+    font-weight: 600;
+}
+.header-cart-action{
+    font-weight:600;
+}
+.header-cart-quantity{
+    font-weight:600;
+}
+.header-cart-list-col3{
+    font-weight:600;
+}
+.header-cart-list-col2{
+    font-weight:600;
+    width:85px;
+}
+.header-loged-in-user a.open-user-upload {
+    font-weight:600;
+}
+.web-upload-submit input{
+    font-weight:600;
+}
+.local-files-upload-overlay span{
+    font-weight:600;
+}
+span.bold-txt{
+    font-weight:600;
+}
+.upload-success-msg{
+    font-weight:600;
+}
+.item-details-input-container .header-submit-item {
+    font-weight:600;
+}
+.item-details-input-container input, .item-details-input-container textarea {
+    font-weight:600;
+}
+.item-category-menu {
+    font-weight:600;
+}
+.local-upload-container .upload-btn-submit {
+    font-weight:600;
+}
+
+
+
+
+
+.FontStyleItalic{font-style: italic;}
+.FontStyleOblique{font-style: oblique;}
+.FontWeight100{font-weight: 100;}
+.FontWeight200{font-weight: 200;}
+.FontWeight300{font-weight: 300;}
+.FontWeight400{font-weight: 600;}
+.FontWeight500{font-weight: 600;}
+.FontWeight600{font-weight: 600;}
+.FontWeight700{font-weight: 700;}
+.FontWeight800{font-weight: 800;}
+.FontWeight900{font-weight: 900;}
+.FontItalicW100{font-style: italic;font-weight:100;}
+.FontItalicW200{font-style: italic;font-weight:200;}
+.FontItalicW300{font-style: italic;font-weight:300;}
+.FontItalicW400{font-style: italic;font-weight:400;}
+.FontItalicW500{font-style: italic;font-weight:500;}
+.FontItalicW600{font-style: italic;font-weight:600;}
+.FontItalicW700{font-style: italic;font-weight:700;}
+.FontItalicW800{font-style: italic;font-weight:800;}
+.FontItalicW900{font-style: italic;font-weight:900;}
+.FontObliqueW100{font-style: oblique;font-weight:100;}
+.FontObliqueW200{font-style: oblique;font-weight:200;}
+.FontObliqueW300{font-style: oblique;font-weight:300;}
+.FontObliqueW400{font-style: oblique;font-weight:400;}
+.FontObliqueW500{font-style: oblique;font-weight:500;}
+.FontObliqueW600{font-style: oblique;font-weight:600;}
+.FontObliqueW700{font-style: oblique;font-weight:700;}
+.FontObliqueW800{font-style: oblique;font-weight:800;}
+.FontObliqueW900{font-style: oblique;font-weight:900;}
+
+

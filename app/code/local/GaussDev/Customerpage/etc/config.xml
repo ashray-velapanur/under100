@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<GaussDev_Customerpage>
+		  <version>0.1.0</version>
+		</GaussDev_Customerpage>
+	</modules>
+	
+	<global>
+		<blocks>
+			<customcustomerpage>
+				<class>GaussDev_Customerpage_Block</class>
+			</customcustomerpage>
+		</blocks>
+	</global>
+	
+	<frontend>
+		<routers>
+			<customcustomerpage>
+				<use>standard</use>
+				<args>
+					<module>GaussDev_Customerpage</module>
+					<frontName>custompage</frontName>
+				</args>
+			</customcustomerpage>
+	  
+			<customer>
+				<args>
+					<modules>
+						<customcustomerpage before="Mage_Customer">GaussDev_Customerpage</customcustomerpage>
+					</modules>
+				</args>
+			</customer>
+		</routers>
+	
+		<layout>
+		  <updates>
+			<customcustomerpage>
+			  <file>customer/custompage.xml</file>
+			</customcustomerpage>
+		  </updates>
+		</layout>
+		
+	</frontend>
+  
+  
+</config> 

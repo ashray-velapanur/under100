@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GaussDev_Deals>
+            <version>1.0.0</version>
+        </GaussDev_Deals>
+    </modules>
+    <global>
+        <models>
+            <gaussdev_deals>
+                <class>GaussDev_Deals_Model</class>
+            </gaussdev_deals>
+            <catalog>
+                <rewrite>
+                    <category>GaussDev_Deals_Model_Catalog_Category</category>
+                </rewrite>
+            </catalog>
+        </models>
+        <helpers>
+            <gaussdev_deals>
+                <class>GaussDev_Deals_Helper</class>
+            </gaussdev_deals>
+        </helpers>
+        <resources>
+            <gaussdev_deals_setup>
+                <setup>
+                    <module>GaussDev_Deals</module>
+                </setup>
+            </gaussdev_deals_setup>
+        </resources>
+        <cache>
+            <types>
+                <categoryImage translate="label,description" module="gaussdev_deals">
+                    <label>Category Image Cache</label>
+                    <description>Delete Category Images cache</description>
+                    <tags>categoryImage</tags>
+                </categoryImage>
+            </types>
+        </cache>
+    </global>
+    <adminhtml>
+        <events>
+            <adminhtml_cache_refresh_type>
+                <observers>
+                    <category_image_clean_cache>
+                        <class>gaussdev_deals/observer</class>
+                        <method>cleanCache</method>
+                    </category_image_clean_cache>
+                </observers>
+            </adminhtml_cache_refresh_type>
+        </events>
+    </adminhtml>
+</config>

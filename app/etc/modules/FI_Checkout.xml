@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <FI_Checkout>
+            <active>false</active>
+            <codePool>community</codePool>
+        </FI_Checkout>
+    </modules>
+</config>

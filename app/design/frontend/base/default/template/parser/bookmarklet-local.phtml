@@ -1,0 +1,266 @@
+<?php
+$data = $this->getParsed() ?: new Varien_Object();
+$names = $data->getOtherNames();
+$prices = $data->getOtherPrices();
+$name = ($data->getName() ?: (isset($names[0]['name']) ? $x = $names[0]['name'] : null)) ?: $data->title;
+$nameXpath = isset($x, $names[0]['xpath']) ? $names[0]['xpath'] : null;
+$price = $data->getPrice();
+$brand = $data->getBrand();
+$url = $data->getUrl();
+$images = $data->getImages();
+$description = $data->getDescription();
+?>
+<?php if($this->getBook()): ?>
+    <form id="create-customer-product" method="post" action="<?php echo $this->getUrl('customer_products/products/createfrombook'); ?>">
+<?php else: ?>
+    <form id="create-customer-product" method="post" action="<?php echo $this->getUrl('customer_products/products/create'); ?>">
+<?php endif; ?>
+<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    <div class="item-image-scroll">
+        <ul class="header-uploaded-images header-uploaded-images-local clearfix" id="parsedimages">
+            <?php foreach ($images as $image): ?>
+                <li>
+                    <img src="<?php echo $image; ?>"/>
+
+                    <div class="img-upload-chckbox">
+                        <input type="checkbox" checked name="images[]"
+                               value="<?php echo $image; ?>"/>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
+    <div class="item-upload-slider-lightbox">
+        <div class="iusl-close">
+            <span class="icon-sprite slide-close-ico"></span>
+        </div>
+        <div class="item-upload-slider item-upload-slider-local">
+            <a class="arrow-left" href="#"><span class="icon-sprite slide-left-v2-ico"></span></a>
+            <a class="arrow-right" href="#"><span class="icon-sprite slide-right-v2-ico"></span></a>
+
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <?php foreach ($images as $image): ?>
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <div class="slide-img-container">
+                                    <img src="<?php echo $image ?>"/>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        jQuery(function () {
+            jQuery(document).on('change', '#other_prices', function () {
+                jQuery("#price_xpath").val(jQuery('#other_prices').val());
+                var thisValue = jQuery(this).find("option:selected").text();
+                var thisPrice = "Price";
+                if (thisValue == thisPrice) {
+                    jQuery('#itemPriceHidden').val("");
+                    jQuery("#itemPrice").val("");
+                } else {
+                    jQuery('#itemPriceHidden').val(thisValue);
+                    jQuery("#itemPrice").val(thisValue);
+                }
+            });
+            jQuery(document).on('keyup', '#itemPrice', function () {
+                jQuery('#itemPriceHidden').val(jQuery('#itemPrice').val().replace('$',''));
+                jQuery("#price_xpath").val("");
+                jQuery('#other_prices option[selected="selected"]').each(
+                    function () {
+                        jQuery(this).removeAttr('selected');
+                    }
+                );
+                jQuery("#other_prices option:first").attr('selected', 'selected');
+                jQuery("#itemPrice").parent().find("span").html("");
+            });
+
+            // category and item list dropdown
+            jQuery(".selectedItem").on('click', function () {
+                var $ans = jQuery(this).next("ul.item-category-menu");
+                $ans.slideToggle();
+                jQuery("ul.item-category-menu").not($ans).slideUp();
+            });
+            jQuery('ul.item-category-menu li:has(ul)').addClass('hassubcat');
+            jQuery("ul.item-category-menu ul").css({display: 'none'});
+            jQuery("ul.item-category-menu li").hover(function () {
+                jQuery(this).find('ul.item-category-submenu:first').stop(true, true).delay(50).animate({"height": "show"}, 300);
+            }, function () {
+                jQuery(this).find('ul.item-category-submenu:first').stop(true, true).delay(50).animate({
+                    "height": "hide",
+                    "opacity": "hide"
+                }, 300);
+            });
+
+            //category and item list pass value
+            jQuery(".icSelect li").each(function () {
+
+            });
+
+            //category and item list pass value
+            jQuery(".icSelect li:not(:has(ul))").each(function () {
+                jQuery(this).click(function () {
+                    var passCat = jQuery(this).attr("name");
+                    var passStr = jQuery(this).html();
+                    jQuery(".item-cat-selected-input").val(passCat);
+                    jQuery(this).parent().parent().parent().find(".selectedItem span").html(passStr);
+                    jQuery("ul.item-category-menu").slideUp();
+                });
+            });
+            jQuery(".icSelect .item-category-submenu li").each(function () {
+                jQuery(this).click(function () {
+                    var passCat = jQuery(this).attr("name");
+                    var passStr = jQuery(this).html();
+                    jQuery(".item-cat-selected-input").val(passCat);
+                    jQuery(this).parent().parent().parent().parent().find(".selectedItem span").html(passStr);
+                    jQuery("ul.item-category-menu").slideUp();
+                });
+            });
+            jQuery(".ilSelect li:not(:has(ul))").each(function () {
+                jQuery(this).click(function() {
+                    var passCata = jQuery(this).attr("name");
+                    var passStra = jQuery(this).html();
+                    jQuery(".item-list-selected-input").val(passCata);
+                    jQuery(this).parent().parent().parent().find(".selectedItem span").html(passStra);
+                    jQuery("ul.item-category-menu").slideUp();
+                });
+            });
+            jQuery(".ilSelect .item-category-submenu li").each(function () {
+                jQuery(this).click(function() {
+                    var passCata = jQuery(this).attr("name");
+                    var passStra = jQuery(this).html();
+                    jQuery(".item-list-selected-input").val(passCata);
+                    jQuery(this).parent().parent().parent().parent().find(".selectedItem span").html(passStra);
+                    jQuery("ul.item-category-menu").slideUp();
+                });
+            });
+
+            //hover header image checkbox
+            jQuery(".img-upload-chckbox").hover(function () {
+                jQuery(this).parent().toggleClass("img-checbx-hover");
+            });
+
+            //open uploaded images lightbox
+            jQuery(".header-uploaded-images-local li img").click(function () {
+                jQuery(".item-upload-slider-lightbox").fadeIn();
+            });
+            jQuery(".iusl-close").click(function () {
+                jQuery(".item-upload-slider-lightbox").fadeOut();
+            });
+
+            jQuery(".header-uploaded-images-local li img").click(function () {
+                //item images slider
+                var mySwiper = new Swiper('.swiper-container', {
+                    loop: true,
+                    grabCursor: true,
+                    autoResize: false,
+                    slidesPerView: 3
+                });
+                jQuery('.item-upload-slider-local .arrow-left').on('click', function (e) {
+                    e.preventDefault();
+                    mySwiper.swipePrev();
+                });
+                jQuery('.item-upload-slider-local .arrow-right').on('click', function (e) {
+                    e.preventDefault();
+                    mySwiper.swipeNext();
+                });
+            });
+
+        });
+    </script>
+
+
+    <div class="header-item-details">
+        <?php echo $this->getBlockHtml('formkey'); ?>
+        <input type="hidden" id="name_xpath" name="name_xpath" value="<?php echo $nameXpath; ?>"/>
+        <input type="hidden" id="price_xpath" name="price_xpath"/>
+
+        <div class="item-details-input-container">
+            <!-- unos branda proizvoda -->
+            <label for="itemBrand">Enter item brand*:</label>
+            <input type="text" value="<?php echo $this->escapeHtml($brand); ?>" id="itemBrand" class="input-text validate-no-html-tags required-entry" name="brand"/>
+        </div>
+        <div class="item-details-input-container">
+            <!-- unos ime proizvoda -->
+            <label for="itemName">Enter item name*:</label>
+            <input type="text" value="<?php echo $this->escapeHtml($name); ?>" id="itemName" class="input-text validate-no-html-tags required-entry" name="name"/>
+        </div>
+        <div class="item-details-input-container clearfix">
+            <!-- unos cijene proizvoda -->
+            <label for="itemPrice">Enter item price*:</label>
+            <input type="text" value="<?php echo $this->escapeHtml($price); ?>" id="itemPrice"/>
+            <input type="hidden" value="<?php echo $this->escapeHtml($price); ?>" id="itemPriceHidden" class="validate-currency-dollar required-entry validate-number-range number-range-0.01-99.99" name="price"/>
+        </div>
+        <div class="item-details-input-container">
+            <!-- unos url proizvoda -->
+            <label for="itemName">Enter item URL:</label>
+            <input type="text" value="" id="itemName" class="input-text validate-url" name="url"/>
+        </div>
+        <div class="item-details-input-container">
+            <!-- unos opisa proizvoda -->
+            <label for="itemDesc">Enter item description:</label>
+            <textarea id="itemDesc" name="description" class="input-text validate-no-html-tags"><?php echo $this->escapeHtml(strip_tags($description)) ?></textarea>
+        </div>
+        <div class="item-details-input-container clearfix">
+            <div class="item-details-left">
+                Select item category*:
+            </div>
+            <div class="item-details-right">
+
+                <div class="item-category-select-container">
+                    <div class="selectedItem">
+                        <span>Category</span>
+                    </div>
+                    <ul class="item-category-menu icSelect">
+                        <?php foreach (Mage::helper('gaussdev')->getCategories(2) as $_cat): ?>
+                            <li name="<?php echo $_cat->getId(); ?>"><?php echo $this->escapeHtml($_cat->getName()); ?>
+                                <?php if ($_cat->getData('children')): ?>
+                                    <ul class="item-category-submenu">
+                                        <?php foreach ($_cat->getData('children') as $_subcat): ?>
+                                            <li name="<?php echo $_subcat->getId(); ?>"><?php echo $this->escapeHtml($_subcat->getName()); ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <input type="hidden" class="item-cat-selected-input required-entry" name="categoryIds"/>
+                </div>
+            </div>
+        </div>
+        <div class="item-details-input-container clearfix">
+            <div class="item-details-left">
+                Select item list:
+            </div>
+            <div class="item-details-right">
+                <div class="item-category-select-container">
+                    <div class="selectedItem">
+                        <span>Item list</span>
+                    </div>
+                    <ul class="item-category-menu ilSelect">
+                        <?php foreach (Mage::helper('GaussDev_Multilist')->getListInfo() as $_list): ?>
+                            <li name="<?php echo $_list['id'] ?>"><?php echo $this->escapeHtml($_list['name']) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <input type="hidden" class="item-list-selected-input" name="listId"/>
+                </div>
+            </div>
+        </div>
+        <div class="item-details-input-container">
+            <!-- SUBMIT -->
+            <input type="submit" value="SUBMIT" class="header-submit-item"/>
+        </div>
+    </div>
+    </form>
+<script type="text/javascript">
+    //< ![CDATA[
+    var customForm = new VarienForm('create-customer-product');
+    //]]>
+</script>

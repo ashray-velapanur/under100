@@ -1,0 +1,98 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+
+<?php $userLogInStatus = Mage::getSingleton('customer/session')->isLoggedIn() ?>
+<?php if(!$userLogInStatus): ?>
+
+<div class="footer-newsletter-container">
+    <div class="footer-newsletter-inner clearfix">
+        <div class="footer-newsletter-left">
+            <?php echo $this->__('Subscribe to our newsletter') ?>
+            <span><?php echo $this->__('never miss our latest products and sales') ?></span>
+        </div>
+        <div class="footer-newsletter-right">
+            <div class="footer-newsletter-block">
+                <?php echo $this->getLayout()->createBlock('newsletter/subscribe')->setTemplate('newsletter/subscribe.phtml')->toHtml(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php else: ?>
+<?php endif ?>
+
+<div class="footer-links-container">
+    <div class="footer-links-inner clearfix">
+        <div class="section group">
+            <div class="col col-1-of-4">
+                <div class="footer-links-block">
+                    <div class="footer-links-title">
+                        Customer Service
+                    </div>
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('customer_service_footer')->toHtml(); ?>
+                </div>
+            </div>
+            <div class="col col-2-of-4">
+                <div class="section group">
+                    <div class="col col-1-of-2">
+                        <div class="footer-links-block">
+                            <div class="footer-links-title footer-title-alt">
+                                <img src="<?php echo $this->getSkinUrl('images/footer/Under100-small.png') ?>" />
+                                <span>iPhone App</span>
+                            </div>
+                            <a class="app-store-href" href="#">
+                                <img src="<?php echo $this->getSkinUrl('images/footer/appStore.png') ?>" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-1-of-2">
+                        <div class="footer-links-block">
+                            <div class="footer-links-title footer-title-alt">
+                                <img src="<?php echo $this->getSkinUrl('images/footer/Under100-small.png') ?>" />
+                                <span>Android App</span>
+                            </div>
+                            <a class="google-store-href" href="#">
+                                <img src="<?php echo $this->getSkinUrl('images/footer/googlePlay.png') ?>" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="download-text">
+                    Enhance your shopping experience on your mobile devices by using UNDER100  iPhone and Android Apps
+                </div>
+            </div>
+            <div class="col col-1-of-4">
+                <div class="footer-links-block">
+                    <div class="footer-links-title">
+                        Contact Us
+                    </div>
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('contact_us_footer')->toHtml(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+
+<?php
+
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+$customer_id = $customer->getId();
+
+//var_dump($customer_id);
+
+
+$model = Mage::getModel('radweb_stripe/users');
+
+$stripe_user = $model->loadById($customer_id);
+
+//var_dump($stripe_user->getStripeToken());
+$customer_token = $stripe_user->getCustomerToken();
+
+
+if($customer_token == null)
+{
+    $cards = array();
+}
+else
+{
+
+    $stripeCustomer = Stripe_Customer::retrieve($customer_token);
+    $cards = $stripeCustomer->cards->data;
+
+    //var_dump($cards);
+
+}
+
+?>
+
+<div class="my-stripe-cards">
+        <div class="page-title title-buttons">
+            <h1>My Credit Cards</h1>
+        </div>
+
+        <?php if(count($cards)>0): ?>
+        <table class="data-table">
+	    <thead>
+	        <tr class="first last">
+
+                <th>Type</th>
+                <th>Number</th>
+                <th>Expires</th>
+                <th>Name</th>
+                <th>Actions</th>
+	        </tr>
+	    </thead>
+    	<tbody>
+            <?php foreach($cards as $k => $card): ?>
+            <tr>
+                <td><?php echo $card->type; ?></td>
+                <td>****<?php echo $card->last4; ?></td>
+                <td><?php echo $card->exp_month.'/'.$card->exp_year; ?></td>
+                <td><?php echo $card->name; ?></td>
+                <td><a href="<?php echo $this->getItemRemoveUrl($k); ?>" onclick="return confirmRemoveStripeItem();" title="<?php echo $this->__('Remove Item') ?>"
+    class="btn-remove btn-remove2"><?php echo $this->__('Remove item');?></a></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+		</table>
+    <?php else: ?>
+    <p>You have no saved Credit Cards.</p>
+
+
+    <?php endif; ?>
+
+   		<div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    	</div>
+</div>
+
+<script type="text/javascript">
+function confirmRemoveStripeItem() {
+            return confirm('Are you sure you want to remove this card from your saved stripe cards list?');
+        }
+</script>

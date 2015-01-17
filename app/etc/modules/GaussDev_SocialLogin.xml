@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GaussDev_SocialLogin>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends></depends>
+        </GaussDev_SocialLogin>
+    </modules>
+</config>

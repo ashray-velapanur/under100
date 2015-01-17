@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Under_SearchLayout>
+            <version>0.1.0</version>
+        </Under_SearchLayout>
+    </modules>
+    <global>
+        <page>
+            <layouts>
+                <Under_SearchLayout translate="label">
+                    <label>Search page</label>
+                    <template>page/Under-Search.phtml</template>
+                    <layout_handle>page_Under_SearchLayout</layout_handle>
+                </Under_SearchLayout>
+                <!-- add more layouts here -->
+            </layouts>
+        </page>
+    </global>
+</config>

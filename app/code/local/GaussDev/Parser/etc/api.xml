@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <customer_products translate="title" module="gaussdev_parser">
+                <model>gaussdev_parser/api</model>
+                <title>Customer Products API</title>
+                <acl>gaussdev_parser</acl>
+                <methods>
+                    <create translate="title" module="gaussdev_parser">
+                        <title>Create customer product</title>
+                    </create>
+                    <parse_url translate="title" module="gaussdev_parser">
+                        <title>Parse product URL</title>
+                    </parse_url>
+                    <get_image_from_url translate="title" module="gaussdev_parser">
+                        <title>Get image from URL</title>
+                    </get_image_from_url>
+                    <upload_image translate="title" module="gaussdev_parser">
+                        <title>Upload image</title>
+                    </upload_image>
+                    <create_from_url translate="title" module="gaussdev_parser">
+                        <title>Create product from URL</title>
+                    </create_from_url>
+                    <get_brands translate="title" module="gaussdev_parser">
+                        <title>Get Brands</title>
+                    </get_brands>
+                </methods>
+                <faults module="gaussdev_parser">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid data provided.</message>
+                    </data_invalid>
+                </faults>
+            </customer_products>
+        </resources>
+        <acl>
+            <resources>
+                <gaussdev_parser translate="title" module="gaussdev_parser">
+                    <title>Customer Products API</title>
+                    <sort_order>1</sort_order>
+                </gaussdev_parser>
+            </resources>
+        </acl>
+    </api>
+</config>

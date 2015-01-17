@@ -1,0 +1,12 @@
+<layout version="0.1.0">
+    <customer_accountpage_index translate="label">
+        <label>Public Profile</label>
+            <reference name="head">
+                    <action method="setTitle"><title>Public Profile</title></action> <!--Page Title-->
+            </reference>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="customcustomerpage/customer" name="customcustomerpage" before="-" template="customer/custom_customer_page.phtml"/>
+        </reference>	
+    </customer_accountpage_index>
+</layout> 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <under translate="title" module="gaussdev">
+                <model>gaussdev/api</model>
+                <title>Under100 API</title>
+                <acl>under</acl>
+                <methods>
+                    <homefeed translate="title" module="gaussdev">
+                        <title>Home feed</title>
+                    </homefeed>
+                    <bestsellers translate="title" module="gaussdev">
+                        <title>Best sellers</title>
+                    </bestsellers>
+                    <newarrivals translate="title" module="gaussdev">
+                        <title>New arrivals</title>
+                    </newarrivals>
+                </methods>
+                <faults module="gaussdev">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid data provided.</message>
+                    </data_invalid>
+                </faults>
+            </under>
+        </resources>
+        <acl>
+            <resources>
+                <under translate="title" module="gaussdev">
+                    <title>Under100 API</title>
+                    <sort_order>1</sort_order>
+                </under>
+            </resources>
+        </acl>
+    </api>
+</config>

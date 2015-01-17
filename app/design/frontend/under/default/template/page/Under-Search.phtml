@@ -1,0 +1,204 @@
+
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+
+$type = $this->getRequest()->getParam('t');
+$query = $this->getRequest()->getParam('q');
+if (!$type || !$query) {
+    Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl()); return;
+}
+if ($type == 'people') {
+    $people = true;
+    $groupId = '1';
+} else {
+    $people = false;
+    $groupId = '4';
+}
+$result = Mage::helper('gaussdev')->searchCustomers($groupId, $query);
+$loggedInCustomer = Mage::getSingleton('customer/session')->getCustomer();
+$loggedInFollowing=array();
+if ($loggedInCustomer->getId()) {
+    $loggedInFollowing = Mage::getResourceModel('customer/customer_collection')->addAttributeToFilter('entity_id', array('in' => Mage::helper('GaussDev_Follow')->getFollowing($loggedInCustomer->getId())))->getAllIds();
+}
+$query=$this->escapeHtml($query);
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<?php $productsHelper=Mage::helper('productranking'); ?>
+<?php $prices=$productsHelper->applyFilter();?>
+<?php $likeHelper=Mage::helper('GaussDev_Like');?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="content-wrap">
+            <div class="content-container">
+                <div class="main-container col1-layout">
+                    <div class="main">
+                        <?php echo $this->getChildHtml('breadcrumbs') ?>
+                        <div class="page-title-global">
+                            <h1>Results for: '<?php echo $query?>'</h1>
+                        </div>
+
+
+                        <div class="search-tollbar-container clearfix">
+                            <div class="search-toolbar-info">
+                                <b><?php if($people) echo "People"; else echo "Brand"?></b> results for: '<?php echo $query?>'
+                            </div>
+                            <div class="search-toolbar-links">
+
+                                <a href="<?php echo Mage::getUrl('catalogsearch/result', array('_query'=>array('q'=>$query))) ?>">
+                                    Products
+                                </a>
+                                <a href="<?php echo Mage::getUrl('search',array('_query'=>array('q'=>$query,'t'=>'people')))?>"<?php if($type=="people") echo '  class="current-search"'?>>
+                                    People
+                                </a>
+  								<a href="<?php echo Mage::getUrl('search',array('_query'=>array('q'=>$query,'t'=>'brands')))?>"<?php if($type=="brands") echo '  class="current-search"'?>>
+                                    Brands
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="col-main">
+                            <?php echo $this->getChildHtml('global_messages') ?>
+
+                           <?php if($result->getSize()):?>
+                            <div class="search-results-container">
+                                <ul class="ex-search-list">
+                                    <?php foreach ($result as $follower): $fid= $follower->getId();?>
+
+                                    <li class="ex-search-list-item">
+                                        <div class="ex-search-item clearfix">
+                                            <div class="ex-search-left clearfix">
+                                                <div class="ex-search-img-container">
+                                                    <a href="<?php echo Mage::getUrl('profile',array('_query'=>array('id'=>$fid)))?>">
+	                                                    <img src="<?php echo Mage::helper('gaussdev_customerimages/image')->init($follower)->resize(62); ?>" />
+                                                    </a>
+                                                </div>
+                                                <div class="ex-search-name-container">
+                                                    <!-- link na usera -->
+                                                    <a href="<?php echo Mage::getUrl('profile',array('_query'=>array('id'=>$fid)))?>">
+                                                        <span class="ex-search-nickname">
+                                                            <?php echo $this->escapeHtml($follower->getUsername() ?: ($follower->getFirstname() ?: $follower->getLastname()))?>
+                                                        </span>
+                                                        <span class="ex-search-fullname">
+                                                            <?php echo $this->escapeHtml($follower->getName());?>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <?php if(Mage::getSingleton('customer/session')->isLoggedIn()):  ?>
+                                                    <div class="follow-btn-container">
+                                                        <?php if(in_array($fid, $loggedInFollowing)): ?>
+                                                            <a id="follow_<?php echo $fid ?>" href="#" class="follow-profile following-profile green-follow">Following</a>
+                                                        <?php else: ?>
+                                                            <a id="follow_<?php echo $fid ?>" href="#" class="follow-profile following-profile red-follow">Follow</a>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="ex-search-right">
+                                                <ul>
+                                                    <!-- izlistati max 4 proizvoda od usera/branda slika mora biti 64x64px -->
+                                                    <?php $folProdCol=Mage::getResourceModel('catalog/product_collection')->addAttributeToSelect('*')->addAttributeToFilter('product_owner_id', $follower->getId())->setPageSize(4);$folProdCol->getSelect()->order(new Zend_Db_Expr('RAND()'));foreach($folProdCol as $folProduct): ?>
+                                                    <li>
+                                                        <a href="<?php echo $folProduct->getUrlPath() ?>" title="<?php echo $this->escapeHtml($folProduct->getName()) ?>">
+	                                                        <img src="<?php echo Mage::helper('adaptiveResize/image')->init($folProduct, 'image')->constrainOnly(true)->adaptiveResize(64, 64); ?>">
+                                                        </a>
+                                                    </li>
+                                                    <?php endforeach; ?>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php endforeach;?>
+
+                                </ul>
+
+
+
+							<script>
+							    jQuery(function () {
+							        //follow control
+							        jQuery(".following-profile").click(function (e) {
+							            e.preventDefault();
+							            var button = jQuery(this);
+							            var baseUrl = '<?php echo $this->getUrl('follow/index/add') ?>';
+							            var id = jQuery(this).attr('id').match(/(\d+)/)[0];
+							            jQuery.get(baseUrl, {follow: id});
+							            if (button.hasClass('green-follow')) {
+							                button.text('Follow');
+							                button.removeClass('green-follow');
+							                button.addClass('red-follow');
+							            } else {
+							                button.text('Following');
+							                button.removeClass('red-follow');
+							                button.addClass('green-follow');
+							            }
+							        });
+							    });
+							</script>
+
+                            </div>
+                         <?php else:?>
+                         <p class="note-msg">
+							    <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?>
+							    <?php if ($messages = $this->getNoteMessages()):?>
+							        <?php foreach ($messages as $message):?>
+							        <br /><?php echo $message?>
+							        <?php endforeach;?>
+							    <?php endif; ?>
+							</p>
+
+
+
+
+
+                         <?php endif;?>
+                        </div>
+                    </div>
+                </div>
+                <?php echo $this->getChildHtml('footer') ?>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

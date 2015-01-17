@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--step 1: registering the module-->
+<config>
+    <modules>
+        <GaussDev_Customerpage>
+            <active>true</active>
+            <codePool>local</codePool>
+        </GaussDev_Customerpage>
+    </modules>
+</config>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Beagles_Clicks>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Beagles_Clicks>
+    </modules>
+</config>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Under_ProfileLayout>
+            <version>0.1.0</version>
+        </Under_ProfileLayout>
+    </modules>
+    <global>
+        <page>
+            <layouts>
+                <Under_ProfileLayout translate="label">
+                    <label>Profile page</label>
+                    <template>page/Under-Profile.phtml</template>
+                    <layout_handle>page_Under_ProfileLayout</layout_handle>
+                </Under_ProfileLayout>
+                <!-- add more layouts here -->
+            </layouts>
+        </page>
+    </global>
+</config>

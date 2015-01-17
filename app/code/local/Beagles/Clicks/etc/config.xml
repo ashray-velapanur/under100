@@ -1,0 +1,34 @@
+<config>    
+    <modules>
+        <Beagles_Clicks>
+            <version>0.1.0</version>
+        </Beagles_Clicks>
+    </modules>
+    <frontend>
+        <routers>
+            <clicks>
+                <use>standard</use>
+                <args>
+                    <module>Beagles_Clicks</module>
+                    <frontName>clicks</frontName>
+                </args>
+            </clicks>
+        </routers>  
+    </frontend>
+    <global>
+        <models>
+            <clicks>
+                <class>Beagles_Clicks_Model</class>
+                <resourceModel>clicks_resource</resourceModel>
+            </clicks>
+            <clicks_resource>
+                <class>Beagles_Clicks_Model_Resource</class>
+                <entities>
+                    <clicks>
+                        <table>clicks</table>
+                    </clicks>
+                </entities>
+            </clicks_resource>
+        </models>
+    </global>
+</config>

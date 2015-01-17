@@ -1,0 +1,85 @@
+<?php $comment = $this->getComment(); ?>
+<?php $_comment_customer = Mage::getModel('customer/customer')->load($comment->getCustomerId()); ?>
+<?php $_isReply = (bool)$comment->getParentId(); ?>
+<?php if(!$_isReply): ?>
+<li class="comment-single-item clearfix">
+<?php else: ?>
+<li class="child-comment clearfix">
+<?php endif; ?>
+    <div class="comment-single-item-left">
+        <div class="comment-avatar-container">
+            <?php if($_comment_customer->getId()): ?>
+            <a href="<?php echo Mage::getUrl(null, array('_direct' => 'profile','_query'=>array('id'=>$_comment_customer->getId()))); ?>">
+                <?php endif; ?>
+                <img src="<?php echo Mage::helper('gaussdev_customerimages/image')->init($_comment_customer->getId())->resize(62) ?>"/>
+                <?php if($_comment_customer->getId()): ?>
+            </a>
+        <?php endif; ?>
+        </div>
+    </div>
+    <div class="comment-single-item-right">
+        <?php if($_comment_customer->getId()): ?>
+            <a href="<?php echo Mage::getUrl(null, array('_direct' => 'profile','_query'=>array('id'=>$_comment_customer->getId()))); ?>">
+                <span class="comment-username">
+                    <?php echo $this->escapeHtml($_comment_customer->getUsername() ?: ($_comment_customer->getFirstname() ?: $_comment_customer->getLastname())) ?>
+                </span>
+            </a>
+        <?php else: ?>
+            <i>deleted</i>
+        <?php endif; ?>
+        <div class="comment-info-completed clearfix">
+            <span class="comment-date-container">
+                <?php echo $this->formatTime($comment->getCreatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true) ?>
+            </span>
+            <?php $userLogInStatus = Mage::getSingleton('customer/session')->isLoggedIn() ?>
+            <?php if($userLogInStatus && !$_isReply): ?>
+            <div class="comment-rply-link">
+                <a href="#" class="rply-btn-comment">Reply</a>
+            </div>
+            <?php endif; ?>
+            <div class="comment-like-container">
+            <?php if ($userLogInStatus): ?>
+                <?php if(!$comment['current_customer']['liked']): ?>
+                <a class="like-button" id="<?php echo $comment->getId() ?>" href="#">Like</a>
+                <?php else: ?>
+                <a class="like-button liked" id="<?php echo $comment->getId() ?>" href="#">Unlike</a>
+                <?php endif; ?>
+            <?php endif; ?>
+                <span class="like-count"><?php echo $comment->getLikes() ?></span><span class="icon-sprite favourite-xsmall-ico"></span>
+            </div>
+        </div>
+        <?php if($_isReply): ?>
+        <div class="clr"></div>
+        <?php endif; ?>
+        <div class="comment-complete-txt">
+            <?php echo nl2br($this->addTags($this->escapeHtml($comment->getMessage()), $comment->getTags())) ?>
+        </div>
+        <?php if(!$_isReply): ?>
+        <div class="clr"></div>
+        <div class="rply-comment-container" style="display:none;">
+            <div class="rply-comment-close"><span class="icon-sprite close-small-ico"></span></div>
+            <?php echo $this->getLayout()->createBlock('gaussdev_comments/product_comments')
+                      ->setParentId($comment->getId())
+                      ->setProductId($comment->getProductId())
+                      ->setTemplate('comments/form.phtml')
+                      ->toHtml(); ?>
+        </div>
+        <?php endif; ?>
+        <?php if($comment->getReplies()): ?>
+
+            <ul class="child-comment-list">
+                <?php foreach($comment->getReplies() as $reply): ?>
+                <?php echo $this->getLayout()->createBlock('gaussdev_comments/product_comment')
+                          ->setComment($reply)
+                          ->setTemplate('comments/comment.phtml')
+                          ->toHtml(); ?>
+                <?php endforeach; ?>
+            </ul>
+            <div class="loadMoreChildComments-container">
+                <span class="loadMoreChildComments">
+                    Load more replies
+                </span>
+            </div>
+        <?php endif; ?>
+    </div>
+</li>
