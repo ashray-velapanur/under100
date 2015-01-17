@@ -1,0 +1,34 @@
+<config>    
+    <modules>
+        <Beagles_Rewards>
+            <version>0.1.0</version>
+        </Beagles_Rewards>
+    </modules>
+    <frontend>
+        <routers>
+            <rewards>
+                <use>standard</use>
+                <args>
+                    <module>Beagles_Rewards</module>
+                    <frontName>rewards</frontName>
+                </args>
+            </rewards>
+        </routers>  
+    </frontend>
+    <global>
+	    <models>
+	        <rewards>
+	            <class>Beagles_Rewards_Model</class>
+	            <resourceModel>rewards_resource</resourceModel>
+	        </rewards>
+            <rewards_resource>
+    	        <class>Beagles_Rewards_Model_Resource</class>
+	            <entities>
+	                <clicks>
+	                    <table>rewards</table>
+	                </clicks>
+	            </entities>
+	        </rewards_resource>
+	    </models>
+	</global>
+</config>
