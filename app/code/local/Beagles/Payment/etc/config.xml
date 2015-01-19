@@ -1,0 +1,18 @@
+<config>    
+    <modules>
+        <Beagles_Payment>
+            <version>0.1.0</version>
+        </Beagles_Payment>
+    </modules>
+    <frontend>
+        <routers>
+            <payment>
+                <use>standard</use>
+                <args>
+                    <module>Beagles_Payment</module>
+                    <frontName>payment</frontName>
+                </args>
+            </payment>
+        </routers>  
+    </frontend>
+</config>

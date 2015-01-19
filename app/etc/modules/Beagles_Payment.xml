@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Beagles_Payment>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Beagles_Payment>
+    </modules>
+</config>
