@@ -8,7 +8,10 @@ class Beagles_Rewards_IndexController extends Mage_Core_Controller_Front_Action 
     }
 
     public function updateAction() {
-        $pid = intval($this->getRequest()->getParam('pid'));
+        $pid = intval($this->getRequest()->getPost('pid'));
+        if (!$pid) {
+            return;
+        }
         $clicks = Mage::getModel('rewards/clicks')->load($pid);
         if (!$clicks->getData()) {
         	$clicks->setId($pid);
