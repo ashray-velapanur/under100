@@ -25,7 +25,7 @@
     	        <class>Beagles_Rewards_Model_Resource</class>
 	            <entities>
 	                <clicks>
-	                    <table>rewards</table>
+	                    <table>clicks</table>
 	                </clicks>
 	            </entities>
 	        </rewards_resource>

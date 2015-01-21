@@ -4,23 +4,26 @@ class Beagles_Rewards_IndexController extends Mage_Core_Controller_Front_Action 
     public function indexAction() {
 
         echo 'Hello Index!';
-
+        $date = new Zend_Date("2010-12-06 08:20:15");
+        var_dump($date);
     }
 
     public function updateAction() {
         $pid = intval($this->getRequest()->getPost('pid'));
-        if (!$pid) {
+        $uid = intval($this->getRequest()->getPost('uid'));
+        $url = strval($this->getRequest()->getPost('url'));
+        Mage::log('... here');
+        Mage::log($url);
+        if (!$pid || !$uid) {
             return;
         }
-        $clicks = Mage::getModel('rewards/clicks')->load($pid);
-        if (!$clicks->getData()) {
-        	$clicks->setId($pid);
-        	$clicks->setCount(1);
-        } else {
-	        $curr_count = $clicks->getData('count');
-	        $clicks->setCount($curr_count + 1);
-        }
- 		$clicks->save();
+        $currTimestamp = strval(time());
+        $clicks = Mage::getModel('rewards/clicks');
+        $clicks->setPid($pid);
+        $clicks->setUid($uid);
+        $clicks->setUrl($url);
+        $clicks->setDatetime($currTimestamp);
+        $clicks->save();
     }
 
 	public function testModelAction() {
