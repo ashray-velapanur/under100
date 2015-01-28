@@ -1,0 +1,29 @@
+<config>    
+    <modules>
+        <Beagles_Emails>
+            <version>0.1.0</version>
+        </Beagles_Emails>
+    </modules>
+    <frontend>
+        <routers>
+            <emails>
+                <use>standard</use>
+                <args>
+                    <module>Beagles_Emails</module>
+                    <frontName>emails</frontName>
+                </args>
+            </emails>
+        </routers>  
+    </frontend>
+    <global>
+        <template>
+            <email>
+                <welcome_email>
+                    <label>Welcome</label>
+                    <file>welcome_email.html</file>
+                    <type>html</type>
+                </welcome_email>
+            </email>
+        </template>
+    </global>
+</config>
