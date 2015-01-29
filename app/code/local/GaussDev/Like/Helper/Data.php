@@ -80,10 +80,8 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $sql = "SELECT `id` FROM `gaussdev_like` WHERE `productID`=? AND `uid`=?";
         $id = $this->connectionRead->fetchOne($sql, array($productID, $uid));
-        if ($id != false) {
-            $sql = "DELETE FROM `gaussdev_like` WHERE `id`=?";
-
-            return $this->writeToDb($sql, $id);
+        if ($id) {
+            return false;
         }
         $sql = "INSERT INTO `gaussdev_like`(`productID`, `uid`) VALUES (?,?)";
         $insertedId = $this->writeToDb($sql, true, array($productID, $uid));

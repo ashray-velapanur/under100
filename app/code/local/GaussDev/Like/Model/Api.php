@@ -11,7 +11,6 @@ class GaussDev_Like_Model_Api extends Mage_Api_Model_Resource_Abstract
 	}
 
 	public function likeProduct($arg){
-
 		if(!isset($arg['productID'])) return (array("error"=>"400")); //Malformed request.
         if(empty($arg['productID'])) return (array("error"=>"401"));;	//Empty product id
         if(!isset($arg['uid'])) return (array("error"=>"400")); //Malformed request.
@@ -19,7 +18,7 @@ class GaussDev_Like_Model_Api extends Mage_Api_Model_Resource_Abstract
         $productID=$arg['productID'];
         $uid=$arg['uid'];
         $response=$this->helper->addLike($productID, $uid);
-		if($response) return array("response"=>$this->helper->countLikes($productID)); else return array(array("error"=>"500"));
+ if($response) return array("response"=>$this->helper->countLikes($productID)); else return array(array("error"=>"Product already liked."));
 
 
 	}
