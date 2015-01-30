@@ -23,7 +23,7 @@ class GaussDev_Multilist_Model_Api extends Mage_Api_Model_Resource_Abstract
 				mage::log($list);
 			}
 		}
-		if($response) return array("response"=>$response); else  return (array("error"=>"500"));
+		return array("response"=>$response);
 	}
 
 
