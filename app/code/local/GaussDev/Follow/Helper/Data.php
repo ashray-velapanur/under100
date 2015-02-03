@@ -10,6 +10,19 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
         $this->connectionRead = Mage::getSingleton('core/resource')->getConnection('core_read'); // instantiate read connection on start
     }
 
+    private function updateNewFollowerCount($uid) {
+        Mage::log('updating new follower count');
+        $sql = "SELECT `count` FROM `new_followers` WHERE `uid`=?";
+        $count = $this->connectionRead->fetchOne($sql, array($uid));
+        if (!$count){
+            $sql = "INSERT INTO `new_followers`(`uid`, `count`) VALUES (?,?)";
+            $this->writeToDb($sql, true, array($uid, 1));
+        } else {
+            $sql = "UPDATE `new_followers` SET `count`=? WHERE `uid`=?";
+            $this->writeToDb($sql, true, array($count + 1, $uid));
+        }
+    }
+
     public function addFollower($uid, $followUid)
     {
         if (empty($uid) || is_null($uid)) {
@@ -17,29 +30,28 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
                 $session = Mage::getSingleton('customer/session');
                 $uid = $session->getId();
             } else {
-                return 403;
+                return array("success"=>"false", "error"=>"Please Login.");
             }
         }
         if (!is_numeric($uid)) {
-            return null;
+            return array("success"=>"false", "error"=>"Invalid User ID.");
         }
         $sql = "SELECT `id` FROM `gaussdev_follow` WHERE `follow_uid`=? AND `uid`=?";
         $id = $this->connectionRead->fetchOne($sql,array($followUid, $uid));
-        if ($id != false) {
-            $sql = "DELETE FROM `gaussdev_follow` WHERE `id`=?";
-
-            return $this->writeToDb($sql, false, $id);
+        if ($id) {
+            return array("success"=>"false", "error"=>"Already Following.");
         }
+
         $sql = "INSERT INTO `gaussdev_follow`(`follow_uid`, `uid`) VALUES (?,?)";
 
         $insertedId = $this->writeToDb($sql, true, array($followUid, $uid));
-
+        $this->updateNewFollowerCount($uid);
         try {
             Mage::getModel('notifications/notification')->setType('user_followed')->setNotifyId($followUid)->setDataId($insertedId)->save();
         } catch (Exception $e) {
         }
 
-        return $insertedId;
+        return array("success"=>"true");
     }
 
     private function writeToDb($sql, $isInsert = false, $bind=null)
