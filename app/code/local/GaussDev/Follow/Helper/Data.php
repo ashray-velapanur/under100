@@ -10,8 +10,19 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
         $this->connectionRead = Mage::getSingleton('core/resource')->getConnection('core_read'); // instantiate read connection on start
     }
 
+    public function getNewFollowers($uid) {
+        $sql = "SELECT `count` FROM `new_followers` WHERE `uid`=?";
+        $count = $this->connectionRead->fetchOne($sql, array($uid));
+        if ($count) {
+            $sql = "DELETE FROM `new_followers` WHERE `uid` = ?";
+            $this->writeToDb($sql, false, array($uid));
+            return array("newFollowers"=>$count);
+        }
+    return array("newFollowers"=>0);
+    }
+
+
     private function updateNewFollowerCount($uid) {
-        Mage::log('updating new follower count');
         $sql = "SELECT `count` FROM `new_followers` WHERE `uid`=?";
         $count = $this->connectionRead->fetchOne($sql, array($uid));
         if (!$count){
