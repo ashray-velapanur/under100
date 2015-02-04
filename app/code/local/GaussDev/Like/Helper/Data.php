@@ -76,24 +76,41 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
+    private function updateNewLikeCount($uid) {
+        $sql = "SELECT `count` FROM `new_likes` WHERE `uid`=?";
+        $count = $this->connectionRead->fetchOne($sql, array($uid));
+        if (!$count){
+            $sql = "INSERT INTO `new_likes`(`uid`, `count`) VALUES (?,?)";
+            $this->writeToDb($sql, true, array($uid, 1));
+        } else {
+            $sql = "UPDATE `new_likes` SET `count`=? WHERE `uid`=?";
+            $this->writeToDb($sql, true, array($count + 1, $uid));
+        }
+    }
+
     public function addLike($productID, $uid)
     {
         $sql = "SELECT `id` FROM `gaussdev_like` WHERE `productID`=? AND `uid`=?";
         $id = $this->connectionRead->fetchOne($sql, array($productID, $uid));
         if ($id) {
-            return false;
+            return array("success"=>"false", "error"=>"Already Liked.");
         }
         $sql = "INSERT INTO `gaussdev_like`(`productID`, `uid`) VALUES (?,?)";
         $insertedId = $this->writeToDb($sql, true, array($productID, $uid));
 
-        $notifyId = Mage::getModel('catalog/product')->load($productID)->getProductOwnerId();
+        $ownerId = Mage::getModel('catalog/product')->load($productID)->getProductOwnerId();
+
+        if ($ownerId){
+            $this->updateNewLikeCount($ownerId);
+        }
+
         try {
-            Mage::getModel('notifications/notification')->setType('post_liked')->setNotifyId($notifyId)->setDataId($insertedId)->save();
+            Mage::getModel('notifications/notification')->setType('post_liked')->setNotifyId($ownerId)->setDataId($insertedId)->save();
         } catch (Exception $e) {
             sleep(1);
         }
 
-        return $insertedId;
+        return array("success"=>"true");
     }
 
     public function checkLiked($productID, $uid = null)
