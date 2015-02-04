@@ -23,6 +23,10 @@
 							<title>getlikes</title>
 							<acl>like/getlikes</acl>
 						</likeproduct>        
+                        <newlikes translate="title" module="GaussDev_Like">
+                            <title>getlikes</title>
+                            <acl>like/newlikes</acl>
+                        </newlikes>        
                 </methods>
             </like_api>
         </resources>

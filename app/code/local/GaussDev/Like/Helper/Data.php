@@ -88,6 +88,16 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
+    public function getNewLikes($uid) {
+        $sql = "SELECT `count` FROM `new_likes` WHERE `uid`=?";
+        $count = $this->connectionRead->fetchOne($sql, array($uid));
+        if ($count) {
+            return array("newLikes"=>$count);
+        } else {
+            return array("newLikes"=>0);
+        }
+    }
+
     public function addLike($productID, $uid)
     {
         $sql = "SELECT `id` FROM `gaussdev_like` WHERE `productID`=? AND `uid`=?";
