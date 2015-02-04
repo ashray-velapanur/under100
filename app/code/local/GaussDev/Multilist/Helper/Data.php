@@ -33,6 +33,26 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 
 	}
 
+	public function getAddedToList($uid) {
+        $sql = "SELECT `count` FROM `new_list_adds` WHERE `uid`=?";
+        $count = $this->connectionRead->fetchOne($sql, array($uid));
+        if ($count) {
+            return array("newListAdds"=>$count);
+        } else {
+            return array("newListAdds"=>0);
+        }
+	}
+
+	public function resetAddedToList($uid) {
+        $sql = "SELECT `count` FROM `new_list_adds` WHERE `uid`=?";
+        $count = $this->connectionRead->fetchOne($sql, array($uid));
+        if ($count) {
+            $sql = "DELETE FROM `new_list_adds` WHERE `uid` = ?";
+            $this->writeToDb($sql, false, array($uid));
+            return array("success"=>"true");
+        }
+        return array("success"=>"false");
+	}
 
 	public function countListItems($listID){
 		$sql = "SELECT count(`id`) as 'total' FROM `gaussdev_listsItems` WHERE `list_fk`=?";
@@ -58,10 +78,31 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 
 	}
 
-	public function additem($listID, $item){
-		if(empty($listID) || empty($item)) return false;
+	private function updateAddedToListCount($uid) {
+		Mage::log('updating list count');
+        $sql = "SELECT `count` FROM `new_list_adds` WHERE `uid`=?";
+        $count = $this->connectionRead->fetchOne($sql, array($uid));
+        if (!$count){
+            $sql = "INSERT INTO `new_list_adds`(`uid`, `count`) VALUES (?,?)";
+            $this->writeToDb($sql, true, array($uid, 1));
+        } else {
+            $sql = "UPDATE `new_list_adds` SET `count`=? WHERE `uid`=?";
+            $this->writeToDb($sql, true, array($count + 1, $uid));
+        }
+	}
+
+
+	public function additem($listId, $itemId){
+		if(empty($listId) || empty($itemId)) return false;
 		$sql = "INSERT INTO `gaussdev_listsItems`( `list_fk`, `productID`) VALUES (?,?)" ;
-		return $this->writeToDb($sql,true,array($listID,$item));
+
+        $ownerId = Mage::getModel('catalog/product')->load($itemId)->getProductOwnerId();
+        if ($ownerId) {
+        	$this->updateAddedToListCount($ownerId);
+        }
+
+		return $this->writeToDb($sql,true,array($listId, $itemId));
+
 	}
 
 

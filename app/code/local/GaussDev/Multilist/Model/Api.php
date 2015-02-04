@@ -10,6 +10,21 @@ class GaussDev_Multilist_Model_Api extends Mage_Api_Model_Resource_Abstract
 
 	}
 
+	public function addedToList($arg) {
+		$uid=$arg['uid'];
+		if(!isset($uid)) return array(array("error"=>"400")); //Malformed request.
+		if(empty($uid)) return array(array("error"=>"401"));	//Empty request
+		$response=$this->helper->getAddedToList($uid);
+		return $response;
+	}
+
+	public function resetAddedToList($arg) {
+		$uid=$arg['uid'];
+		if(!isset($uid)) return array(array("error"=>"400")); //Malformed request.
+		if(empty($uid)) return array(array("error"=>"401"));	//Empty request
+		$response=$this->helper->resetAddedToList($uid);
+		return $response;		
+	}
 
 	public function getlistinfo($arg){
 		if(!isset($arg['uid'])) return array(array("error"=>"400")); //Malformed request.
@@ -106,7 +121,7 @@ class GaussDev_Multilist_Model_Api extends Mage_Api_Model_Resource_Abstract
 		$listId=$arg['listId'];
 		$itemId=$arg['itemId'];
 
-		$response= $this->helper->additem($listId,$itemId );
+		$response= $this->helper->additem($listId, $itemId);
 		if($response) return array("response"=>1); else  return (array("error"=>"500"));
 	}
 

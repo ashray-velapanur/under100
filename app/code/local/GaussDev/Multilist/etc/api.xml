@@ -40,6 +40,12 @@
 						<uploadimage translate="title" module="GaussDev_Multilist">
 							<title>uploadimage</title>
 						</uploadimage>
+						<addedtolist translate="title" module="GaussDev_Multilist">
+							<title>addedtolist</title>
+						</addedtolist>
+						<resetaddedtolist translate="title" module="GaussDev_Multilist">
+							<title>resetaddedtolist</title>
+						</resetaddedtolist>
                 </methods>
             </multilist_api>
         </resources>
