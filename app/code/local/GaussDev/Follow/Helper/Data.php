@@ -14,13 +14,21 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
         $sql = "SELECT `count` FROM `new_followers` WHERE `uid`=?";
         $count = $this->connectionRead->fetchOne($sql, array($uid));
         if ($count) {
-            $sql = "DELETE FROM `new_followers` WHERE `uid` = ?";
-            $this->writeToDb($sql, false, array($uid));
             return array("newFollowers"=>$count);
         }
-    return array("newFollowers"=>0);
+        return array("newFollowers"=>0);
     }
 
+    public function resetNewFollowers($uid) {
+        $sql = "SELECT `count` FROM `new_followers` WHERE `uid`=?";
+        $count = $this->connectionRead->fetchOne($sql, array($uid));
+        if ($count) {
+            $sql = "DELETE FROM `new_followers` WHERE `uid` = ?";
+            $this->writeToDb($sql, false, array($uid));
+            return array("success"=>"true");
+        }
+        return array("success"=>"false");
+    }
 
     private function updateNewFollowerCount($uid) {
         $sql = "SELECT `count` FROM `new_followers` WHERE `uid`=?";

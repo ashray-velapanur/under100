@@ -18,6 +18,14 @@ class GaussDev_Follow_Model_Api extends Mage_Api_Model_Resource_Abstract
         $response=$this->helper->getNewFollowers($uid);
         return $response;
 	}
+
+	public function resetNewFollowers($arg){
+		$uid = $arg['uid'];
+        if(!isset($uid)) return (array("error"=>"400")); //Malformed request.
+        if(empty($uid)) return(array("error"=>"402"));	//Empty uid
+        $response=$this->helper->resetNewFollowers($uid);
+        return $response;
+	}
 	
 	public function getFollowers($arg){
         if(!isset($arg['uid'])) return (array("error"=>"400")); //Malformed request.

@@ -23,6 +23,10 @@
                             <title>followers</title>
                             <acl>follow/newfollowers</acl>
                         </newfollowers>
+                        <resetnewfollowers translate="title" module="GaussDev_Follow">
+                            <title>followers</title>
+                            <acl>follow/resetnewfollowers</acl>
+                        </resetnewfollowers>
 						<list translate="title" module="GaussDev_Follow">
                         	<title>get info...</title>
                        		<method>info</method>
