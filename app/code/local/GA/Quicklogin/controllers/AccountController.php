@@ -93,10 +93,11 @@ class GA_Quicklogin_AccountController extends Mage_Customer_AccountController
                     if ($session->getCustomer()->getIsJustConfirmed()) {
                         $this->_welcomeCustomer($session->getCustomer(), true);
                     }
+                    $customer = $session->getCustomer();
 					$result['success'] = true;
 					$result['redirecturl'] = Mage::getUrl('customer/account/edit');
-                    $result['customerid'] = $session->getCustomer()->getId();
-
+                    $result['customerid'] = $customer->getId();
+                    $result['name'] = $customer->getName();
 
                 } catch (Mage_Core_Exception $e) {
                     switch ($e->getCode()) {
