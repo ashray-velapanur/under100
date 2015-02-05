@@ -82,14 +82,22 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         $this->writeToDb($sql, true, array($uid, $lid, $pid, $timestamp));
     }
 
+
     public function getNewLikes($uid) {
-        $sql = "SELECT `count` FROM `new_likes` WHERE `uid`=?";
-        $count = $this->connectionRead->fetchOne($sql, array($uid));
-        if ($count) {
-            return array("newLikes"=>$count);
-        } else {
-            return array("newLikes"=>0);
+        $sql = "SELECT * FROM `beagles_new_likes` WHERE `uid`=?";
+        $newLikes = $this->connectionRead->fetchAll($sql, array($uid));
+        Mage::log($newLikes);
+        $response = array();
+        foreach ($newLikes as $newLike) {
+            Mage::log('... here');
+            $name = Mage::getModel('customer/customer')->load($newLike['lid'])->getName();
+            Mage::log($name);
+            $timestamp = $newLike['timestamp'];
+            $productName = Mage::getModel('catalog/product')->load($newLike['pid'])->getName();
+            $like = array("name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName);
+            $response[] = $like;
         }
+        return $response;
     }
 
     public function resetNewLikes($uid) {
