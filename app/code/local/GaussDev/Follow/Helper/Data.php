@@ -11,12 +11,17 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     public function getNewFollowers($uid) {
-        $sql = "SELECT `count` FROM `new_followers` WHERE `uid`=?";
-        $count = $this->connectionRead->fetchOne($sql, array($uid));
-        if ($count) {
-            return array("newFollowers"=>$count);
+        $sql = "SELECT * FROM `beagles_new_followers` WHERE `uid`=?";
+        $newFollowers = $this->connectionRead->fetchAll($sql, array($uid));
+        $response = array();
+        foreach ($newFollowers as $newFollower) {
+            $name = Mage::getModel('customer/customer')->load($newFollower['fid'])->getName();
+            $timestamp = $newFollower['timestamp'];
+            $follower = array("name"=>$name, "timestamp"=>$timestamp);
+            Mage::log($newFollower['fid']);
+            $response[] = $follower;
         }
-        return array("newFollowers"=>0);
+        return $response;
     }
 
     public function resetNewFollowers($uid) {
