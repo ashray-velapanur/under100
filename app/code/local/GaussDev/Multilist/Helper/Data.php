@@ -78,18 +78,11 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 
 	}
 
-	private function updateAddedToListCount($uid) {
-		Mage::log('updating list count');
-        $sql = "SELECT `count` FROM `new_list_adds` WHERE `uid`=?";
-        $count = $this->connectionRead->fetchOne($sql, array($uid));
-        if (!$count){
-            $sql = "INSERT INTO `new_list_adds`(`uid`, `count`) VALUES (?,?)";
-            $this->writeToDb($sql, true, array($uid, 1));
-        } else {
-            $sql = "UPDATE `new_list_adds` SET `count`=? WHERE `uid`=?";
-            $this->writeToDb($sql, true, array($count + 1, $uid));
-        }
-	}
+    private function updateListAdds($uid, $pid, $lid) {
+        $timestamp = time();
+        $sql = "INSERT INTO `beagles_new_list_adds`(`uid`, `lid`, `pid`,`timestamp`) VALUES (?,?,?,?)";
+        $this->writeToDb($sql, true, array($uid, $lid, $pid, $timestamp));
+    }
 
 
 	public function additem($listId, $itemId){
@@ -98,7 +91,7 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 
         $ownerId = Mage::getModel('catalog/product')->load($itemId)->getProductOwnerId();
         if ($ownerId) {
-        	$this->updateAddedToListCount($ownerId);
+        	$this->updateListAdds($ownerId, $itemId, $listId);
         }
 
 		return $this->writeToDb($sql,true,array($listId, $itemId));
