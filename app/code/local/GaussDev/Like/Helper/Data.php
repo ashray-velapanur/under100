@@ -76,16 +76,10 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
-    private function updateNewLikeCount($uid) {
-        $sql = "SELECT `count` FROM `new_likes` WHERE `uid`=?";
-        $count = $this->connectionRead->fetchOne($sql, array($uid));
-        if (!$count){
-            $sql = "INSERT INTO `new_likes`(`uid`, `count`) VALUES (?,?)";
-            $this->writeToDb($sql, true, array($uid, 1));
-        } else {
-            $sql = "UPDATE `new_likes` SET `count`=? WHERE `uid`=?";
-            $this->writeToDb($sql, true, array($count + 1, $uid));
-        }
+    private function updateNewLikes($uid, $pid, $lid) {
+        $timestamp = time();
+        $sql = "INSERT INTO `beagles_new_likes`(`uid`, `lid`, `pid`,`timestamp`) VALUES (?,?,?,?)";
+        $this->writeToDb($sql, true, array($uid, $lid, $pid, $timestamp));
     }
 
     public function getNewLikes($uid) {
@@ -122,7 +116,7 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         $ownerId = Mage::getModel('catalog/product')->load($productID)->getProductOwnerId();
 
         if ($ownerId){
-            $this->updateNewLikeCount($ownerId);
+            $this->updateNewLikes($ownerId, $productID, $uid);
         }
 
         try {
