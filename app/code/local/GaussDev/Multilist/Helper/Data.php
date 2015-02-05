@@ -33,6 +33,22 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 
 	}
 
+    public function getNewListAdds($uid) {
+        $sql = "SELECT * FROM `beagles_new_list_adds` WHERE `uid`=?";
+        $newListAdds = $this->connectionRead->fetchAll($sql, array($uid));
+        $response = array();
+        foreach ($newListAdds as $newListAdd) {
+	        $sqlLists = "SELECT `uid` FROM `gaussdev_lists` WHERE `id`=?";
+	        $uidList = $this->connectionRead->fetchOne($sqlLists, array($newListAdd['lid']));
+            $name = Mage::getModel('customer/customer')->load($uidList)->getName();
+            $timestamp = $newListAdd['timestamp'];
+            $productName = Mage::getModel('catalog/product')->load($newListAdd['pid'])->getName();
+            $listAdd = array("name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName);
+            $response[] = $listAdd;
+        }
+        return $response;
+    }
+
 	public function getAddedToList($uid) {
         $sql = "SELECT `count` FROM `new_list_adds` WHERE `uid`=?";
         $count = $this->connectionRead->fetchOne($sql, array($uid));
