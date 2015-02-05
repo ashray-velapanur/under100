@@ -30,16 +30,10 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
         return array("success"=>"false");
     }
 
-    private function updateNewFollowerCount($uid) {
-        $sql = "SELECT `count` FROM `new_followers` WHERE `uid`=?";
-        $count = $this->connectionRead->fetchOne($sql, array($uid));
-        if (!$count){
-            $sql = "INSERT INTO `new_followers`(`uid`, `count`) VALUES (?,?)";
-            $this->writeToDb($sql, true, array($uid, 1));
-        } else {
-            $sql = "UPDATE `new_followers` SET `count`=? WHERE `uid`=?";
-            $this->writeToDb($sql, true, array($count + 1, $uid));
-        }
+    private function updateNewFollowers($uid, $fid) {
+        $timestamp = time();
+        $sql = "INSERT INTO `beagles_new_followers`(`uid`, `fid`, `timestamp`) VALUES (?,?,?)";
+        $this->writeToDb($sql, true, array($uid, $fid, $timestamp));
     }
 
     public function addFollower($uid, $followUid)
@@ -64,7 +58,7 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
         $sql = "INSERT INTO `gaussdev_follow`(`follow_uid`, `uid`) VALUES (?,?)";
 
         $insertedId = $this->writeToDb($sql, true, array($followUid, $uid));
-        $this->updateNewFollowerCount($uid);
+        $this->updateNewFollowers($uid, $followUid);
         try {
             Mage::getModel('notifications/notification')->setType('user_followed')->setNotifyId($followUid)->setDataId($insertedId)->save();
         } catch (Exception $e) {
