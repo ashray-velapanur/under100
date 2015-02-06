@@ -104,28 +104,12 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         $response = array();
         foreach ($newLikes as $newLike) {
             Mage::log('... here');
+            $name = Mage::getModel('customer/customer')->load($newLike['lid'])->getName();
+            Mage::log($name);
             $timestamp = $newLike['timestamp'];
-            $product = Mage::getModel('catalog/product')->load($newLike['pid']);
-            $response[] = array(
-                    'timestamp'=>$timestamp,
-                    'product'=>array(
-                    'product_id'         => $newLike['pid'],
-                    'sku'                => $product->getSku(),
-                    'name'               => $product->getName(),
-                    'set'                => $product->getAttributeSetId(),
-                    'type'               => $product->getTypeId(),
-                    'category_ids'       => $product->getCategoryIds(),
-                    'website_ids'        => $product->getWebsiteIds(),
-                    'is_verified'        => (bool)$product->getIsVerified(),
-                    'price'              => $product->getPrice(),
-                    'description'        => $product->getDescription(),
-                    'short_description'  => $product->getShortDescription(),
-                    'image'              => $product->getImage(),
-                    'small_image'        => $product->getSmallImage(),
-                    'thumbnail'          => $product->getThumbnail(),
-                    'product_origin_url' => $product->getProductOriginUrl(),
-                    'brand'              => $product->getBrand(),
-            ));
+            $productName = Mage::getModel('catalog/product')->load($newLike['pid'])->getName();
+            $like = array("name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName);
+            $response[] = $like;
         }
         return $response;
     }
