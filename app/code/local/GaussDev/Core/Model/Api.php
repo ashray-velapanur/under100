@@ -143,7 +143,7 @@ class GaussDev_Core_Model_Api extends Mage_Api_Model_Resource_Abstract
      * @throws Mage_Core_Exception
      */
     public function homefeed(
-        $customerId, $catIds = array(), $currentPage = 1, $pageSize = 20, $filters = array(), $sortByIds = array()
+        $sortBy, $order, $customerId, $catIds = array(), $currentPage = 1, $pageSize = 20, $filters = array(), $sortByIds = array()
     ) {
         $sortByIds = (array)$sortByIds;
         $currentPage = ($currentPage > 1) ? (int)$currentPage : 1;
@@ -155,6 +155,10 @@ class GaussDev_Core_Model_Api extends Mage_Api_Model_Resource_Abstract
                           ->addAttributeToFilter('visibility', 4)
                           ->addAttributeToFilter('price', array('gt' => 0, 'lt' => 100))
                           ->setPage($currentPage, $pageSize);
+        if ($sortBy && $order) {
+            $collection->setOrder($sortBy, $order);
+        }
+
         if (!$sortByIds) {
             $collection->setOrder('popularityscore', 'DESC');
         }
