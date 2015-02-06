@@ -43,7 +43,29 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
 
         $sql = "SELECT `productID` FROM `gaussdev_like` WHERE `uid`=? AND `productID` IN ({$productIdsBind})";
         $result = $this->connectionRead->fetchAll($sql, $bind);
-        return $result;
+        $response = array();
+        foreach ($result as $id) {
+            $product = Mage::getModel('catalog/product')->load($id);
+            $response[] = array(
+                    'product_id'         => $id,
+                    'sku'                => $product->getSku(),
+                    'name'               => $product->getName(),
+                    'set'                => $product->getAttributeSetId(),
+                    'type'               => $product->getTypeId(),
+                    'category_ids'       => $product->getCategoryIds(),
+                    'website_ids'        => $product->getWebsiteIds(),
+                    'is_verified'        => (bool)$product->getIsVerified(),
+                    'price'              => $product->getPrice(),
+                    'description'        => $product->getDescription(),
+                    'short_description'  => $product->getShortDescription(),
+                    'image'              => $product->getImage(),
+                    'small_image'        => $product->getSmallImage(),
+                    'thumbnail'          => $product->getThumbnail(),
+                    'product_origin_url' => $product->getProductOriginUrl(),
+                    'brand'              => $product->getBrand(),
+            );
+        }
+        return $response;
     }
 
     public function countLikes($productID)
