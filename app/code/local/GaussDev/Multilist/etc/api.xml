@@ -43,9 +43,9 @@
 						<addedtolist translate="title" module="GaussDev_Multilist">
 							<title>addedtolist</title>
 						</addedtolist>
-						<resetaddedtolist translate="title" module="GaussDev_Multilist">
-							<title>resetaddedtolist</title>
-						</resetaddedtolist>
+						<clearaddedtolist translate="title" module="GaussDev_Multilist">
+							<title>clearaddedtolist</title>
+						</clearaddedtolist>
                 </methods>
             </multilist_api>
         </resources>

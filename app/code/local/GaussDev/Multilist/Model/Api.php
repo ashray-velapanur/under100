@@ -18,11 +18,11 @@ class GaussDev_Multilist_Model_Api extends Mage_Api_Model_Resource_Abstract
 		return $response;
 	}
 
-	public function resetAddedToList($arg) {
+	public function clearAddedToList($arg) {
 		$uid=$arg['uid'];
 		if(!isset($uid)) return array(array("error"=>"400")); //Malformed request.
 		if(empty($uid)) return array(array("error"=>"401"));	//Empty request
-		$response=$this->helper->resetAddedToList($uid);
+		$response=$this->helper->clearAddedToList($uid);
 		return $response;		
 	}
 

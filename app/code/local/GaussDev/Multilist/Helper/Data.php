@@ -59,15 +59,9 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
         }
 	}
 
-	public function resetAddedToList($uid) {
-        $sql = "SELECT `count` FROM `new_list_adds` WHERE `uid`=?";
-        $count = $this->connectionRead->fetchOne($sql, array($uid));
-        if ($count) {
-            $sql = "DELETE FROM `new_list_adds` WHERE `uid` = ?";
-            $this->writeToDb($sql, false, array($uid));
-            return array("success"=>"true");
-        }
-        return array("success"=>"false");
+	public function clearAddedToList($uid) {
+        $sql = "DELETE FROM `beagles_new_list_adds` WHERE `uid` = ?";
+        $this->writeToDb($sql, false, array($uid));
 	}
 
 	public function countListItems($listID){
