@@ -76,14 +76,18 @@ class GA_Quicklogin_AccountController extends Mage_Customer_AccountController
      * Login post action
      */
     public function ajaxLoginAction() {
-
-        if ($this->_getSession()->isLoggedIn()) {
-            $this->_redirect('*/*/');
-            return;
-        }
-
         $session = $this->_getSession();
-		$result=array();
+        $result=array();
+
+        if ($session->isLoggedIn()) {
+            Mage::log('... already logged in');
+            $customer = $session->getCustomer();
+            $result['success'] = true;
+            $result['customerid'] = $customer->getId();
+            $result['firstName'] = $customer->getFirstname();
+            $result['lastName'] = $customer->getLastname();
+            $this->getResponse()->setBody(Zend_Json::encode($result));
+        }
 
         if ($this->getRequest()->isPost()) {
             $login = $this->getRequest()->getPost('login');
