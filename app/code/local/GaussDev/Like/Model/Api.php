@@ -31,12 +31,11 @@ class GaussDev_Like_Model_Api extends Mage_Api_Model_Resource_Abstract
 	}
 
 
-	public function resetnewlikes($arg) {
+	public function clearnewlikes($arg) {
         $uid=$arg['uid'];
         if(!isset($uid)) return (array("error"=>"400")); //Malformed request.
         if(empty($uid)) return (array("error"=>"402"));	//Empty uid
-        $response=$this->helper->resetNewLikes($uid);
-        return $response;
+        $response=$this->helper->clearNewLikes($uid);
 	}
 
 	public function getLikes($arg)

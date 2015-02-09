@@ -27,10 +27,10 @@
                             <title>getlikes</title>
                             <acl>like/newlikes</acl>
                         </newlikes>        
-                        <resetnewlikes translate="title" module="GaussDev_Like">
+                        <clearnewlikes translate="title" module="GaussDev_Like">
                             <title>getlikes</title>
-                            <acl>like/resetnewlikes</acl>
-                        </resetnewlikes>        
+                            <acl>like/clearnewlikes</acl>
+                        </clearnewlikes>        
                 </methods>
             </like_api>
         </resources>
