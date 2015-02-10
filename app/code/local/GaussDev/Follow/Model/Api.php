@@ -75,10 +75,7 @@ class GaussDev_Follow_Model_Api extends Mage_Api_Model_Resource_Abstract
         foreach ($followersCollection as $follower){
         	$responseArray[]=array("name" => $follower->getName(), "id"=>$follower->getId(),"image" => $follower->getProfileImage() );
         }
-		if($response) return array("response"=>$responseArray); else  return (array("error"=>"500"));
-
-
-
+		return $response;
 	}
 
     public function info(){
