@@ -27,6 +27,15 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
         return $response;
     }
 
+    public function clearNewTags($uid) {
+        $collection = Mage::getModel('gaussdev_comments/newtag')
+                  ->getCollection()
+                  ->addFieldToFilter('uid', $uid);
+        foreach ($collection as $key => $tag) {
+            $tag->delete();
+        }
+    }
+
     public function create($customerId, $productId, $message, $taggedId = null, $parentId = null)
     {
         if (!is_numeric($customerId) || !is_numeric($productId) || empty($message)

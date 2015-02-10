@@ -13,6 +13,9 @@
                     <newtags translate="title" module="gaussdev_comments">
                         <title>Get comments a user was tagged in</title>
                     </newtags>
+                    <clearnewtags translate="title" module="gaussdev_comments">
+                        <title>Clear recent comment tag notifications</title>
+                    </clearnewtags>
                     <like translate="title" module="gaussdev_comments">
                         <title>Like a comment</title>
                     </like>
