@@ -4,6 +4,7 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
 {
     private function updateNewCommentTags($uid, $cid) {
         $timestamp = time();
+        Mage::log(Mage::getModel('gaussdev_comments/newtag'));
         Mage::getModel('gaussdev_comments/newtag')
             ->setTimestamp($timestamp)
             ->setUid($uid)
@@ -53,7 +54,7 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
         }
 
         if ($taggedId) {
-            $this->updateNewCommentTags($customerId, $taggedId);
+            $this->updateNewCommentTags($taggedId, $customerId);
         }
 
         return true;
