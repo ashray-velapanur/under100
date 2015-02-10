@@ -93,7 +93,14 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $sql = "SELECT `uid` FROM `gaussdev_follow` WHERE `follow_uid`=?";
 
-        return $this->connectionRead->fetchAll($sql, $uid);
+        $response = array();
+
+        foreach ($this->connectionRead->fetchAll($sql, $uid) as $follower) {
+            $name = Mage::getModel('customer/customer')->load($follower['uid'])->getName();
+            $response[] = array('uid'=>$follower['uid'], 'name'=>$name);
+        }
+
+        return $response;
     }
 
     public function getFollowing($uid = '')

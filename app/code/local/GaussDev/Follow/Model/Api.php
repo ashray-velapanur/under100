@@ -32,18 +32,6 @@ class GaussDev_Follow_Model_Api extends Mage_Api_Model_Resource_Abstract
         if(empty($arg['uid'])) return(array("error"=>"402"));	//Empty uid
         $uid=$arg['uid'];
         $response=$this->helper->getFollowers($uid);
-        $followersCollection = Mage::getModel('customer/customer')->getCollection()
- 			->addAttributeToFilter('entity_id', array('in' => $response))
-			->addAttributeToSelect('*');
-
-        $responseArray=array();
-
-        $following=$response=$this->helper->getFollowing($uid);
-        foreach ($followersCollection as $follower){
-        	//if(in_array($follower->getID(), $following)) $following=1; else $following=0;
-        	$responseArray[]=array("name" => $follower->getName(), "id"=>$follower->getId(),"image" => $follower->getProfileImage() ,"following"=>$this->inArray($follower->getId(), $following));
-        }
-
         return $response;
 	}
 
@@ -67,14 +55,6 @@ class GaussDev_Follow_Model_Api extends Mage_Api_Model_Resource_Abstract
 		if(empty($arg['uid'])) return (array("error"=>"402"));	//Empty uid
 		$uid=$arg['uid'];
 		$response=$this->helper->getFollowing($uid);
-		$followersCollection = Mage::getModel('customer/customer')->getCollection()
- 			->addAttributeToFilter('entity_id', array('in' => $response))
-			->addAttributeToSelect('*');
-
-        $responseArray=array();
-        foreach ($followersCollection as $follower){
-        	$responseArray[]=array("name" => $follower->getName(), "id"=>$follower->getId(),"image" => $follower->getProfileImage() );
-        }
 		return $response;
 	}
 
