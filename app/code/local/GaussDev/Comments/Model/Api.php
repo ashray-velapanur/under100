@@ -11,6 +11,21 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
             ->save();
     }
 
+    public function newTags($uid){
+        $collection = Mage::getModel('gaussdev_comments/newtag')
+                  ->getCollection()
+                  ->addFieldToFilter('uid', $uid)
+                  ->toArray();
+        $response = array();
+        foreach ($collection['items'] as $tag) {
+            Mage::log($tag);
+            $timestamp = $tag['timestamp'];
+            $name = Mage::getModel('customer/customer')->load($tag['cid'])->getName();
+            $response[] = array('timestamp'=>$timestamp, 'name'=>$name);
+        }
+        return $response;
+    }
+
     public function create($customerId, $productId, $message, $taggedId = null, $parentId = null)
     {
         if (!is_numeric($customerId) || !is_numeric($productId) || empty($message)

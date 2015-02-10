@@ -10,6 +10,9 @@
                     <create translate="title" module="gaussdev_comments">
                         <title>Create product comment</title>
                     </create>
+                    <newtags translate="title" module="gaussdev_comments">
+                        <title>Get comments a user was tagged in</title>
+                    </newtags>
                     <like translate="title" module="gaussdev_comments">
                         <title>Like a comment</title>
                     </like>
