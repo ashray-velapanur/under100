@@ -2,7 +2,16 @@
 
 class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
 {
-    public function create($customerId, $productId, $message, $parentId = null)
+    private function updateNewCommentTags($uid, $cid) {
+        $timestamp = time();
+        Mage::getModel('gaussdev_comments/newtag')
+            ->setTimestamp($timestamp)
+            ->setUid($uid)
+            ->setCid($cid)
+            ->save();
+    }
+
+    public function create($customerId, $productId, $message, $taggedId = null, $parentId = null)
     {
         if (!is_numeric($customerId) || !is_numeric($productId) || empty($message)
             || !$this->customerExists($customerId)
@@ -23,10 +32,13 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
                 ->setParentId($parentId)
                 ->setMessage($message)
                 ->save();
-
         } catch (Exception $e) {
             Mage::helper('gaussdev')->log($e);
             $this->_fault('data_invalid', $e->getMessage());
+        }
+
+        if ($taggedId) {
+            $this->updateNewCommentTags($customerId, $taggedId);
         }
 
         return true;
