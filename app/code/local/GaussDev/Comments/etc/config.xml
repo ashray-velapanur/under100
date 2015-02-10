@@ -65,6 +65,9 @@
                     <tags>
                         <table>gaussdev_comments_tags</table>
                     </tags>
+                    <newtag>
+                        <table>beagles_new_comment_tags</table>
+                    </newtag>
                 </entities>
             </gaussdev_comments_resource>
         </models>
