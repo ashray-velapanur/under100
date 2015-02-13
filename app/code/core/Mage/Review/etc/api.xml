@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <review translate="title" module="review">
+                <title>Myapi</title>
+                <model>review/api</model>
+                <methods>                    
+					<info translate="title">
+						<title>getlikes</title>
+					</info>  
+					<getreview  translate="title2"  module="review"  >
+						<title>getlikes</title>
+					</getreview>             
+                </methods>
+            </review>
+        </resources>
+    </api>
+</config>
