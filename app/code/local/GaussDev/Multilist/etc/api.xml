@@ -46,6 +46,9 @@
 						<clearaddedtolist translate="title" module="GaussDev_Multilist">
 							<title>clearaddedtolist</title>
 						</clearaddedtolist>
+						<getlists translate="title" module="GaussDev_Multilist">
+							<title>getlists</title>
+						</getlists>
                 </methods>
             </multilist_api>
         </resources>

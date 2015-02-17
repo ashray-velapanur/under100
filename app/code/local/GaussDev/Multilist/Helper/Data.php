@@ -19,6 +19,19 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 		$this->connectionRead=  Mage::getSingleton('core/resource')->getConnection('core_read'); // instantiate read connection on start
 	}
 
+	public function getLists($uid) {
+        $sqlLists = "SELECT * FROM `gaussdev_lists` WHERE `uid`=?";
+        $lists = $this->connectionRead->fetchAll($sqlLists, array($uid));
+        $response = array();
+        foreach ($lists as $list) {
+        	$name = $list['name'];
+        	$id = $list['id'];
+        	$image = $list['image'];
+        	$response[] = array('id'=>$id, 'name'=>$name, 'image'=>$image);
+        }
+        return $response;
+	}
+
 	public function countLists($uid=null){
 		if(empty($uid) || is_null($uid) ){
 			if(Mage::getSingleton('customer/session')->isLoggedIn()){

@@ -10,6 +10,14 @@ class GaussDev_Multilist_Model_Api extends Mage_Api_Model_Resource_Abstract
 
 	}
 
+	public function getLists($arg) {
+		$uid=$arg['uid'];
+		if(!isset($uid)) return array(array("error"=>"400")); //Malformed request.
+		if(empty($uid)) return array(array("error"=>"401"));	//Empty request
+		$response=$this->helper->getLists($uid);
+		return $response;
+	}
+
 	public function addedToList($arg) {
 		$uid=$arg['uid'];
 		if(!isset($uid)) return array(array("error"=>"400")); //Malformed request.
