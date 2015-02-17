@@ -44,8 +44,13 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         $sql = "SELECT `productID` FROM `gaussdev_like` WHERE `uid`=? AND `productID` IN ({$productIdsBind})";
         $result = $this->connectionRead->fetchAll($sql, $bind);
         $response = array();
+
         foreach ($result as $id) {
             $product = Mage::getModel('catalog/product')->load($id);
+            $gallery = array();
+            foreach ($product->getMediaGalleryImages() as $image) {
+                $gallery[] = $image->getUrl();
+            }
             $response[] = array(
                     'product_id'         => $id,
                     'sku'                => $product->getSku(),
@@ -63,6 +68,7 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
                     'thumbnail'          => $product->getThumbnail(),
                     'product_origin_url' => $product->getProductOriginUrl(),
                     'brand'              => $product->getBrand(),
+                    'gallery'            => $gallery
             );
         }
         return $response;
