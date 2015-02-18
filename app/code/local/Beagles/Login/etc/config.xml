@@ -1,0 +1,18 @@
+<config>    
+    <modules>
+        <Beagles_Login>
+            <version>0.1.0</version>
+        </Beagles_Login>
+    </modules>
+    <frontend>
+        <routers>
+            <login>
+                <use>standard</use>
+                <args>
+                    <module>Beagles_Login</module>
+                    <frontName>login</frontName>
+                </args>
+            </login>
+        </routers>  
+    </frontend>
+</config>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Beagles_Login>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Beagles_Login>
+    </modules>
+</config>
