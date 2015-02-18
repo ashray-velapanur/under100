@@ -19,15 +19,16 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                 <!-- [ header starts here] -->
                 <table bgcolor="FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
                     <tr>
-                        <td valign="top">
+                        <td valign="top" bgcolor="#EAEAEA">
                             <a href="{{store url=""}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" style="margin-bottom:10px;" border="0"/></a>
                         </td>
                     </tr>
                     <!-- [ middle starts here] -->
                     <tr>
-                        <td valign="top">
+                        <td valign="top" style="background-image: url('{{var logo_url}}');background-color: whitesmoke;background-repeat: no-repeat;background-position: center center;background-size: 25%;">
                             <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Dear {{htmlescape var=$customer.name}},</h1>
-                            <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">Welcome to {{var store.getFrontendName()}}. To log in when visiting our site just click <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">Login</a> or <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">My Account</a> at the top of every page, and then enter your e-mail address and password.</p>
+                            <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">Welcome to {{var store.getFrontendName()}}. Under 100 is a social marketplace where users can Discover, Buy, and Share Amazing things that are all Under $100 in price. We enable users to discover products on a whole new level by using our community’s interactions to determine product popularity and curate content. Users can buy any item they see as they filter, sort, and tailor our feed, as well as browse our unique sales, deals, and product categories.</p>
+                            <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">To log in when visiting our site just click <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">Login</a> or <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">My Account</a> at the top of every page, and then enter your e-mail address and password.</p>
                             <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;">When you log in to your account, you will be able to do the following:</p>
                             <ul style="font-size:12px; line-height:16px; margin:0 0 16px 0; padding:0;">
                                 <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; Proceed through checkout faster when making a purchase</li>
@@ -37,11 +38,13 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                                 <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; Change your password</li>
                                 <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; Store alternative addresses (for shipping to multiple family members and friends!)</li>
                             </ul>
-                            <p style="font-size:12px; line-height:16px; margin:0;">If you have any questions about your account or any other matter, please feel free to contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or by phone at {{config path='general/store_information/phone'}}.</p>
                         </td>
                     </tr>
                     <tr>
-                        <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you again, <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+                        <td bgcolor="#EAEAEA" align="left" style="background:#EAEAEA; text-align:left;">
+                            <p style="font-size:12px; line-height:16px; margin:0;">If you have any questions about your account or any other matter, please feel free to contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or by phone at {{config path='general/store_information/phone'}}.</p>
+                            <p style="font-size:12px; margin:0;">Thank you again, <strong>{{var store.getFrontendName()}}</strong></p>
+                        </td>
                     </tr>
                 </table>
             </td>
