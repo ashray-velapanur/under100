@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <sociallogin translate="title" module="Beagles_Login">
+                <model>Beagles_Login_Model_Api</model>
+                <title>Social Login</title>
+                <methods>
+                    <login translate="title" module="Beagles_Login">
+                        <title>Login Customer</title>
+                        <acl>sociallogin/login</acl>
+                    </login>
+                </methods>
+            </sociallogin>                
+        </resources>
+        <acl>
+            <resources>
+                    <sociallogin translate="title" module="Beagles_Login">
+                         <title>Login</title>
+                         <login translate="title" module="Beagles_Login">
+                            <title>Login Customer</title>
+                         </login>
+                    </sociallogin>
+            </resources>
+        </acl>
+    </api>
+</config>
