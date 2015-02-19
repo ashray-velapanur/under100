@@ -25,8 +25,8 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                     </tr>
                     <!-- [ middle starts here] -->
                     <tr>
-                        <td valign="top" style="background-image: url('{{var logo_url}}');background-color: whitesmoke;background-repeat: no-repeat;background-position: center center;background-size: 25%;">
-                            <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Dear {{htmlescape var=$customer.name}},</h1>
+                        <td valign="top" style="background: whitesmoke center center/25% no-repeat url('{{var logo_url}}') !important;">
+                            <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;">Dear {{htmlescape var=$customer.name}},</h1>
                             <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">Welcome to {{var store.getFrontendName()}}. Under 100 is a social marketplace where users can Discover, Buy, and Share Amazing things that are all Under $100 in price. We enable users to discover products on a whole new level by using our community’s interactions to determine product popularity and curate content. Users can buy any item they see as they filter, sort, and tailor our feed, as well as browse our unique sales, deals, and product categories.</p>
                             <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">To log in when visiting our site just click <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">Login</a> or <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">My Account</a> at the top of every page, and then enter your e-mail address and password.</p>
                             <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;">When you log in to your account, you will be able to do the following:</p>
