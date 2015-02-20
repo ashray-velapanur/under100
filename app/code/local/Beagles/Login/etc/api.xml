@@ -10,6 +10,10 @@
                         <title>Login Customer</title>
                         <acl>sociallogin/login</acl>
                     </login>
+                    <facebooklogin translate="title" module="Beagles_Login">
+                        <title>Login Customer</title>
+                        <acl>sociallogin/facebooklogin</acl>
+                    </facebooklogin>
                 </methods>
             </sociallogin>                
         </resources>
