@@ -1,0 +1,34 @@
+<config>
+    <modules>
+        <Beagles_Brands>
+            <version>0.1.0</version>
+        </Beagles_Brands>
+    </modules>
+    <frontend>
+        <routers>
+            <brands>
+                <use>standard</use>
+                <args>
+                    <module>Beagles_Brands</module>
+                    <frontName>brands</frontName>
+                </args>
+            </brands>
+        </routers>
+    </frontend>
+    <global>
+	    <models>
+	        <brands>
+	            <class>Beagles_Brands_Model</class>
+	            <resourceModel>brands_resource</resourceModel>
+	        </brands>
+            <brands_resource>
+    	        <class>Beagles_Brands_Model_Resource</class>
+	            <entities>
+	                <brands>
+	                    <table>beagles_brands</table>
+	                </brands>
+	            </entities>
+	        </brands_resource>
+	    </models>
+	</global>
+</config>

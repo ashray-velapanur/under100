@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <brands translate="title" module="Beagles_Brands">
+                <model>Beagles_Brands_Model_Api</model>
+                <title>Brands</title>
+                <methods>
+                    <brands translate="title" module="Beagles_Brands">
+                        <title>Brands</title>
+                        <acl>brands/brands</acl>
+                    </brands>
+                </methods>
+            </brands>
+        </resources>
+        <acl>
+            <resources>
+                    <brands translate="title" module="Beagles_Brands">
+                         <title>Image</title>
+                         <brands translate="title" module="Beagles_Brands">
+                            <title>Brands</title>
+                         </brands>
+                    </brands>
+            </resources>
+        </acl>
+    </api>
+</config>
