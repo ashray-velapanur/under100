@@ -6,21 +6,32 @@
                 <model>Beagles_Brands_Model_Api</model>
                 <title>Brands</title>
                 <methods>
-                    <brands translate="title" module="Beagles_Brands">
-                        <title>Brands</title>
+                    <image translate="title" module="Beagles_Brands">
+                        <title>Image</title>
                         <acl>brands/brands</acl>
-                    </brands>
+                    </image>
+                    <list translate="title" module="Beagles_Brands">
+                        <title>List</title>
+                        <acl>brands/brands</acl>
+                        <method>items</method>
+                    </list>
                 </methods>
             </brands>
         </resources>
         <acl>
             <resources>
-                    <brands translate="title" module="Beagles_Brands">
+                    <image translate="title" module="Beagles_Brands">
                          <title>Image</title>
-                         <brands translate="title" module="Beagles_Brands">
-                            <title>Brands</title>
-                         </brands>
-                    </brands>
+                         <image translate="title" module="Beagles_Brands">
+                            <title>Image</title>
+                         </image>
+                    </image>
+                    <list translate="title" module="Beagles_Brands">
+                         <title>Image</title>
+                         <list translate="title" module="Beagles_Brands">
+                            <title>Image</title>
+                         </list>
+                    </list>
             </resources>
         </acl>
     </api>
