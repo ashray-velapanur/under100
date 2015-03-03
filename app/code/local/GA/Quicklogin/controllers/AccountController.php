@@ -114,7 +114,7 @@ class GA_Quicklogin_AccountController extends Mage_Customer_AccountController
                         case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
                             $message = $e->getMessage();
 					        $result['success'] = false;
-							$result['message'] = Mage::helper('customer')->__($message);
+							$result['message'] = $this->__('Invalid email.');
                             break;
                         default:
                             $message = $e->getMessage();
