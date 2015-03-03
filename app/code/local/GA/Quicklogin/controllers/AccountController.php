@@ -256,7 +256,7 @@ class GA_Quicklogin_AccountController extends Mage_Customer_AccountController
                 if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
                     $url = Mage::getUrl('customer/account/forgotpassword');
 					$result['success'] = false;
-					$result['message'] = $this->__('There is already an account with this email address. If you are sure that it is your email address.');
+					$result['message'] = $this->__('There is already an account with this email address.');
 
                 } else {
 					$result['success'] = false;
