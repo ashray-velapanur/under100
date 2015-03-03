@@ -89,9 +89,13 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function items($filters = null, $store = null)
     {
+        $pageNumber = 1;
+        $pageSize = 10;
         $collection = Mage::getModel('catalog/product')->getCollection()
+            ->setPage($pageNumber, $pageSize)
             ->addStoreFilter($this->_getStoreId($store))
-            ->addAttributeToSelect('name');
+            ->addAttributeToSelect('*');
+
 
         /** @var $apiHelper Mage_Api_Helper_Data */
         $apiHelper = Mage::helper('api');
@@ -105,6 +109,12 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         }
         $result = array();
         foreach ($collection as $product) {
+            $gallery = array();
+            $_product = Mage::getModel('catalog/product')->load($product->getId());
+            foreach ($_product->getMediaGalleryImages() as $image) {
+                $gallery[] = $image->getUrl();
+            }
+
             $result[] = array(
                 'product_id' => $product->getId(),
                 'sku'        => $product->getSku(),
@@ -112,7 +122,17 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
                 'set'        => $product->getAttributeSetId(),
                 'type'       => $product->getTypeId(),
                 'category_ids' => $product->getCategoryIds(),
-                'website_ids'  => $product->getWebsiteIds()
+                'website_ids'  => $product->getWebsiteIds(),
+                'is_verified'        => (bool)$product->getIsVerified(),
+                'price'              => $product->getPrice(),
+                'description'        => $product->getDescription(),
+                'short_description'  => $product->getShortDescription(),
+                'image'              => $product->getImage(),
+                'small_image'        => $product->getSmallImage(),
+                'thumbnail'          => $product->getThumbnail(),
+                'product_origin_url' => $product->getProductOriginUrl(),
+                'brand'              => $product->getBrand(),
+                'gallery'            => $gallery
             );
         }
         return $result;
@@ -129,7 +149,6 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function info($productId, $store = null, $attributes = null, $identifierType = null)
     {
-        Mage::log('... old');
         // make sku flag case-insensitive
         if (!empty($identifierType)) {
             $identifierType = strtolower($identifierType);
