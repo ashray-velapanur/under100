@@ -116,6 +116,9 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
             $likesCount = Mage::helper('GaussDev_Like')->countLikes($productId);
             $isCommented = Mage::helper('gaussdev_comments')->isCommented($productId, $customerId);
             $commentsCount = Mage::helper('gaussdev_comments')->commentCount($productId);
+            $ownerId = $_product->getData('product_owner_id');
+            $owner = Mage::helper('gaussdev_parser')->getOwner($ownerId);
+            $ownerImage = Mage::helper('gaussdev_customerimages')->getUrl($ownerId);
 
             foreach ($_product->getMediaGalleryImages() as $image) {
                 $gallery[] = $image->getUrl();
@@ -134,15 +137,18 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
                 'likes_count'        => (int)$likesCount,
                 'is_commented'       => (bool)$isCommented,
                 'comments_count'     => (int)$commentsCount,
+                'owner'              => $owner,
+                'owner_image'        => $ownerImage,
                 'price'              => (float)$product->getPrice(),
                 'description'        => $product->getDescription(),
                 'short_description'  => $product->getShortDescription(),
                 'image'              => $product->getImage(),
                 'small_image'        => $product->getSmallImage(),
                 'thumbnail'          => $product->getThumbnail(),
+                'product_owner_id'   => $ownerId,
                 'product_origin_url' => $product->getProductOriginUrl(),
-                'brand'              => $product->getBrand(),
-                'gallery'            => $gallery
+                'gallery'            => $gallery,
+                'brand'              => $product->getBrand()
             );
         }
         return $result;
