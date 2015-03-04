@@ -16,7 +16,6 @@ class Beagles_Login_Model_Api extends Mage_Api_Model_Resource_Abstract
 	    	$profile = json_decode($facebookResponse->getBody(), TRUE);
 
 	    	if ($profile['id'] == strval($userId)) {
-	    		Mage::log($profile['id']);
 		    	$websiteId = 0;
 	        	$store = Mage::app()->getStore();
     			$customer = Mage::getModel('customer/customer');
@@ -25,13 +24,11 @@ class Beagles_Login_Model_Api extends Mage_Api_Model_Resource_Abstract
     			$customerObj = $customer->setWebsiteId($websiteId)->loadByEmail($profile['email']);
 
 		    	if ($customerObj->getId()) {
-		    		Mage::log('email exists');
 		            $session->setCustomerAsLoggedIn($customerObj);
 		            $response['firstName'] = $customer->getFirstname();
 		            $response['lastName'] = $customer->getLastname();
 		            $response['customerid'] = $customer->getId();
 		    	} else {
-		    		Mage::log('email no exists');
 		    		$password = Mage::helper('core')->getRandomString($length=7);
 			        $customer->setWebsiteId($websiteId)
 		                 ->setStore($store)
@@ -39,6 +36,7 @@ class Beagles_Login_Model_Api extends Mage_Api_Model_Resource_Abstract
 		                 ->setLastname($profile['last_name'])
 		                 ->setEmail($profile['email'])
 		                 ->setPassword($password)
+		                 ->setFacebookId($profile['id'])
 		                 ->save();
 		            $session->setCustomerAsLoggedIn($customer);
 		            $response['firstName'] = $profile['first_name'];
