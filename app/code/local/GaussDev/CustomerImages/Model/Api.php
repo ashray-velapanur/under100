@@ -41,7 +41,10 @@ class GaussDev_CustomerImages_Model_Api extends Mage_Api_Model_Resource_Abstract
 
     public function get($customerId)
     {
-        return Mage::helper('gaussdev_customerimages')->getUrl($customerId);
+        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $facebookId = $customer->getFacebookId();
+        $imageUrl = Mage::helper('gaussdev_customerimages')->getUrl($customerId);
+        return array('facebookId'=>$facebookId, 'imageUrl'=>$imageUrl);
     }
 
 }
