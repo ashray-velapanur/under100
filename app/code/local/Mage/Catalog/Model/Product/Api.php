@@ -87,7 +87,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      * @param string|int $store
      * @return array
      */
-    public function items($filters = null, $store = null)
+    public function items($customerId, $filters = null, $store = null)
     {
         $pageNumber = 1;
         $pageSize = 10;
@@ -110,7 +110,13 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         $result = array();
         foreach ($collection as $product) {
             $gallery = array();
-            $_product = Mage::getModel('catalog/product')->load($product->getId());
+            $productId = $product->getId();
+            $_product = Mage::getModel('catalog/product')->load($productId);
+            $isLiked = Mage::helper('GaussDev_Like')->checkLiked($productId, $customerId);
+            $likesCount = Mage::helper('GaussDev_Like')->countLikes($productId);
+            $isCommented = Mage::helper('gaussdev_comments')->isCommented($productId, $customerId);
+            $commentsCount = Mage::helper('gaussdev_comments')->commentCount($productId);
+
             foreach ($_product->getMediaGalleryImages() as $image) {
                 $gallery[] = $image->getUrl();
             }
@@ -124,7 +130,11 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
                 'category_ids' => $product->getCategoryIds(),
                 'website_ids'  => $product->getWebsiteIds(),
                 'is_verified'        => (bool)$product->getIsVerified(),
-                'price'              => $product->getPrice(),
+                'is_liked'           => (bool)$isLiked,
+                'likes_count'        => (int)$likesCount,
+                'is_commented'       => (bool)$isCommented,
+                'comments_count'     => (int)$commentsCount,
+                'price'              => (float)$product->getPrice(),
                 'description'        => $product->getDescription(),
                 'short_description'  => $product->getShortDescription(),
                 'image'              => $product->getImage(),
