@@ -60,7 +60,7 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
                     'category_ids'       => $product->getCategoryIds(),
                     'website_ids'        => $product->getWebsiteIds(),
                     'is_verified'        => (bool)$product->getIsVerified(),
-                    'price'              => $product->getPrice(),
+                    'price'              => (float)$product->getPrice(),
                     'description'        => $product->getDescription(),
                     'short_description'  => $product->getShortDescription(),
                     'image'              => $product->getImage(),
