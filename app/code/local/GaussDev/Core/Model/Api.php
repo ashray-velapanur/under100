@@ -218,6 +218,7 @@ class GaussDev_Core_Model_Api extends Mage_Api_Model_Resource_Abstract
                 'category_ids'       => $_product->getCategoryIds(),
                 'website_ids'        => $_product->getWebsiteIds(),
                 'is_verified'        => (bool)$_product->getIsVerified(),
+                'is_under100_product'=> (bool)$_product->getIsUnder100Product(),
                 'is_liked'           => (bool)$isLiked,
                 'likes_count'        => (int)$likesCount,
                 'is_commented'       => (bool)$isCommented,

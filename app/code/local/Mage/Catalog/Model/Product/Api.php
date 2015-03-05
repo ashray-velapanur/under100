@@ -132,6 +132,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
                 'type'       => $product->getTypeId(),
                 'category_ids' => $product->getCategoryIds(),
                 'website_ids'  => $product->getWebsiteIds(),
+                'is_under100_product'=> (bool)$_product->getIsUnder100Product(),
                 'is_verified'        => (bool)$product->getIsVerified(),
                 'is_liked'           => (bool)$isLiked,
                 'likes_count'        => (int)$likesCount,
