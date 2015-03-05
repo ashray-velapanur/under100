@@ -19,10 +19,10 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
                   ->toArray();
         $response = array();
         foreach ($collection['items'] as $tag) {
-            Mage::log($tag);
+            $cid = $tag['cid'];
             $timestamp = $tag['timestamp'];
-            $name = Mage::getModel('customer/customer')->load($tag['cid'])->getName();
-            $response[] = array('timestamp'=>$timestamp, 'name'=>$name);
+            $name = Mage::getModel('customer/customer')->load($cid)->getName();
+            $response[] = array('timestamp'=>$timestamp, 'name'=>$name, 'uid'=>$cid);
         }
         return $response;
     }

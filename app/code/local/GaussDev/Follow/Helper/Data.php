@@ -15,11 +15,10 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
         $newFollowers = $this->connectionRead->fetchAll($sql, array($uid));
         $response = array();
         foreach ($newFollowers as $newFollower) {
-            $name = Mage::getModel('customer/customer')->load($newFollower['fid'])->getName();
+            $fid = $newFollower['fid'];
+            $name = Mage::getModel('customer/customer')->load($fid)->getName();
             $timestamp = $newFollower['timestamp'];
-            $follower = array("name"=>$name, "timestamp"=>$timestamp);
-            Mage::log($newFollower['fid']);
-            $response[] = $follower;
+            $response[] = array("uid"=>$fid, "name"=>$name, "timestamp"=>$timestamp);
         }
         return $response;
     }
