@@ -5,18 +5,18 @@ class Beagles_Privacy_IndexController extends Mage_Core_Controller_Front_Action 
     }
 
     public function privacyAction() {
-        $data = array(
-            'privacy' => 'This is privacy'
-        );
-        header('Content-Type: application/json');
-        echo json_encode($data);
+        $this->loadLayout();
+        $myBlock = $this->getLayout()->createBlock('core/template');
+        $myBlock->setTemplate('privacy/privacy_policy.phtml');
+        $myHtml = $myBlock->toHtml();
+        $this->getResponse()->setHeader('Content-Type', 'text/html')->setBody($myHtml);
     }
 
     public function termsAction() {
-        $data = array(
-            'terms' => 'This is terms and conditions'
-        );
-        header('Content-Type: application/json');
-        echo json_encode($data);
+        $this->loadLayout();
+        $myBlock = $this->getLayout()->createBlock('core/template');
+        $myBlock->setTemplate('privacy/terms_of_service.phtml');
+        $myHtml = $myBlock->toHtml();
+        $this->getResponse()->setHeader('Content-Type', 'text/html')->setBody($myHtml);
     }
 }
