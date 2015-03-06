@@ -1,0 +1,18 @@
+<config>
+    <modules>
+        <Beagles_Privacy>
+            <version>0.1.0</version>
+        </Beagles_Privacy>
+    </modules>
+    <frontend>
+        <routers>
+            <privacy>
+                <use>standard</use>
+                <args>
+                    <module>Beagles_Privacy</module>
+                    <frontName>privacy</frontName>
+                </args>
+            </privacy>
+        </routers>
+    </frontend>
+</config>

@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Beagles_Privacy>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Beagles_Privacy>
+    </modules>
+</config>
