@@ -47,29 +47,7 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
 
         foreach ($result as $id) {
             $product = Mage::getModel('catalog/product')->load($id);
-            $gallery = array();
-            foreach ($product->getMediaGalleryImages() as $image) {
-                $gallery[] = $image->getUrl();
-            }
-            $response[] = array(
-                    'product_id'         => $id,
-                    'sku'                => $product->getSku(),
-                    'name'               => $product->getName(),
-                    'set'                => $product->getAttributeSetId(),
-                    'type'               => $product->getTypeId(),
-                    'category_ids'       => $product->getCategoryIds(),
-                    'website_ids'        => $product->getWebsiteIds(),
-                    'is_verified'        => (bool)$product->getIsVerified(),
-                    'price'              => (float)$product->getPrice(),
-                    'description'        => $product->getDescription(),
-                    'short_description'  => $product->getShortDescription(),
-                    'image'              => $product->getImage(),
-                    'small_image'        => $product->getSmallImage(),
-                    'thumbnail'          => $product->getThumbnail(),
-                    'product_origin_url' => $product->getProductOriginUrl(),
-                    'brand'              => $product->getBrand(),
-                    'gallery'            => $gallery
-            );
+            $response[] = Mage::helper('gaussdev')->getProductDetails($product, $uid);
         }
         return $response;
     }
