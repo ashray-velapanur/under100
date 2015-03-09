@@ -196,48 +196,8 @@ class GaussDev_Core_Model_Api extends Mage_Api_Model_Resource_Abstract
         foreach ($collection as $product) {
             /** @var Mage_Catalog_Model_Product $_product */
             $_product = Mage::getModel('catalog/product')->load($product->getId());
-            $productId = $_product->getId();
-            $isLiked = Mage::helper('GaussDev_Like')->checkLiked($productId, $customerId);
-            $likesCount = Mage::helper('GaussDev_Like')->countLikes($productId);
-            $isCommented = Mage::helper('gaussdev_comments')->isCommented($productId, $customerId);
-            $commentsCount = Mage::helper('gaussdev_comments')->commentCount($productId);
-            $ownerId = $_product->getData('product_owner_id');
-            $owner = Mage::helper('gaussdev_parser')->getOwner($ownerId);
-            $ownerImage = Mage::helper('gaussdev_customerimages')->getUrl($ownerId);
-            $price = number_format($_product->getFinalPrice(), 2, '.', '');
-            $gallery = array();
-            foreach ($_product->getMediaGalleryImages() as $image) {
-                $gallery[] = $image->getUrl();
-            }
-            $result[] = array(
-                'product_id'         => $productId,
-                'sku'                => $_product->getSku(),
-                'name'               => $_product->getName(),
-                'set'                => $_product->getAttributeSetId(),
-                'type'               => $_product->getTypeId(),
-                'category_ids'       => $_product->getCategoryIds(),
-                'website_ids'        => $_product->getWebsiteIds(),
-                'is_verified'        => (bool)$_product->getIsVerified(),
-                'is_under100_product'=> (bool)$_product->getIsUnder100Product(),
-                'is_liked'           => (bool)$isLiked,
-                'likes_count'        => (int)$likesCount,
-                'is_commented'       => (bool)$isCommented,
-                'comments_count'     => (int)$commentsCount,
-                'owner'              => $owner,
-                'owner_image'        => $ownerImage,
-                'price'              => $price,
-                'description'        => $_product->getDescription(),
-                'short_description'  => $_product->getShortDescription(),
-                'image'              => $_product->getImage(),
-                'small_image'        => $_product->getSmallImage(),
-                'thumbnail'          => $_product->getThumbnail(),
-                'product_owner_id'   => $ownerId,
-                'product_origin_url' => $_product->getProductOriginUrl(),
-                'gallery'            => $gallery,
-                'brand'              => $_product->getBrand(),
-            );
+            $result[] = Mage::helper('gaussdev')->getProductDetails($_product, $customerId);
         }
-
         return $result;
     }
 }
