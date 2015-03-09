@@ -171,7 +171,7 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 		return $result;
 	}
 
-	public function getItems($listID){
+	public function getItems($listID, $customerId = null){
 		if(empty($listID)) return 400;
 		if(!is_numeric($listID)) return null;
         $productIds = Mage::getResourceModel('catalog/product_collection')->addAttributeToFilter('status', '1')->getAllIds();
@@ -183,8 +183,13 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
         }
         if(strlen($productIdsBind) > 0) $productIdsBind = substr($productIdsBind, 0, strlen($productIdsBind)-1);
         $sql = "SELECT * FROM `gaussdev_listsItems` WHERE `list_fk`= ? AND `productID` IN ({$productIdsBind})";
-		$result = $this->connectionRead->fetchAll($sql,$bind);
-		return $result;
+		$results = $this->connectionRead->fetchAll($sql,$bind);
+		$response = array();
+		foreach ($results as $result) {
+			$product = Mage::getModel('catalog/product')->load($result['productID']);
+			$response[] = Mage::helper('gaussdev')->getProductDetails($product, $customerId);
+		}
+		return $response;
 	}
 
 	public function getListProductIds($listID){

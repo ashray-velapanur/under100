@@ -138,8 +138,9 @@ class GaussDev_Multilist_Model_Api extends Mage_Api_Model_Resource_Abstract
 		if(!isset($arg['listId'])) return array(array("error"=>"400")); //Malformed request.
 		if(empty($arg['listId'])) return array(array("error"=>"401"));	//Empty request
 		$listId=$arg['listId'];
-		$response= $this->helper->getItems($listId );
-		if($response) return array("response"=>$response); else  return (array("error"=>"500"));
+		$customerId=$arg['customerId'];
+		$response=$this->helper->getItems($listId, $customerId);
+		return $response;
 	}
 
 	public function getallitems($arg){
