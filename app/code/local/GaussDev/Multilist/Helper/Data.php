@@ -181,7 +181,8 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
             $productIdsBind .= '?,';
             $bind[] = $_pid;
         }
-		$sql = "SELECT * FROM `gaussdev_listsItems` WHERE `list_fk`= ? AND `productID` IN ({$productIdsBind})";
+        if(strlen($productIdsBind) > 0) $productIdsBind = substr($productIdsBind, 0, strlen($productIdsBind)-1);
+        $sql = "SELECT * FROM `gaussdev_listsItems` WHERE `list_fk`= ? AND `productID` IN ({$productIdsBind})";
 		$result = $this->connectionRead->fetchAll($sql,$bind);
 		return $result;
 	}
