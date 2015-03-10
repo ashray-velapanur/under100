@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <rewards translate="title" module="Beagles_Brands">
+                <model>Beagles_Rewards_Model_Api</model>
+                <title>Rewards</title>
+                <methods>
+                    <score translate="title" module="Beagles_Brands">
+                        <title>Score</title>
+                        <acl>rewards/score</acl>
+                    </score>
+                    <level translate="title" module="Beagles_Brands">
+                        <title>Level</title>
+                        <acl>rewards/level</acl>
+                    </level>
+                </methods>
+            </rewards>
+        </resources>
+        <acl>
+            <resources>
+                    <score translate="title" module="Beagles_Brands">
+                         <title>Score</title>
+                         <score translate="title" module="Beagles_Brands">
+                            <title>Score</title>
+                         </score>
+                    </score>
+                    <level translate="title" module="Beagles_Brands">
+                         <title>Level</title>
+                         <level translate="title" module="Beagles_Brands">
+                            <title>Level</title>
+                         </level>
+                    </level>
+            </resources>
+        </acl>
+    </api>
+</config>
