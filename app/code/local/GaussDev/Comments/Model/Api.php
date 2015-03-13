@@ -2,13 +2,14 @@
 
 class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
 {
-    private function updateNewCommentTags($uid, $cid) {
+    private function updateNewCommentTags($uid, $cid, $pid) {
         $timestamp = time();
         Mage::log(Mage::getModel('gaussdev_comments/newtag'));
         Mage::getModel('gaussdev_comments/newtag')
             ->setTimestamp($timestamp)
             ->setUid($uid)
             ->setCid($cid)
+            ->setPid($pid)
             ->save();
     }
 
@@ -20,9 +21,12 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
         $response = array();
         foreach ($collection['items'] as $tag) {
             $cid = $tag['cid'];
+            $pid = $tag['pid'];
             $timestamp = $tag['timestamp'];
             $name = Mage::getModel('customer/customer')->load($cid)->getName();
-            $response[] = array('timestamp'=>$timestamp, 'name'=>$name, 'uid'=>$cid);
+            $product = Mage::getModel('catalog/product')->load($pid);
+            $productDetails = Mage::helper('gaussdev')->getProductDetails($product, $cid);
+            $response[] = array('timestamp'=>$timestamp, 'name'=>$name, 'uid'=>$cid, 'product'=>$productDetails);
         }
         return $response;
     }
@@ -63,7 +67,7 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
         }
 
         if ($taggedId) {
-            $this->updateNewCommentTags($taggedId, $customerId);
+            $this->updateNewCommentTags($taggedId, $customerId, $productId);
         }
 
         return true;
