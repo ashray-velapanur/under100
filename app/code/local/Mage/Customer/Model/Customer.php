@@ -1,4 +1,6 @@
 <?php
+require_once 'lib/mailchimp-mandrill-api-php/src/Mandrill.php';
+
 /**
  * Magento
  *
@@ -34,18 +36,23 @@
 class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 {
     /**#@+
-     * Configuration pathes for email templates and identities
+     * Configuration paths for email templates and identities
      */
     const XML_PATH_REGISTER_EMAIL_TEMPLATE = 'customer/create_account/email_template';
     const XML_PATH_REGISTER_EMAIL_IDENTITY = 'customer/create_account/email_identity';
     const XML_PATH_REMIND_EMAIL_TEMPLATE = 'customer/password/remind_email_template';
     const XML_PATH_FORGOT_EMAIL_TEMPLATE = 'customer/password/forgot_email_template';
+    const XML_PATH_FORGOT_MANDRILL_EMAIL_TEMPLATE = 'ForgotPassword';
     const XML_PATH_FORGOT_EMAIL_IDENTITY = 'customer/password/forgot_email_identity';
     const XML_PATH_DEFAULT_EMAIL_DOMAIN         = 'customer/create_account/email_domain';
     const XML_PATH_IS_CONFIRM                   = 'customer/create_account/confirm';
     const XML_PATH_CONFIRM_EMAIL_TEMPLATE       = 'customer/create_account/email_confirmation_template';
     const XML_PATH_CONFIRMED_EMAIL_TEMPLATE     = 'customer/create_account/email_confirmed_template';
+    const XML_PATH_CONFIRM_MANDRILL_EMAIL_TEMPLATE       = 'NewAccountConfirmation';
+    const XML_PATH_CONFIRMED_MANDRILL_EMAIL_TEMPLATE     = 'NewAccountConfirmed';
     const XML_PATH_GENERATE_HUMAN_FRIENDLY_ID   = 'customer/create_account/generate_human_friendly_id';
+    const MANDRILL   = 'Mandrill';
+    const MAGENTO   = 'Magento';
     /**#@-*/
 
     /**#@+
@@ -586,10 +593,26 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function sendNewAccountEmail($type = 'registered', $backUrl = '', $storeId = '0')
     {
+        $senders = array(
+            'registered'   => self::MANDRILL, // welcome email, when confirmation is disabled
+            'confirmed'    => self::MANDRILL, // welcome email, when confirmation is enabled
+            'confirmation' => self::MANDRILL // email with confirmation link
+        );
+
         $types = array(
-            'registered'   => self::XML_PATH_REGISTER_EMAIL_TEMPLATE, // welcome email, when confirmation is disabled
-            'confirmed'    => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE, // welcome email, when confirmation is enabled
-            'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE, // email with confirmation link
+            'registered'   => self::XML_PATH_CONFIRM_MANDRILL_EMAIL_TEMPLATE, // welcome email, when confirmation is disabled
+            'confirmed'    => self::XML_PATH_CONFIRMED_MANDRILL_EMAIL_TEMPLATE, // welcome email, when confirmation is enabled
+            'confirmation' => self::XML_PATH_CONFIRM_MANDRILL_EMAIL_TEMPLATE // email with confirmation link
+        );
+        $subjects = array(
+            'registered'   => 'Account confirmation for '.$this->getName(), // email with confirmation link
+            'confirmed'    => 'Welcome, '.$this->getName().'!', // welcome email, when confirmation is enabled
+            'confirmation' => 'Account confirmation for '.$this->getName() // email with confirmation link
+        );
+        $links = array(
+            'registered'   => Mage::getBaseUrl().'customer/account/confirm/?id='.$this->getId().'&key='.$this->getConfirmation(), // email with confirmation link
+            'confirmed'    => Mage::getBaseUrl().'customer/account/', // welcome email, when confirmation is enabled
+            'confirmation' => Mage::getBaseUrl().'customer/account/confirm/?id='.$this->getId().'&key='.$this->getConfirmation() // email with confirmation link
         );
         if (!isset($types[$type])) {
             Mage::throwException(Mage::helper('customer')->__('Wrong transactional account email type'));
@@ -599,9 +622,17 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $storeId = $this->_getWebsiteStoreId($this->getSendemailStoreId());
         }
 
-        $this->_sendEmailTemplate($types[$type], self::XML_PATH_REGISTER_EMAIL_IDENTITY,
+        if ($senders[$type] == self::MAGENTO) {
+            $this->_sendEmailTemplate($types[$type], self::XML_PATH_REGISTER_EMAIL_IDENTITY,
             array('customer' => $this, 'back_url' => $backUrl), $storeId);
-
+        } else {
+            if ($senders[$type] == self::MANDRILL) {
+                $template_name = $types[$type];
+                $subject = $subjects[$type];
+                $link = $links[$type];
+                $this->sendEmailUsingMandrill($template_name, $subject, $link);
+            }
+        }
         return $this;
     }
 
@@ -684,13 +715,19 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function sendPasswordResetConfirmationEmail()
     {
-        $storeId = $this->getStoreId();
+        /*$storeId = $this->getStoreId();
         if (!$storeId) {
             $storeId = $this->_getWebsiteStoreId();
         }
 
         $this->_sendEmailTemplate(self::XML_PATH_FORGOT_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this), $storeId);
+            array('customer' => $this), $storeId);*/
+
+        $template_name = self::XML_PATH_FORGOT_MANDRILL_EMAIL_TEMPLATE;
+        $subject = 'Password Reset Confirmation for '.$this->getName();
+        $link = Mage::getBaseUrl().'customer/account/resetpassword/?id='.$this->getId().'&token='.$this->getRpToken();
+        $from_name = 'Under100 CustomerSupport';
+        $this->sendEmailUsingMandrill($template_name, $subject, $link, $from_name);
 
         return $this;
     }
@@ -1341,5 +1378,74 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         return false;
+    }
+
+    /**
+     * Send email using a mandrill template
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function sendEmailUsingMandrill($template_name, $subject, $link, $from_name='Under 100')
+    {
+        $name = $this->getName();
+        $to = $this->getEmail();
+        $template_content = array(
+            array()
+        );
+        $message = array(
+            'subject' => $subject,
+            'from_email' => 'support@theunder100.com',
+            'from_name' => $from_name,
+            'to' => array(
+                array(
+                    'email' => $to,
+                    'name' => $name,
+                    'type' => 'to'
+                )
+            ),
+            'important' => true,
+            'track_opens' => false,
+            'track_clicks' => false,
+            'auto_text' => false,
+            'auto_html' => null,
+            'inline_css' => null,
+            'url_strip_qs' => null,
+            'preserve_recipients' => null,
+            'view_content_link' => null,
+            'tracking_domain' => null,
+            'signing_domain' => null,
+            'return_path_domain' => null,
+            'merge' => true,
+            'merge_language' => 'mailchimp',
+            'global_merge_vars' => array(
+                array(
+                    'name' => 'name',
+                    'content' => $name
+                ),
+                array(
+                    'name' => 'email',
+                    'content' => $to
+                ),
+                array(
+                    'name' => 'link',
+                    'content' => $link
+                ),
+                array(
+                    'name' => 'password',
+                    'content' => $this->getPassword()
+                ),
+                array(
+                    'name' => 'base_url',
+                    'content' => Mage::getBaseUrl()
+                )
+            ),
+            'google_analytics_domains' => array('theunder100.com'),
+            'metadata' => array('website' => 'www.theunder100.com')
+        );
+        $async = false;
+        $ip_pool = 'Main Pool';
+        $send_at = null;
+        $mandrill = new Mandrill('VPQpbpMCNPIYEH9aVev2GQ');
+        $result = $mandrill->messages->sendTemplate($template_name, $template_content, $message, $async, $ip_pool, $send_at);
     }
 }
