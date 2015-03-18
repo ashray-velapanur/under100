@@ -24,9 +24,7 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
             $pid = $tag['pid'];
             $timestamp = $tag['timestamp'];
             $name = Mage::getModel('customer/customer')->load($cid)->getName();
-            $product = Mage::getModel('catalog/product')->load($pid);
-            $productDetails = Mage::helper('gaussdev')->getProductDetails($product, $cid);
-            $response[] = array('timestamp'=>$timestamp, 'name'=>$name, 'uid'=>$cid, 'product'=>$productDetails);
+            $response[] = array('timestamp'=>$timestamp, 'name'=>$name, 'uid'=>$cid, 'productId'=>$pid);
         }
         return $response;
     }

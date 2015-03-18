@@ -88,10 +88,10 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         $response = array();
         foreach ($newLikes as $newLike) {
             $lid = $newLike['lid'];
+            $pid = $newLike['pid'];
             $name = Mage::getModel('customer/customer')->load($lid)->getName();
             $timestamp = $newLike['timestamp'];
-            $productName = Mage::getModel('catalog/product')->load($newLike['pid'])->getName();
-            $response[] = array("uid"=>$lid, "name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName);
+            $response[] = array("uid"=>$lid, "name"=>$name, "timestamp"=>$timestamp, "productId"=>$pid);
         }
         return $response;
     }
