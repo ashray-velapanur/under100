@@ -130,7 +130,7 @@ class GaussDev_Multilist_Model_Api extends Mage_Api_Model_Resource_Abstract
 		$itemId=$arg['itemId'];
 
 		$response= $this->helper->additem($listId, $itemId);
-		if($response) return array("response"=>1); else  return (array("error"=>"500"));
+		return $response;
 	}
 
 

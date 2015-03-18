@@ -108,7 +108,17 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 
 
 	public function additem($listId, $itemId){
-		if(empty($listId) || empty($itemId)) return false;
+		if(empty($listId) || empty($itemId)) return array('success'=>false);
+        $sql = "SELECT `image` FROM `gaussdev_lists` WHERE `id`=?";
+        $image = $this->connectionRead->fetchOne($sql, array($listId));
+        
+        if (!$image) {
+        	$productImages = Mage::getModel('catalog/product')->load($itemId)->getMediaGalleryImages();
+        	$listImage = $productImages->getFirstItem()->getUrl();
+			$sql = "UPDATE `gaussdev_lists` SET `image`=? WHERE `id`=?";
+			$this->writeToDb($sql,true,array($listImage, $listId));
+		}
+
 		$sql = "INSERT INTO `gaussdev_listsItems`( `list_fk`, `productID`) VALUES (?,?)" ;
 
         $ownerId = Mage::getModel('catalog/product')->load($itemId)->getProductOwnerId();
@@ -116,7 +126,8 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
         	$this->updateListAdds($ownerId, $itemId, $listId);
         }
 
-		return $this->writeToDb($sql,true,array($listId, $itemId));
+		$this->writeToDb($sql,true,array($listId, $itemId));
+		return array('success'=>true);
 
 	}
 
