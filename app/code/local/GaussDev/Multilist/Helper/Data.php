@@ -56,7 +56,8 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 	        $uidList = $this->connectionRead->fetchOne($sqlLists, array($newListAdd['lid']));
             $name = Mage::getModel('customer/customer')->load($uidList)->getName();
             $timestamp = $newListAdd['timestamp'];
-            $response[] = array("uid"=>$uidList, "name"=>$name, "timestamp"=>$timestamp, "productId"=>$pid);
+            $productName = Mage::getModel('catalog/product')->load($pid)->getName();
+            $response[] = array("uid"=>$uidList, "name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName, "productId"=>$pid);
         }
         return $response;
     }
