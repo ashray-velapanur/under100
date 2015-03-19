@@ -56,7 +56,9 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
         $sql = "INSERT INTO `gaussdev_follow`(`follow_uid`, `uid`) VALUES (?,?)";
 
         $insertedId = $this->writeToDb($sql, true, array($followUid, $uid));
-        $this->updateNewFollowers($followUid, $uid);
+        if ($uid != $followUid){
+            $this->updateNewFollowers($followUid, $uid);
+        }
         try {
             Mage::getModel('notifications/notification')->setType('user_followed')->setNotifyId($followUid)->setDataId($insertedId)->save();
         } catch (Exception $e) {

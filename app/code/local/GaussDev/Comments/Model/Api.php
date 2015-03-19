@@ -65,7 +65,7 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
             $this->_fault('data_invalid', $e->getMessage());
         }
 
-        if ($taggedId) {
+        if ($taggedId AND $taggedId != $customerId) {
             $this->updateNewCommentTags($taggedId, $customerId, $productId);
         }
 
