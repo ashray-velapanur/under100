@@ -125,7 +125,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      * @param string     $identifierType
      * @return array
      */
-    public function info($productId, $store = null, $attributes = null, $identifierType = null)
+    public function info($productId, $customerId = null, $store = null, $attributes = null, $identifierType = null)
     {
         // make sku flag case-insensitive
         if (!empty($identifierType)) {
@@ -134,13 +134,31 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
 
         $product = $this->_getProduct($productId, $store, $identifierType);
 
+        $gallery = array();
+        foreach ($product->getMediaGalleryImages() as $image) {
+            $gallery[] = $image->getUrl();
+        }
+
+        $isLiked = Mage::helper('GaussDev_Like')->checkLiked($productId, $customerId);
+        $isCommented = Mage::helper('gaussdev_comments')->isCommented($productId, $customerId);
+        $likesCount = Mage::helper('GaussDev_Like')->countLikes($productId);
+        $commentsCount = Mage::helper('gaussdev_comments')->commentCount($productId);
+        $ownerId = $product->getData('product_owner_id');
+        $owner = Mage::helper('gaussdev_parser')->getOwner($ownerId);
+
         $result = array( // Basic product data
-            'product_id' => $product->getId(),
-            'sku'        => $product->getSku(),
-            'set'        => $product->getAttributeSetId(),
-            'type'       => $product->getTypeId(),
-            'categories' => $product->getCategoryIds(),
-            'websites'   => $product->getWebsiteIds()
+            'product_id'    => $product->getId(),
+            'sku'           => $product->getSku(),
+            'set'           => $product->getAttributeSetId(),
+            'type'          => $product->getTypeId(),
+            'categories'    => $product->getCategoryIds(),
+            'websites'      => $product->getWebsiteIds(),
+            'gallery'       => $gallery,
+            'likes_count'   => $likesCount,
+            'comments_count'=> $commentsCount,
+            'owner'         => $owner,
+            'is_liked'      => $isLiked,
+            'is_commented'  => $isCommented
         );
 
         foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
