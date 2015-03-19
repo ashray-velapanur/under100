@@ -114,7 +114,7 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
 
         $ownerId = Mage::getModel('catalog/product')->load($productID)->getProductOwnerId();
 
-        if ($ownerId){
+        if ($ownerId AND $ownerId != $uid){
             $this->updateNewLikes($ownerId, $productID, $uid);
         }
 
