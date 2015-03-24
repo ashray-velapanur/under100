@@ -174,11 +174,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function authenticate($login, $password)
     {
         $this->loadByEmail($login);
-        if ($this->getConfirmation() && $this->isConfirmationRequired()) {
-            throw Mage::exception('Mage_Core', Mage::helper('customer')->__('This account is not confirmed.'),
-                self::EXCEPTION_EMAIL_NOT_CONFIRMED
-            );
-        }
         if (!$this->validatePassword($password)) {
             throw Mage::exception('Mage_Core', Mage::helper('customer')->__('Invalid login or password.'),
                 self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD

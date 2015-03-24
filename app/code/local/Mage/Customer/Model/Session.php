@@ -83,19 +83,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
-        // check if customer is not confirmed
-        if ($customer->isConfirmationRequired()) {
-            if ($customer->getConfirmation()) {
-                return $this->_logout();
-            }
-        }
         $this->_customer = $customer;
         $this->setId($customer->getId());
-        // save customer as confirmed, if it is not
-        if ((!$customer->isConfirmationRequired()) && $customer->getConfirmation()) {
-            $customer->setConfirmation(null)->save();
-            $customer->setIsJustConfirmed(true);
-        }
         return $this;
     }
 
