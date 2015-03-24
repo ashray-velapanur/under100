@@ -593,6 +593,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function sendNewAccountEmail($type = 'registered', $backUrl = '', $storeId = '0')
     {
+        if ('confirmed' == $type) {
+            return $this;
+        }
         $senders = array(
             'registered'   => self::MANDRILL, // welcome email, when confirmation is disabled
             'confirmed'    => self::MANDRILL, // welcome email, when confirmation is enabled
@@ -605,9 +608,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             'confirmation' => self::XML_PATH_CONFIRM_MANDRILL_EMAIL_TEMPLATE // email with confirmation link
         );
         $subjects = array(
-            'registered'   => 'Account confirmation for '.$this->getName(), // email with confirmation link
+            'registered'   => 'Please confirm your email and beat the bots', // email with confirmation link
             'confirmed'    => 'Welcome, '.$this->getName().'!', // welcome email, when confirmation is enabled
-            'confirmation' => 'Account confirmation for '.$this->getName() // email with confirmation link
+            'confirmation' => 'Please confirm your email and beat the bots' // email with confirmation link
         );
         $links = array(
             'registered'   => Mage::getBaseUrl().'customer/account/confirm/?id='.$this->getId().'&key='.$this->getConfirmation(), // email with confirmation link
@@ -1385,7 +1388,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      *
      * @return Mage_Customer_Model_Customer
      */
-    public function sendEmailUsingMandrill($template_name, $subject, $link, $from_name='Under 100')
+    public function sendEmailUsingMandrill($template_name, $subject, $link, $from_name='Cole Glass')
     {
         $name = $this->getName();
         $to = $this->getEmail();
@@ -1394,8 +1397,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         );
         $message = array(
             'subject' => $subject,
-            'from_email' => 'support@theunder100.com',
-            'from_name' => $from_name,
+            'from_email' => 'cole@under100.co',
+            'from_name' => 'Cole Glass',
             'to' => array(
                 array(
                     'email' => $to,
