@@ -56,8 +56,9 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 	        $uidList = $this->connectionRead->fetchOne($sqlLists, array($newListAdd['lid']));
             $name = Mage::getModel('customer/customer')->load($uidList)->getName();
             $timestamp = $newListAdd['timestamp'];
+            $viewed = $newListAdd['viewed'];
             $productName = Mage::getModel('catalog/product')->load($pid)->getName();
-            $response[] = array("uid"=>$uidList, "name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName, "productId"=>$pid);
+            $response[] = array("uid"=>$uidList, "name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName, "productId"=>$pid, "viewed"=>$viewed);
         }
         return $response;
     }
@@ -73,7 +74,7 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	public function clearAddedToList($uid) {
-        $sql = "DELETE FROM `beagles_new_list_adds` WHERE `uid` = ?";
+        $sql = "UPDATE `beagles_new_list_adds` SET `viewed`=TRUE WHERE `uid`=? AND `viewed`=FALSE";
         $this->writeToDb($sql, false, array($uid));
 	}
 
@@ -103,8 +104,8 @@ class GaussDev_Multilist_Helper_Data extends Mage_Core_Helper_Abstract
 
     private function updateListAdds($uid, $pid, $lid) {
         $timestamp = time();
-        $sql = "INSERT INTO `beagles_new_list_adds`(`uid`, `lid`, `pid`,`timestamp`) VALUES (?,?,?,?)";
-        $this->writeToDb($sql, true, array($uid, $lid, $pid, $timestamp));
+        $sql = "INSERT INTO `beagles_new_list_adds`(`uid`, `lid`, `pid`,`timestamp`, `viewed`) VALUES (?,?,?,?,?)";
+        $this->writeToDb($sql, true, array($uid, $lid, $pid, $timestamp, false));
     }
 
 

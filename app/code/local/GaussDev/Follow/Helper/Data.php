@@ -18,20 +18,21 @@ class GaussDev_Follow_Helper_Data extends Mage_Core_Helper_Abstract
             $fid = $newFollower['fid'];
             $name = Mage::getModel('customer/customer')->load($fid)->getName();
             $timestamp = $newFollower['timestamp'];
-            $response[] = array("uid"=>$fid, "name"=>$name, "timestamp"=>$timestamp);
+            $viewed = $newFollower['viewed'];
+            $response[] = array("uid"=>$fid, "name"=>$name, "timestamp"=>$timestamp, 'viewed'=>$viewed);
         }
         return $response;
     }
 
     public function clearNewFollowers($uid) {
-        $sql = "DELETE FROM `beagles_new_followers` WHERE `uid` = ?";
+        $sql = "UPDATE `beagles_new_followers` SET `viewed`=TRUE WHERE `uid`=? AND `viewed`=FALSE";
         $this->writeToDb($sql, false, array($uid));
     }
 
     private function updateNewFollowers($uid, $fid) {
         $timestamp = time();
-        $sql = "INSERT INTO `beagles_new_followers`(`uid`, `fid`, `timestamp`) VALUES (?,?,?)";
-        $this->writeToDb($sql, true, array($uid, $fid, $timestamp));
+        $sql = "INSERT INTO `beagles_new_followers`(`uid`, `fid`, `timestamp`, `viewed`) VALUES (?,?,?,?)";
+        $this->writeToDb($sql, true, array($uid, $fid, $timestamp, false));
     }
 
     public function addFollower($uid, $followUid)

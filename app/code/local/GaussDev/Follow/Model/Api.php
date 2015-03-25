@@ -38,7 +38,6 @@ class GaussDev_Follow_Model_Api extends Mage_Api_Model_Resource_Abstract
 
 
 	public function addFollower($arg){
-		Mage::log('... here');
 		if(!isset($arg['uid'])) return (array("error"=>"400")); //Malformed request.
 		if(empty($arg['uid'])) return (array("error"=>"402"));	//Empty uid
 		if(!isset($arg['fuid'])) return (array("error"=>"400")); //Malformed request.

@@ -10,6 +10,7 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
             ->setUid($uid)
             ->setCid($cid)
             ->setPid($pid)
+            ->setViewed(false)
             ->save();
     }
 
@@ -23,9 +24,10 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
             $cid = $tag['cid'];
             $pid = $tag['pid'];
             $timestamp = $tag['timestamp'];
+            $viewed = $tag['viewed'];
             $name = Mage::getModel('customer/customer')->load($cid)->getName();
             $productName = Mage::getModel('catalog/product')->load($pid)->getName();
-            $response[] = array('timestamp'=>$timestamp, 'name'=>$name, 'uid'=>$cid, 'productId'=>$pid, 'productName'=>$productName);
+            $response[] = array('timestamp'=>$timestamp, 'name'=>$name, 'uid'=>$cid, 'productId'=>$pid, 'productName'=>$productName, 'viewed'=>$viewed);
         }
         return $response;
     }
@@ -35,7 +37,7 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
                   ->getCollection()
                   ->addFieldToFilter('uid', $uid);
         foreach ($collection as $key => $tag) {
-            $tag->delete();
+            $tag->setViewed(true)->save();
         }
     }
 

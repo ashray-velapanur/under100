@@ -76,8 +76,8 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
 
     private function updateNewLikes($uid, $pid, $lid) {
         $timestamp = time();
-        $sql = "INSERT INTO `beagles_new_likes`(`uid`, `lid`, `pid`,`timestamp`) VALUES (?,?,?,?)";
-        $this->writeToDb($sql, true, array($uid, $lid, $pid, $timestamp));
+        $sql = "INSERT INTO `beagles_new_likes`(`uid`, `lid`, `pid`,`timestamp`, `viewed`) VALUES (?,?,?,?,?)";
+        $this->writeToDb($sql, true, array($uid, $lid, $pid, $timestamp, false));
     }
 
 
@@ -91,14 +91,15 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
             $pid = $newLike['pid'];
             $name = Mage::getModel('customer/customer')->load($lid)->getName();
             $timestamp = $newLike['timestamp'];
+            $viewed = $newLike['viewed'];
             $productName = Mage::getModel('catalog/product')->load($pid)->getName();
-            $response[] = array("uid"=>$lid, "name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName, "productId"=>$pid);
+            $response[] = array("uid"=>$lid, "name"=>$name, "timestamp"=>$timestamp, "productName"=>$productName, "productId"=>$pid, "viewed"=>$viewed);
         }
         return $response;
     }
 
     public function clearNewLikes($uid) {
-        $sql = "DELETE FROM `beagles_new_likes` WHERE `uid` = ?";
+        $sql = "UPDATE `beagles_new_likes` SET `viewed`=TRUE WHERE `uid`=? AND `viewed`=FALSE";
         $this->writeToDb($sql, false, array($uid));
     }
 
