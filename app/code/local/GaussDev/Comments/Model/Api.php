@@ -67,10 +67,75 @@ class GaussDev_Comments_Model_Api extends Mage_Api_Model_Resource_Abstract
 
         if ($taggedId AND $taggedId != $customerId) {
             $this->updateNewCommentTags($taggedId, $customerId, $productId);
+            $name = Mage::getModel('customer/customer')->load($taggedId)->getName();
+            $email = Mage::getModel('customer/customer')->load($taggedId)->getEmail();
+            $friendName = Mage::getModel('customer/customer')->load($customerId)->getName();
+            $productName = Mage::getModel('catalog/product')->load($productId)->getName();
+            $templateValues = array(
+                array(
+                    'name' => 'name',
+                    'content' => $name
+                ),
+                array(
+                    'name' => 'friend_name',
+                    'content' => $friendName
+                ),
+                array(
+                    'name' => 'product_name',
+                    'content' => $productName
+                ),
+                array(
+                    'name' => 'message',
+                    'content' => $message
+                )
+            );
+            $subject = "You're getting popular";
+            $this->sendEmailUsingMandrill('UserTaggedMessage', $email, $name, $subject, $templateValues);
         }
 
         return true;
     }
+
+    protected function sendEmailUsingMandrill($template_name, $email, $name, $subject, $templateValues)
+    {
+        $template_content = array(
+            array()
+        );
+        $message = array(
+            'subject' => $subject,
+            'from_email' => 'cole@under100.co',
+            'from_name' => 'Cole Glass',
+            'to' => array(
+                array(
+                    'email' => $email,
+                    'name' => $name,
+                    'type' => 'to'
+                )
+            ),
+            'important' => true,
+            'track_opens' => false,
+            'track_clicks' => false,
+            'auto_text' => false,
+            'auto_html' => null,
+            'inline_css' => null,
+            'url_strip_qs' => null,
+            'preserve_recipients' => null,
+            'view_content_link' => null,
+            'tracking_domain' => null,
+            'signing_domain' => null,
+            'return_path_domain' => null,
+            'merge' => true,
+            'merge_language' => 'mailchimp',
+            'global_merge_vars' => $templateValues,
+            'google_analytics_domains' => array('theunder100.com'),
+            'metadata' => array('website' => 'www.theunder100.com')
+        );
+        $async = false;
+        $ip_pool = 'Main Pool';
+        $send_at = null;
+        $mandrill = new Mandrill('VPQpbpMCNPIYEH9aVev2GQ');
+        $result = $mandrill->messages->sendTemplate($template_name, $template_content, $message, $async, $ip_pool, $send_at);
+}
 
     protected function customerExists($id)
     {
