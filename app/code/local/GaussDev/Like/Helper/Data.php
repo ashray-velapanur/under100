@@ -128,6 +128,12 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         return array("success"=>"true");
     }
 
+    public function deleteLike($productID, $uid)
+    {
+        $sql = "DELETE FROM `gaussdev_like` WHERE `uid` = ? AND  `productID` = ?";
+        return $this->writeToDb($sql,false,array($uid, $productID));
+    }
+
     public function checkLiked($productID, $uid = null)
     {
         if (Mage::getSingleton('customer/session')->isLoggedIn() && !$uid) {
