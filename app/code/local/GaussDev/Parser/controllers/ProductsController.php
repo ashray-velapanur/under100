@@ -73,6 +73,18 @@ class GaussDev_Parser_ProductsController extends Mage_Core_Controller_Front_Acti
         $this->getResponse()->setBody($block->toHtml());
     }
 
+    public function parseProductAction()
+    {
+        $url = $this->getRequest()->getParam('url');
+        $data = Mage::getModel('gaussdev_parser/parser')->parse($url)->getData();
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+
+    public function createProductAction()
+    {
+        $this->_create_parser_product();
+    }
+
     public function parseAction()
     {
         $data = new Varien_Object;
@@ -132,6 +144,12 @@ class GaussDev_Parser_ProductsController extends Mage_Core_Controller_Front_Acti
             throw new Exception('Customer is not logged in');
         }
 
+        return $this->_create_parser_product();
+    }
+
+    private function _create_parser_product()
+    {
+        $customerId = $this->getRequest()->getPost('customer_id');
         $price = $this->getRequest()->getPost('price');
         $description = $this->getRequest()->getPost('description');
         $productName = $this->getRequest()->getPost('name');
@@ -157,5 +175,4 @@ class GaussDev_Parser_ProductsController extends Mage_Core_Controller_Front_Acti
                 ->setData('price_xpath', $priceXpath);
         return $product->save();
     }
-
 }
