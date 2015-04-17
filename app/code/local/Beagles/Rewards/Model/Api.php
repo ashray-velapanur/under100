@@ -26,6 +26,7 @@ class Beagles_Rewards_Model_Api extends Mage_Api_Model_Resource_Abstract
                      'clicks'=>$clicksCount,
                      'likes'=>$productLikesCount,
                      'comments'=>$productCommentsCount,
+                     'viglink_earnings'=>0.0,
                      'products'=>$productsCount);
     }
 }
