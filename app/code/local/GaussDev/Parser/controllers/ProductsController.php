@@ -82,7 +82,8 @@ class GaussDev_Parser_ProductsController extends Mage_Core_Controller_Front_Acti
 
     public function createProductAction()
     {
-        $this->_create_parser_product();
+        $customerId = $this->getRequest()->getPost('customer_id');
+        $this->_create_parser_product($customerId);
     }
 
     public function parseAction()
@@ -144,12 +145,11 @@ class GaussDev_Parser_ProductsController extends Mage_Core_Controller_Front_Acti
             throw new Exception('Customer is not logged in');
         }
 
-        return $this->_create_parser_product();
+        return $this->_create_parser_product($customerId);
     }
 
-    private function _create_parser_product()
+    private function _create_parser_product($customerId)
     {
-        $customerId = $this->getRequest()->getPost('customer_id');
         $price = $this->getRequest()->getPost('price');
         $description = $this->getRequest()->getPost('description');
         $productName = $this->getRequest()->getPost('name');
