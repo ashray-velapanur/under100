@@ -87,10 +87,8 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      * @param string|int $store
      * @return array
      */
-    public function items($customerId, $filters = null, $store = null)
+    public function items($customerId, $pageNumber = 1, $pageSize = 10, $filters = null, $store = null)
     {
-        $pageNumber = 1;
-        $pageSize = 10;
         $collection = Mage::getModel('catalog/product')->getCollection()
             ->setPage($pageNumber, $pageSize)
             ->addStoreFilter($this->_getStoreId($store))
