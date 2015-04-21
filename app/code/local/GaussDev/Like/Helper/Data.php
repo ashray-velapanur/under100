@@ -41,7 +41,7 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $productIdsBind = rtrim($productIdsBind, ',');
 
-        $sql = "SELECT `productID` FROM `gaussdev_like` WHERE `uid`=? AND `productID` IN ({$productIdsBind})";
+        $sql = "SELECT `productID` FROM `gaussdev_like` WHERE `uid`=? AND `productID` IN ({$productIdsBind}) ORDER BY `timestamp` DESC";
         $result = $this->connectionRead->fetchAll($sql, $bind);
         $response = array();
 
@@ -110,8 +110,9 @@ class GaussDev_Like_Helper_Data extends Mage_Core_Helper_Abstract
         if ($id) {
             return array("success"=>"false", "error"=>"Already Liked.");
         }
-        $sql = "INSERT INTO `gaussdev_like`(`productID`, `uid`) VALUES (?,?)";
-        $insertedId = $this->writeToDb($sql, true, array($productID, $uid));
+        $currTimestamp = time();
+        $sql = "INSERT INTO `gaussdev_like`(`productID`, `uid`, `timestamp`) VALUES (?,?,?)";
+        $insertedId = $this->writeToDb($sql, true, array($productID, $uid, $currTimestamp));
 
         $ownerId = Mage::getModel('catalog/product')->load($productID)->getProductOwnerId();
 
