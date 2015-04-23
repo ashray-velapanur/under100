@@ -15,11 +15,11 @@ class Beagles_Rewards_Model_Api extends Mage_Api_Model_Resource_Abstract
         $levels = array(0.0, 10.0, 50.0);
         $score = (0.40 * $productLikesCount) + (0.40 * $productCommentsCount) + (0.20 * $productsCount);
         if ($score <= $levels[1]) {
-            $level = 'one';
+            $level = 1;
         } elseif ($score > $levels[1] && $score <= $levels[2]) {
-            $level = 'two';
+            $level = 2;
         } elseif ($score > $levels[2]) {
-            $level = 'three';
+            $level = 3;
         }
         return array('level'=>$level,
                      'score'=>$score,
