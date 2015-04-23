@@ -19,4 +19,12 @@ class Beagles_Privacy_IndexController extends Mage_Core_Controller_Front_Action 
         $myHtml = $myBlock->toHtml();
         $this->getResponse()->setHeader('Content-Type', 'text/html')->setBody($myHtml);
     }
+
+    public function aboutAction() {
+        $this->loadLayout();
+        $myBlock = $this->getLayout()->createBlock('core/template');
+        $myBlock->setTemplate('privacy/about.phtml');
+        $myHtml = $myBlock->toHtml();
+        $this->getResponse()->setHeader('Content-Type', 'text/html')->setBody($myHtml);
+    }
 }
